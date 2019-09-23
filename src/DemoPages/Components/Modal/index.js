@@ -1,11 +1,11 @@
-import React, {Fragment} from 'react';
+import React, {Fragment,Component} from 'react';
 
 import PageTitle from '../../../Layout/AppMain/PageTitle';
 
 // Examples
 import ModalsExample from './Examples';
 
-export default class ModalsExamples extends React.Component {
+export default class ModalsExamples extends Component {
 
     render() {
         return (
