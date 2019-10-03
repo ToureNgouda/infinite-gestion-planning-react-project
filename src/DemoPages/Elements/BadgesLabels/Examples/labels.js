@@ -53,16 +53,16 @@ class LabelsExamples extends Component {
                                         <div className="divider"/>
 
                                         <CardTitle>Links</CardTitle>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-primary">Primary</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-secondary">Secondary</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-success">Success</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-info">Info</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-warning">Warning</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-danger">Danger</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-focus">Focus</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-alternate">Alt</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-light">Light</a>
-                                        <a href="javascript:void(0);" className="mb-2 mr-2 badge badge-dark">Dark</a>
+                                        <a  className="mb-2 mr-2 badge badge-primary">Primary</a>
+                                        <a  className="mb-2 mr-2 badge badge-secondary">Secondary</a>
+                                        <a  className="mb-2 mr-2 badge badge-success">Success</a>
+                                        <a  className="mb-2 mr-2 badge badge-info">Info</a>
+                                        <a  className="mb-2 mr-2 badge badge-warning">Warning</a>
+                                        <a  className="mb-2 mr-2 badge badge-danger">Danger</a>
+                                        <a  className="mb-2 mr-2 badge badge-focus">Focus</a>
+                                        <a  className="mb-2 mr-2 badge badge-alternate">Alt</a>
+                                        <a  className="mb-2 mr-2 badge badge-light">Light</a>
+                                        <a  className="mb-2 mr-2 badge badge-dark">Dark</a>
                                     </CardBody>
                                 </Card>
                             </Col>

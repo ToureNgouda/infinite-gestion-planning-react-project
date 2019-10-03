@@ -25,35 +25,35 @@ const BasicPagination = (props) => {
                                 <CardTitle>Basic</CardTitle>
                                 <Pagination aria-label="Page navigation example">
                                     <PaginationItem>
-                                        <PaginationLink previous href="javascript:void(0);"/>
+                                        <PaginationLink previous />
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             1
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem active>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             2
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             3
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             4
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             5
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink next href="javascript:void(0);"/>
+                                        <PaginationLink next />
                                     </PaginationItem>
                                 </Pagination>
                             </CardBody>
@@ -63,35 +63,35 @@ const BasicPagination = (props) => {
                                 <CardTitle>Rounded</CardTitle>
                                 <Pagination className="pagination-rounded" aria-label="Page navigation example">
                                     <PaginationItem>
-                                        <PaginationLink previous href="javascript:void(0);"/>
+                                        <PaginationLink previous />
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             1
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem active>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             2
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             3
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             4
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             5
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink next href="javascript:void(0);"/>
+                                        <PaginationLink next />
                                     </PaginationItem>
                                 </Pagination>
                             </CardBody>
@@ -103,83 +103,83 @@ const BasicPagination = (props) => {
                                 <CardTitle>Sizing</CardTitle>
                                 <Pagination size="sm" aria-label="Page navigation example">
                                     <PaginationItem>
-                                        <PaginationLink previous href="javascript:void(0);"/>
+                                        <PaginationLink previous />
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             1
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             2
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             3
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             4
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             5
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink next href="javascript:void(0);"/>
+                                        <PaginationLink next />
                                     </PaginationItem>
                                 </Pagination>
                                 <div className="divider"/>
                                 <Pagination aria-label="Page navigation example">
                                     <PaginationItem>
-                                        <PaginationLink previous href="javascript:void(0);"/>
+                                        <PaginationLink previous />
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             1
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             2
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             3
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink next href="javascript:void(0);"/>
+                                        <PaginationLink next />
                                     </PaginationItem>
                                 </Pagination>
                                 <div className="divider"/>
                                 <Pagination size="lg" aria-label="Page navigation example">
                                     <PaginationItem>
-                                        <PaginationLink previous href="javascript:void(0);"/>
+                                        <PaginationLink previous />
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             1
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             2
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink href="javascript:void(0);">
+                                        <PaginationLink >
                                             3
                                         </PaginationLink>
                                     </PaginationItem>
                                     <PaginationItem>
-                                        <PaginationLink next href="javascript:void(0);"/>
+                                        <PaginationLink next />
                                     </PaginationItem>
                                 </Pagination>
                             </CardBody>
