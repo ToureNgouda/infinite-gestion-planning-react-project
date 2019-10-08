@@ -70,8 +70,8 @@ const data2 = [
 ];
 
 export default class AnalyticsDashboard1 extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
 
         this.state = {
             dropdownOpen: false,

@@ -1,19 +1,25 @@
-import {BrowserRouter as Router, Route, Redirect} from 'react-router-dom';
+import { Route, Redirect} from 'react-router-dom';
 import React, {Suspense, lazy, Fragment} from 'react';
 
 import {
     ToastContainer,
 } from 'react-toastify';
-import Login from '../../DemoPages/Login/login';
+
 
 const Dashboards = lazy(() => import('../../DemoPages/Dashboards'));
-
+const Login = lazy(() => import('../../DemoPages/Login/login'));
+const Home = lazy(() => import('../../DemoPages/HomePage/home'));
+const PlanningPage = lazy(() => import('../../DemoPages/PlanningPage'));
+const EmployesPage = lazy(() => import('../../DemoPages/EmployesPage'));
+const UtilisateursPage = lazy(() => import('../../DemoPages/UtilisateursPage'));
+const ParametresPage = lazy(() => import('../../DemoPages/ParametresPage'));
 const Widgets = lazy(() => import('../../DemoPages/Widgets'));
 const Elements = lazy(() => import('../../DemoPages/Elements'));
 const Components = lazy(() => import('../../DemoPages/Components'));
 const Charts = lazy(() => import('../../DemoPages/Charts'));
 const Forms = lazy(() => import('../../DemoPages/Forms'));
 const Tables = lazy(() => import('../../DemoPages/Tables'));
+
 
 const AppMain = () => {
 
@@ -136,9 +142,72 @@ const AppMain = () => {
             }>
                 <Route path="/login" component={Login}/>
             </Suspense>
+           
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <h6 className="mt-3">
+                            Please wait while we load all the Dashboards examples
+                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                        </h6>
+                    </div>
+                </div>
+            }>
+                <Route path="/dashboard" component={Home}/>
+            </Suspense>
+           
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <h6 className="mt-3">
+                            Please wait while we load all the Dashboards examples
+                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                        </h6>
+                    </div>
+                </div>
+            }>
+                <Route path="/planning" component={PlanningPage}/>
+            </Suspense>
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <h6 className="mt-3">
+                            Please wait while we load all the Dashboards examples
+                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                        </h6>
+                    </div>
+                </div>
+            }>
+                <Route path="/employes" component={EmployesPage}/>
+            </Suspense>
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <h6 className="mt-3">
+                            Please wait while we load all the Dashboards examples
+                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                        </h6>
+                    </div>
+                </div>
+            }>
+                <Route path="/utilisateurs" component={UtilisateursPage}/>
+            </Suspense>
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <h6 className="mt-3">
+                            Please wait while we load all the Dashboards examples
+                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                        </h6>
+                    </div>
+                </div>
+            }>
+                <Route path="/parametres" component={ParametresPage}/>
+            </Suspense>
+           
 
             <Route exact path="/" render={() => (
-                <Redirect to="/login"/>
+                <Redirect to="/dashboard"/>
             )}/>
             <ToastContainer/>
         </Fragment>

@@ -1,8 +1,8 @@
 export const MainNav = [
     {
         icon: 'pe-7s-rocket',
-        label: 'Dashboard Example',
-        to: '#/dashboards/basic',
+        label: 'Dashboard',
+        to: '#/dashboard',
     },
 ];
 export const ComponentsNav = [
@@ -114,5 +114,33 @@ export const ChartsNav = [
         icon: 'pe-7s-graph2',
         label: 'ChartJS',
         to: '#/charts/chartjs',
+    },
+];
+export const Planning = [
+    {
+        icon: 'pe-7s-graph2',
+        label: 'Planning',
+        to: '#/planning',
+    },
+];
+export const Employes = [
+    {
+        icon: 'pe-7s-graph2',
+        label: 'Employes',
+        to: '#/employes',
+    },
+];
+export const Utilisateurs = [
+    {
+        icon: 'pe-7s-graph2',
+        label: 'Utilisateurs',
+        to: '#/utilisateurs',
+    },
+];
+export const Parametres = [
+    {
+        icon: 'pe-7s-graph2',
+        label: 'Parametres',
+        to: '#/parametres',
     },
 ];

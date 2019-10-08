@@ -13,7 +13,6 @@ class Main extends React.Component {
         this.state = {
             closedSmallerSidebar: false
         };
-
     }
 
     render() {
@@ -59,7 +58,7 @@ const mapStateToProp = state => ({
     enableFixedSidebar: state.ThemeOptions.enableFixedSidebar,
     enableClosedSidebar: state.ThemeOptions.enableClosedSidebar,
     enablePageTabsAlt: state.ThemeOptions.enablePageTabsAlt,
-
+   
 });
 
 export default withRouter(connect(mapStateToProp)(Main));
