@@ -18,20 +18,23 @@ export default class Login extends Component {
     super(props);
     // redirection vers la home page si le user est connecté
     this.state = {
-      login: '',
+      email: '',
       password: '',
       redirect:false
     }
   }
   handleSubmit = event => {
-    console.log("login ", this.state.login, "and mot de passe ", this.state.password);
+    console.log("login ", this.state.email, "and mot de passe ", this.state.password);
     event.preventDefault();
     //appel au actions pour une connexion avec le backend et utiliser l'api,
-    this.setState({redirect:true})
+  
     authenticationService.login(this.state)
       .then(
-        user => {
-         console.log("user created",user)
+        response => {
+          console.log("response",response)
+            if(response.status===200){
+              this.setState({redirect:true}) 
+            }
         },
         error => {
           console.log("erreur coté serveur", error);
@@ -58,8 +61,8 @@ export default class Login extends Component {
                 <Form onSubmit={this.handleSubmit}>
                   <FormGroup>
                     <Label for="exampleEmail">Email</Label>
-                    <Input type="email" name="login" id="login"
-                      placeholder="Entre votre email" value={this.state.login} onChange={this.handleChange} />
+                    <Input type="email" name="email" id="email"
+                      placeholder="Entre votre email" value={this.state.email} onChange={this.handleChange} />
                   </FormGroup>
                   <FormGroup>
                     <Label for="examplePassword">Password</Label>

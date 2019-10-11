@@ -1,33 +1,40 @@
-import React, {Component, Fragment} from 'react';
-import {withRouter} from 'react-router-dom';
+import React, { Component, Fragment } from 'react';
+import { withRouter } from 'react-router-dom';
 
 import MetisMenu from 'react-metismenu';
 
-import {MainNav, Parametres, Planning, Employes, Utilisateurs} from './NavItems';
+import { MainNav, Parametres, Planning, Employes, Utilisateurs } from './NavItems';
 
 class Nav extends Component {
-
-    state = {};
+    constructor(props) {
+        let user = JSON.parse(localStorage.getItem('currentUser'));
+        let profil = user.profil;
+        super(props);
+        this.state = {
+            typeProfil: profil.typeProfil
+        }
+    }
 
     render() {
-        return (
-            <Fragment>
-                <h5 className="app-sidebar__heading">Menu</h5>
-                <MetisMenu content={MainNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                <MetisMenu content={Planning} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                <MetisMenu content={Employes} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                <MetisMenu content={Utilisateurs} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                <MetisMenu content={Parametres} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                {/* <h5 className="app-sidebar__heading">UI Components</h5>
-                <MetisMenu content={ComponentsNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                <h5 className="app-sidebar__heading">Widgets</h5>
-                <MetisMenu content={WidgetsNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                <h5 className="app-sidebar__heading">Forms</h5>
-                <MetisMenu content={FormsNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/>
-                <h5 className="app-sidebar__heading">Charts</h5>
-                <MetisMenu content={ChartsNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down"/> */}
-            </Fragment>
-        );
+        if (this.state.typeProfil === "Superviseur")
+            return (
+                <Fragment>
+                    <h5 className="app-sidebar__heading">Menu</h5>
+                    <MetisMenu content={MainNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" />
+                    <MetisMenu content={Planning} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" />
+                </Fragment>
+            );
+        else
+            return (
+                <Fragment>
+                    <h5 className="app-sidebar__heading">Menu</h5>
+                    <MetisMenu content={MainNav} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" />
+                    <MetisMenu content={Planning} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" />
+                    <MetisMenu content={Employes} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" />
+                    <MetisMenu content={Utilisateurs} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" />
+                    <MetisMenu content={Parametres} activeLinkFromLocation className="vertical-nav-menu" iconNamePrefix="" classNameStateIcon="pe-7s-angle-down" />
+                </Fragment>
+            );
     }
 
     isPathActive(path) {

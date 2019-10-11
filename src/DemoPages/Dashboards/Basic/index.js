@@ -109,11 +109,11 @@ export default class AnalyticsDashboard1 extends Component {
                     transitionEnter={false}
                     transitionLeave={false}>
                     <div>
-                        <PageTitle
+                        {/* <PageTitle
                             heading="Basic Dashboard"
                             subheading="This is an example dashboard created using build-in elements and components."
                             icon="pe-7s-car icon-gradient bg-mean-fruit"
-                        />
+                        /> */}
                         <Row>
                             <Col md="12" lg="6">
                                 <Card className="mb-3">
@@ -651,7 +651,7 @@ export default class AnalyticsDashboard1 extends Component {
                                 </div>
                             </div>
                         </div>
-                        <Row>
+                        {/* <Row>
                             <Col md="12">
                                 <Card className="main-card mb-3">
                                     <div className="card-header">Active Users
@@ -782,7 +782,7 @@ export default class AnalyticsDashboard1 extends Component {
                                     </div>
                                 </Card>
                             </Col>
-                        </Row>
+                        </Row> */}
                         <Row>
                             <Col md="4">
                                 <div className="card mb-3 widget-chart">

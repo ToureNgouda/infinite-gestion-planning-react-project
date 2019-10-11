@@ -1,0 +1,25 @@
+@charset "UTF-8";
+
+.badge-danger{
+   margin-top: 5px;
+   width: 75px;
+   height: 18px;
+
+}
+.badge-success{
+    margin-top: 5px;
+    width: 75px;
+    height:18px;
+}
+
+.faTrash{
+    color:red;
+    margin-top: 8px !important;
+}
+
+tr{
+    cursor: pointer;
+}
+tr:hover td {
+    background-color: gray !important;
+}

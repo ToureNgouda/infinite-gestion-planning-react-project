@@ -2,13 +2,15 @@ import React, { Component, Fragment } from 'react';
 import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar';
 import Basic from '../Dashboards/Basic';
-import { Route }  from 'react-router-dom'
 import AppFooter from '../../Layout/AppFooter';
+import { Redirect } from 'react-router-dom';
 
 export default class HomePage extends Component {
 
     render() {
-
+         if(!JSON.parse(localStorage.getItem('currentUser'))){
+           return (<Redirect to={'/login'}/>)
+            }
         return (
             <Fragment>
                 <AppHeader />
@@ -16,7 +18,7 @@ export default class HomePage extends Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
-                            <Route  path={'/dashbord'} Component={Basic}/>
+                            <Basic />
                         </div>
                         <AppFooter />
                     </div>

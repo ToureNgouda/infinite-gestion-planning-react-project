@@ -22,7 +22,6 @@ const Tables = lazy(() => import('../../DemoPages/Tables'));
 
 
 const AppMain = () => {
-
     return (
         <Fragment>
 
@@ -212,6 +211,7 @@ const AppMain = () => {
             <ToastContainer/>
         </Fragment>
     )
+    
 };
 
 export default AppMain;

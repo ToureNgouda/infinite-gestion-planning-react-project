@@ -1,7 +1,7 @@
 import { BehaviorSubject } from 'rxjs';
-
+import axios from 'axios';
 import config from 'config';
-import { handleResponse } from './helpers/handle-response';
+import { authHeader } from './helpers/auth-header';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -13,28 +13,30 @@ export const authenticationService = {
 };
 
 function login(state) {
-    return fetch(`${config.apiUrl}/auth/user`,  {
-        method:'POST',
-        body:JSON.stringify(state),
-        headers:{
-            'content-type':'application/json',
-            'Access-Control-Allow-Origin':'*'
-        }
-        })
-        .then(handleResponse)
-        .then(user => {
+
+    return axios.post(`${config.apiUrl}/auth/login`,state)
+        .then(resp => {
+            console.log("user",resp)
             // store user details and jwt token in local storage to keep user logged in between page refreshes
-            localStorage.setItem('currentUser', JSON.stringify(user));
-            currentUserSubject.next(user);
-            return user;
+            localStorage.setItem('currentUser', JSON.stringify(resp.data));
+            currentUserSubject.next(resp.data);
+            return resp;
+        }).catch(error=>{
+              console.log(error);
         })
-        .catch(error=>{
-            console.log(error);
-            return error;
-        });
 }
 function logout() {
     // remove user from local storage to log user out
-    localStorage.removeItem('currentUser');
-    currentUserSubject.next(null);
+    const requestOptions = { headers: authHeader() };
+    return axios.post(`${config.apiUrl}/auth/logout`,requestOptions)
+    .then(resp => {
+         console.log("response",resp)
+        localStorage.removeItem('currentUser');
+        currentUserSubject.next(null);
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        return resp;
+    }).catch(error=>{
+          console.log(error);
+    })
+
 }
