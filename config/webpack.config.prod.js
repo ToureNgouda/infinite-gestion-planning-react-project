@@ -57,6 +57,12 @@ module.exports = {
   devtool: shouldUseSourceMap ? 'source-map' : false,
   // In production, we only want to load the polyfills and the app code.
   entry: [require.resolve('./polyfills'), paths.appIndexJs],
+  externals: {
+    // global app config object
+    config: JSON.stringify({
+        apiUrl: 'http://localhost:80/infinite-gestion-planning-back/public/api'
+    })
+},
   output: {
     // The build folder.
     path: paths.appBuild,
@@ -96,6 +102,7 @@ module.exports = {
       // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
       'react-native': 'react-native-web',
     },
+    
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with babel.
