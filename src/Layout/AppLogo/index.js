@@ -10,6 +10,7 @@ import {
     setEnableMobileMenu,
     setEnableMobileMenuSmall,
 } from '../../reducers/ThemeOptions';
+import infiniteLogo from  '../../assets/utils/images/infinite.png';
 
 class HeaderLogo extends React.Component {
     constructor(props) {
@@ -47,7 +48,10 @@ class HeaderLogo extends React.Component {
         return (
             <Fragment>
                 <div className="app-header__logo">
-                    {/* <div className="logo-src"/> */}
+                    <div className="logo-src">
+                        {/* <img src="infiniteLogo" alt="" width="500" height="70" /> */}
+                    </div>
+                    
                     <div className="header__pane ml-auto">
                         <div onClick={this.toggleEnableClosedSidebar}>
                             <Hamburger

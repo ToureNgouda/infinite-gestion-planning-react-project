@@ -3,11 +3,12 @@ import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar';
 import AppFooter from '../../Layout/AppFooter';
 import { EmployesList } from './EmployesList';
-import { Table, CardTitle, CardBody, Card, Col, Label ,Row ,Button} from 'reactstrap';
-import { Route, Redirect } from 'react-router-dom';
+import { Table, CardTitle, CardBody, Card, Col ,Row ,Button} from 'reactstrap';
+import { Route ,Link} from 'react-router-dom';
 import EditEmploye from './EditEmploye';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './index.css';
+import CreerEmploye from './EmployeCreate';
 import {
 
     faPlus,
@@ -24,10 +25,14 @@ export default class EmployesPage extends Component {
             match: this.props.match,
             employe: null,
             params: '',
-            isRedirect: false
+            isRedirect: false,
+            redirectCreateEmploye:false
         }
         console.log("math", this.state.match)
         this.getAllEmployes();
+    }
+    handleAddEmploye=()=>{
+        this.setState({redirectCreateEmploye:true})
     }
     getAllEmployes() {
         employeService.getAllEmployes().then(resp => {
@@ -42,15 +47,12 @@ export default class EmployesPage extends Component {
     }
     editEmploye = employe => {
         console.log(employe);
-        console.log(this.state);
-        const emp = employe;
-        this.setState({ employe: emp });
-        console.log(this.state)
-        this.setState({ params: employe.id })
-        console.log("fecontion edit employe appele", this.state.employe, this.state.match);
-        this.setState({ isRedirect: true })
+        this.props.history.push(`/employes/${employe.id}`)
     }
     render() {
+        // if(this.state.redirectCreateEmploye){
+        //     return (<Redirect to={'/employes/creerEmploye'}/>)
+        // }
         const listEmployes = this.state.employes.map(employe =>
             <EmployesList key={employe.id} employe={employe} editEmploye={this.editEmploye} />
         )
@@ -61,7 +63,7 @@ export default class EmployesPage extends Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
-                            <Route path={`${this.state.match.url}`} render={() => (
+                            <Route exact strict path={`${this.state.match.url}`} render={() => (
                                 (
                                     <Card className="main-card mb-3">
                                         <CardBody>
@@ -69,10 +71,12 @@ export default class EmployesPage extends Component {
                                             <Row>
                                                 <Col md="8">Liste Employés</Col>
                                                 <Col md="4" className="ajouter">
-                                                    <Button  outline color="secondary">
+                                                    <Link to="/employes/creerEmploye">
+                                                    <Button  outline color="secondary" onClick={this.handleAddEmploye}>
                                                     <FontAwesomeIcon icon={faPlus}/> { '   ' }
-                                                      <span>Ajouter</span>
+                                                       <span>Ajouter</span>
                                                     </Button>
+                                                    </Link>
                                                 </Col>
                                              </Row>
                                             </CardTitle>
@@ -98,8 +102,8 @@ export default class EmployesPage extends Component {
                                     </Card>
                                 )
                             )} />
-
-
+                        <Route exact path='/employes/creerEmploye' component={CreerEmploye}></Route>
+                        <Route exact path={"/employes/:id"} component={EditEmploye}></Route>
                         </div>
                         <AppFooter />
                     </div>

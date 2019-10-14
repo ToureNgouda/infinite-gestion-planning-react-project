@@ -10,6 +10,7 @@ import {
 
 } from 'reactstrap';
 import { from } from 'rxjs';
+import './login.css';
 
 // import { Container } from './styles';
 
