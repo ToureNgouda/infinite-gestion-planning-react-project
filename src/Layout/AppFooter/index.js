@@ -12,33 +12,15 @@ class AppFooter extends React.Component {
                             <ul className="nav">
                                 <li className="nav-item">
                                     <a  className="nav-link">
-                                        Footer Link 1
+                                      <i>
+                                          <b> Copyright Teranga Business Solutions 2019</b>
+                                      </i>
                                     </a>
                                 </li>
-                                <li className="nav-item">
-                                    <a  className="nav-link">
-                                        Footer Link 2
-                                    </a>
-                                </li>
+                               
                             </ul>
                         </div>
-                        <div className="app-footer-right">
-                            <ul className="nav">
-                                <li className="nav-item">
-                                    <a  className="nav-link">
-                                        Footer Link 3
-                                    </a>
-                                </li>
-                                <li className="nav-item">
-                                    <a  className="nav-link">
-                                        <div className="badge badge-success mr-1 ml-0">
-                                            <small>NEW</small>
-                                        </div>
-                                        Footer Link 4
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
+                       
                     </div>
                 </div>
             </Fragment>

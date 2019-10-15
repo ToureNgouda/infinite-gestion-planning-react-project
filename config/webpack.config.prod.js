@@ -60,7 +60,7 @@ module.exports = {
   externals: {
     // global app config object
     config: JSON.stringify({
-        apiUrl: 'http://localhost:80/infinite-gestion-planning-back/public/api'
+        apiUrl: 'http://planning.infiniteairport.com/back/public/api'
     })
 },
   output: {

@@ -122,8 +122,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
-                            Please wait while we load all the Dashboards examples
-                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                           Merci de patienter ...
+                            <small></small>
                         </h6>
                     </div>
                 </div>
@@ -134,8 +134,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
-                            Please wait while we load all the Dashboards examples
-                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                           Merci de patienter ...
+                            <small></small>
                         </h6>
                     </div>
                 </div>
@@ -147,8 +147,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
-                            Please wait while we load all the Dashboards examples
-                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                           Merci de patienter ...
+                            <small></small>
                         </h6>
                     </div>
                 </div>
@@ -160,8 +160,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
-                            Please wait while we load all the Dashboards examples
-                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                           Merci de patienter ...
+                            <small></small>
                         </h6>
                     </div>
                 </div>
@@ -172,8 +172,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
-                            Please wait while we load all the Dashboards examples
-                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                           Merci de patienter ...
+                            <small></small>
                         </h6>
                     </div>
                 </div>
@@ -184,8 +184,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
-                            Please wait while we load all the Dashboards examples
-                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                           Merci de patienter ...
+                            <small></small>
                         </h6>
                     </div>
                 </div>
@@ -196,8 +196,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
-                            Please wait while we load all the Dashboards examples
-                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                           Merci de patienter ...
+                            <small></small>
                         </h6>
                     </div>
                 </div>
@@ -208,13 +208,13 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
-                            Please wait while we load all the Dashboards examples
-                            <small>Because this is a demonstration, we load at once all the Dashboards examples. This wouldn't happen in a real live app!</small>
+                           Merci de patienter ...
+                            <small></small>
                         </h6>
                     </div>
                 </div>
             }>
-                <Route path="employes/creerEmploye" component={EmployeCreate}/>
+                <Route path="/creerEmploye" component={EmployeCreate}/>
             </Suspense> */}
            
 

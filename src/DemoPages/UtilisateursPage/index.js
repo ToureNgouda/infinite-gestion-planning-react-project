@@ -3,7 +3,7 @@ import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar';
 import AppFooter from '../../Layout/AppFooter';
 import { userService } from '../../services/userService';
-import { Table, CardTitle, CardBody, Card } from 'reactstrap';
+import { Table, CardTitle, CardBody, Card ,Row} from 'reactstrap';
 import { ShowUsers }  from './ShowUsers';
 
 export default class UtilisateursPage extends Component {
@@ -39,15 +39,27 @@ export default class UtilisateursPage extends Component {
                         <div className="app-main__inner">
                             <Card className="main-card mb-3">
                                 <CardBody>
-                                    <CardTitle>Liste Utilisateurs</CardTitle>
+                                    <CardTitle>
+                                    <Row>
+                                                    <Col md="8">Liste Employés</Col>
+                                                    <Col md="4" className="ajouter">
+                                                        <Link to="/employes/creerEmploye">
+                                                            <Button outline color="secondary" onClick={this.handleAddEmploye}>
+                                                                <FontAwesomeIcon icon={faPlus} /> {'   '}
+                                                                <span>Ajouter</span>
+                                                            </Button>
+                                                        </Link>
+                                                    </Col>
+                                                </Row>
+                                    </CardTitle>
                                     <Table responsive className="mb-0">
                                         <thead>
                                             <tr>
-                                                <th>Prenom</th>
+                                                <th>Prénom</th>
                                                 <th>Nom</th>
                                                 <th>Email</th>
                                                 <th>Profil</th>
-                                                <th>Date Creation</th>
+                                                <th>Date création</th>
                                             </tr>
                                         </thead>
                                         <tbody>

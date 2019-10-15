@@ -57,8 +57,11 @@ export default class EmployeCreate extends Component {
        console.log("state",this.state);
        return employeService.saveEmploye(this.state).then(resp=>{
               console.log("response ",resp);
-              if(resp.status===200)
-                  this.setState({isRedirect:true})
+              if(resp.status===200){
+                this.setState({isRedirect:true})
+                this.props.history.push('/employes')
+              }
+                 
        });
     }
    handleChange = e=>{
@@ -66,9 +69,6 @@ export default class EmployeCreate extends Component {
     this.setState({ [name]: value });
    }
     render() {
-        if(this.state.isRedirect){
-              return (<Redirect to={'/employes'}/>)
-        }
         return (
             <Fragment>
                 {/* <AppHeader /> */}
@@ -81,7 +81,7 @@ export default class EmployeCreate extends Component {
                                             <Col md={3}>
                                                     {/* <Label for="exampleEmail11">Email</Label> */}
                                                     <Input type="number" name="numero" 
-                                                        placeholder="Numero" value={this.state.numero}  onChange={this.handleChange}/>
+                                                        placeholder="Numéro Employé" value={this.state.numero}  onChange={this.handleChange}/>
                                                 </Col>
                                                 <Col md={3}>
                                                     {/* <Label for="exampleEmail11">Email</Label> */}
@@ -90,7 +90,7 @@ export default class EmployeCreate extends Component {
                                                 </Col>
                                                 <Col md={3}>
                                                     <Input type="text" name="prenom" 
-                                                        placeholder="Prenom"  value={this.state.prenom} onChange={this.handleChange}/>
+                                                        placeholder="Prénom"  value={this.state.prenom} onChange={this.handleChange}/>
                                                 </Col>
                                             </Row>
                                         </FormGroup>
@@ -103,7 +103,7 @@ export default class EmployeCreate extends Component {
                                                 <Col md="3">
                                                     {/* <Label for="exampleEmail11">Email</Label> */}
                                                     <Input type="text" name="numeroTelephone" 
-                                                        placeholder="Numero Telephone"   value={this.state.numeroTelephone} onChange={this.handleChange}/>
+                                                        placeholder="Téléphone"   value={this.state.numeroTelephone} onChange={this.handleChange}/>
                                                 </Col>
                                                 <Col md="3">
                                                 <CustomInput type="select" name="genre"  
@@ -137,7 +137,7 @@ export default class EmployeCreate extends Component {
                                                 </Col>
                                                 <Col md="3">
                                                     <Input type="text" name="complement" id="complement"
-                                                        placeholder="Complement"  value={this.state.complement}  onChange={this.handleChange}/>
+                                                        placeholder="Complément"  value={this.state.complement}  onChange={this.handleChange}/>
                                                 </Col>
                                                 <Col md="3">
                                                 <CustomInput type="select" 
@@ -149,7 +149,7 @@ export default class EmployeCreate extends Component {
                                                 </Col>
                                             </Row>
                                         </FormGroup>
-                                        <Button color="primary" className="mt-2 mr-2 pull-right">Creer Employe</Button>
+                                        <Button color="primary" className="mt-2 mr-2 pull-right">Créer </Button>
                                     </Form>
                                 </CardBody>
                             </Card>

@@ -48,9 +48,7 @@ class HeaderLogo extends React.Component {
         return (
             <Fragment>
                 <div className="app-header__logo">
-                    <div className="logo-src">
-                        {/* <img src="infiniteLogo" alt="" width="500" height="70" /> */}
-                    </div>
+                         <img src={infiniteLogo} alt="" /> 
                     
                     <div className="header__pane ml-auto">
                         <div onClick={this.toggleEnableClosedSidebar}>
