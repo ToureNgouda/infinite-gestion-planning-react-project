@@ -6,7 +6,7 @@ export const typeEmployeService ={
    return [
     {id:1,nom:"Superviseur"},
     {id:2,nom:"Commis Cuisine"},
-    {id:3,nom:"Hotesses"},
+    {id:3,nom:"Hotesse"},
     {id:4,nom:"Barman"}
 ] 
 }

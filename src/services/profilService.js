@@ -4,7 +4,8 @@ import axios from 'axios';
 
 
 export const profilService = {
-    getProfilUser
+    getProfilUser,
+    getAllProfil
 };
 
 function getProfilUser(user) {
@@ -14,4 +15,13 @@ function getProfilUser(user) {
     }).catch(error=>{
          console.log(error)
     });
+}
+function getAllProfil(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/profil`, requestOptions).then(resp=>{
+          return resp;
+    }).catch(error=>{
+         console.log(error)
+    });
+
 }

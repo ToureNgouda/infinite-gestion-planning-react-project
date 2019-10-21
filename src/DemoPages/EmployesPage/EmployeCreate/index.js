@@ -106,7 +106,7 @@ export default class EmployeCreate extends Component {
                                                         placeholder="Téléphone"   value={this.state.numeroTelephone} onChange={this.handleChange}/>
                                                 </Col>
                                                 <Col md="3">
-                                                <CustomInput type="select" name="genre"  
+                                                <CustomInput type="select" name="genre"  id="genre"
                                                               onChange={this.handleChange}>
                                                     {this.state.genres.map(g=>
                                                          <option key={g.id} value={g.nom} >{g.nom}</option>
@@ -114,7 +114,7 @@ export default class EmployeCreate extends Component {
                                                 </CustomInput>
                                                 </Col>
                                                 <Col md="3">
-                                                <CustomInput type="select"   placeholder="type Employe"
+                                                <CustomInput type="select"   placeholder="type Employe" id="typeEmploye"
                                                              name="typeEmploye" onChange={this.handleChange}>
                                                    {this.state.typeEmployes.map(type=>
                                                        <option  value={type.nom} key={type.id}>{type.nom}</option>
@@ -140,7 +140,7 @@ export default class EmployeCreate extends Component {
                                                         placeholder="Complément"  value={this.state.complement}  onChange={this.handleChange}/>
                                                 </Col>
                                                 <Col md="3">
-                                                <CustomInput type="select" 
+                                                <CustomInput type="select"  id="zone"
                                                              name="zone" onChange={this.handleChange}>
                                                     {this.state.zones.map(zone=>
                                                         <option  value={zone.nom} key={zone.id}>{zone.nom}</option>

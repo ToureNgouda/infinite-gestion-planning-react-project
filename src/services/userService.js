@@ -5,7 +5,8 @@ import axios from 'axios';
 
 
 export const userService = {
-    getAllUsers
+    getAllUsers,
+    saveUser
 };
 
 function getAllUsers() {
@@ -13,6 +14,15 @@ function getAllUsers() {
     return axios.get(`${config.apiUrl}/user`, requestOptions).then(users=>{
           console.log("users",users);
           return users;
+    }).catch(error=>{
+         console.log(error)
+    });
+}
+function saveUser(user) {
+    const requestOptions = { headers: authHeader() };
+    return axios.post(`${config.apiUrl}/user`, user,requestOptions).then(users=>{
+          console.log("user crée ",user);
+          return user;
     }).catch(error=>{
          console.log(error)
     });
