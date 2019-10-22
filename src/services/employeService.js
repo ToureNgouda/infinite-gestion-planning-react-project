@@ -8,7 +8,11 @@ export const employeService = {
     getAllEmployes,
     saveEmploye,
     getEmploye,
-    updateEmploye
+    updateEmploye,
+    getNombreBarman,
+    getNombreCommis,
+    getNombreSuperviseur,
+    getNombreHotesse
 };
 
 function getAllEmployes() {
@@ -70,7 +74,42 @@ function updateEmploye(state){
     const requestOptions = { headers: authHeader() };
     return axios.put(`${config.apiUrl}/employe/${request.id}`, request, requestOptions)
     .then(response=>{
-          console.log("employe mise à jour",response);
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getNombreBarman(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/getNombreBarman`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getNombreSuperviseur(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/getNombreSuperviseur`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getNombreHotesse(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/getNombreHotesse`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getNombreCommis(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/getNombreCommis`, requestOptions)
+    .then(response=>{
           return response;
     }).catch(error=>{
          console.log(error);

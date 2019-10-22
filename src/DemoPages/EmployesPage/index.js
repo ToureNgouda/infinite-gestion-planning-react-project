@@ -29,10 +29,10 @@ export default class EmployesPage extends Component {
             params: '',
             isRedirect: false,
             redirectCreateEmploye: false,
-            getEmployes:false
+            getEmployes: false
         }
         console.log("math", this.state.match)
-       // this.getAllEmployes();
+        // this.getAllEmployes();
     }
     handleAddEmploye = () => {
         this.setState({ redirectCreateEmploye: true })
@@ -42,7 +42,7 @@ export default class EmployesPage extends Component {
             if (resp.status === 200) {
                 const employes = resp.data;
                 this.setState({ employes });
-                this.setState({ getEmployes:true })
+                this.setState({ getEmployes: true })
                 console.log("employes", this.state);
                 return employes;
             }
@@ -60,9 +60,9 @@ export default class EmployesPage extends Component {
         // if(this.state.redirectCreateEmploye){
         //     return (<Redirect to={'/employes/creerEmploye'}/>)
         // }
-           const listEmployes = this.state.employes.map(employe =>
-                <EmployesList key={employe.id} employe={employe} editEmploye={this.editEmploye} />
-            )
+        const listEmployes = this.state.employes.map(employe =>
+            <EmployesList key={employe.id} employe={employe} editEmploye={this.editEmploye} />
+        )
         return (
             <Fragment>
                 <AppHeader />
@@ -90,19 +90,20 @@ export default class EmployesPage extends Component {
                                             <Table responsive className="mb-0">
                                                 <thead>
                                                     <tr>
-                                                        <th>Prenom</th>
-                                                        <th>Nom</th>
-                                                        <th>Email</th>
-                                                        <th>Genre</th>
-                                                        <th>TypeEmploye</th>
-                                                        <th>Telephone</th>
-                                                        <th>Adresse</th>
+                                                        <th>NUMERO</th>
+                                                        <th>PRENOM</th>
+                                                        <th>NOM</th>
+                                                        <th>EMAIL</th>
+                                                        <th>GENRE</th>
+                                                        <th>TYPE</th>
+                                                        <th>TELEPHONE</th>
+                                                        <th>ADRESSE</th>
                                                         <th></th>
                                                         <th></th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    { this.state.getEmployes && listEmployes }
+                                                    {this.state.getEmployes && listEmployes}
                                                 </tbody>
                                             </Table>
                                         </CardBody>

@@ -16,6 +16,7 @@ export const EmployesList = ({ employe ,editEmploye}) => {
         isActif  = <td className="badge badge-pill badge-danger">Inactif</td>;
     return (
         <tr onClick={()=>editEmploye(employe)}>
+            <td>{employe.numero}</td>
             <td>{employe.prenom}</td>
             <td>{employe.nom}</td>
             <td>{employe.email}</td>
