@@ -98,6 +98,8 @@ export default class AnalyticsDashboard1 extends Component {
         this.toggle1 = this.toggle1.bind(this);
         this.getNombreBarman();
         this.getNombreCommis();
+        this.getNombreHotesse();
+        this.getNombreSuperviseur();
 
     }
     getNombreBarman() {
@@ -177,13 +179,25 @@ export default class AnalyticsDashboard1 extends Component {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {this.state.employes.map(employe => (
-                                                    <tr key={employe.id}>
-                                                        <td>{employe.prenom}</td>
-                                                        <td>{employe.nom}</td>
-                                                        <td>{employe.typeEmploye}</td>
-                                                    </tr>
-                                                ))}
+                                                <tr>
+                                                    <td>Papa Mamadou </td>
+                                                    <td>Ndiaye</td>
+                                                    <td>Superviseur</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Mariame</td>
+                                                    <td>Sylla </td>
+                                                    <td> Hotesse</td></tr>
+                                                <tr>
+                                                <td>Francois Khote</td>
+                                                    <td>Diouf</td>
+                                                    <td>Hotesse</td> 
+                                                </tr>
+                                                <tr>
+                                                    <td>Assane</td>
+                                                    <td>Diop</td>
+                                                    <td>Commis</td>
+                                                </tr>
                                             </tbody>
                                         </Table>
                                     </CardBody>
@@ -205,13 +219,25 @@ export default class AnalyticsDashboard1 extends Component {
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                {this.state.employes.map(employe => (
-                                                    <tr key={employe.id}>
-                                                        <td>{employe.prenom}</td>
-                                                        <td>{employe.nom}</td>
-                                                        <td>{employe.typeEmploye}</td>
-                                                    </tr>
-                                                ))}
+                                                <tr>
+                                                    <td>Papa Mamadou </td>
+                                                    <td>Ndiaye</td>
+                                                    <td>Superviseur</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Mariame</td>
+                                                    <td>Sylla </td>
+                                                    <td> Hotesse</td></tr>
+                                                <tr>
+                                                <td>Francois Khote</td>
+                                                    <td>Diouf</td>
+                                                    <td>Hotesse</td> 
+                                                </tr>
+                                                <tr>
+                                                    <td>Assane</td>
+                                                    <td>Diop</td>
+                                                    <td>Commis</td>
+                                                </tr>
                                             </tbody>
                                         </Table>
                                     </CardBody>
@@ -232,7 +258,7 @@ export default class AnalyticsDashboard1 extends Component {
                                                     <th>Type</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            {/* <tbody>
                                                 {this.state.employes.map(employe => (
                                                     <tr key={employe.id}>
                                                         <td>{employe.prenom}</td>
@@ -240,6 +266,27 @@ export default class AnalyticsDashboard1 extends Component {
                                                         <td>{employe.typeEmploye}</td>
                                                     </tr>
                                                 ))}
+                                            </tbody> */}
+                                             <tbody>
+                                                <tr>
+                                                    <td>Papa Mamadou </td>
+                                                    <td>Ndiaye</td>
+                                                    <td>Superviseur</td>
+                                                </tr>
+                                                <tr>
+                                                    <td>Mariame</td>
+                                                    <td>Sylla </td>
+                                                    <td> Hotesse</td></tr>
+                                                <tr>
+                                                <td>Francois Khote</td>
+                                                    <td>Diouf</td>
+                                                    <td>Hotesse</td> 
+                                                </tr>
+                                                <tr>
+                                                    <td>Assane</td>
+                                                    <td>Diop</td>
+                                                    <td>Commis</td>
+                                                </tr>
                                             </tbody>
                                         </Table>
                                     </CardBody>
