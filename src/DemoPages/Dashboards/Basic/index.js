@@ -72,17 +72,38 @@ const data2 = [
 
 
 export default class AnalyticsDashboard1 extends Component {
-    getAllEmployes() {
-        employeService.getAllEmployes().then(resp => {
+    getVacationActuel() {
+        employeService.getVacationActuel().then(resp => {
             if (resp.status === 200) {
-                const employes = resp.data;
-                this.setState({ employes })
+                console.log("vacation actuel", resp);
+                 const employesInVacationActuel = resp.data;
+                 this.setState({ employesInVacationActuel })
+            };
+        });
+    }
+    getVacationPrecedante() {
+        employeService.getVacationPrecedante().then(resp => {
+            if (resp.status === 200) {
+                console.log("vacation precedente", resp);
+                 const employesInVacationPrecedante = resp.data;
+                 this.setState({ employesInVacationPrecedante })
+            };
+        });
+    }
+    getVacationSuivante() {
+        employeService.getVacationSuivante().then(resp => {
+            if (resp.status === 200) {
+                console.log("vacation suivante", resp);
+                 const employesInVacationSuivante = resp.data;
+                 this.setState({ employesInVacationSuivante })
             };
         });
     }
     constructor(props) {
         super(props);
-        this.getAllEmployes();
+        this.getVacationActuel();
+        this.getVacationPrecedante();
+        this.getVacationSuivante();
         this.state = {
             dropdownOpen: false,
             activeTab1: '11',
@@ -91,7 +112,9 @@ export default class AnalyticsDashboard1 extends Component {
             nombreCommis: 0,
             nombreHotesse: 0,
             nombreEmployes: 0,
-            employes: []
+            employesInVacationActuel: [],
+            employesInVacationSuivante: [],
+            employesInVacationPrecedante: []
 
         };
         this.toggle = this.toggle.bind(this);
@@ -171,33 +194,23 @@ export default class AnalyticsDashboard1 extends Component {
                                                 </CardTitle>
 
                                         <Table responsive striped className="mb-0">
-                                            <thead>
+                                        <thead>
                                                 <tr>
-                                                    <th>Prénom</th>
-                                                    <th>Nom</th>
-                                                    <th>Type</th>
+                                                   <th>NUMERO</th>
+                                                    <th>PRENOM</th>
+                                                    <th>NOM</th>
+                                                    <th>TYPE</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Papa Mamadou </td>
-                                                    <td>Ndiaye</td>
-                                                    <td>Superviseur</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Mariame</td>
-                                                    <td>Sylla </td>
-                                                    <td> Hotesse</td></tr>
-                                                <tr>
-                                                <td>Francois Khote</td>
-                                                    <td>Diouf</td>
-                                                    <td>Hotesse</td> 
-                                                </tr>
-                                                <tr>
-                                                    <td>Assane</td>
-                                                    <td>Diop</td>
-                                                    <td>Commis</td>
-                                                </tr>
+                                                {this.state.employesInVacationActuel.map(employe => (
+                                                    <tr key={employe.id}>
+                                                        <td>{employe.numero}</td>
+                                                        <td>{employe.prenom}</td>
+                                                        <td>{employe.nom}</td>
+                                                        <td>{employe.typeEmploye}</td>
+                                                    </tr>
+                                                ))}
                                             </tbody>
                                         </Table>
                                     </CardBody>
@@ -211,33 +224,23 @@ export default class AnalyticsDashboard1 extends Component {
                                                 </CardTitle>
 
                                         <Table responsive striped className="mb-0">
-                                            <thead>
+                                        <thead>
                                                 <tr>
-                                                    <th>Prénom</th>
-                                                    <th>Nom</th>
-                                                    <th>Type</th>
+                                                   <th>NUMERO</th>
+                                                    <th>PRENOM</th>
+                                                    <th>NOM</th>
+                                                    <th>TYPE</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
-                                                <tr>
-                                                    <td>Papa Mamadou </td>
-                                                    <td>Ndiaye</td>
-                                                    <td>Superviseur</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Mariame</td>
-                                                    <td>Sylla </td>
-                                                    <td> Hotesse</td></tr>
-                                                <tr>
-                                                <td>Francois Khote</td>
-                                                    <td>Diouf</td>
-                                                    <td>Hotesse</td> 
-                                                </tr>
-                                                <tr>
-                                                    <td>Assane</td>
-                                                    <td>Diop</td>
-                                                    <td>Commis</td>
-                                                </tr>
+                                                {this.state.employesInVacationPrecedante.map(employe => (
+                                                    <tr key={employe.id}>
+                                                        <td>{employe.numero}</td>
+                                                        <td>{employe.prenom}</td>
+                                                        <td>{employe.nom}</td>
+                                                        <td>{employe.typeEmploye}</td>
+                                                    </tr>
+                                                ))}
                                             </tbody>
                                         </Table>
                                     </CardBody>
@@ -253,41 +256,23 @@ export default class AnalyticsDashboard1 extends Component {
                                         <Table responsive striped className="mb-0">
                                             <thead>
                                                 <tr>
-                                                    <th>Prénom</th>
-                                                    <th>Nom</th>
-                                                    <th>Type</th>
+                                                   <th>NUMERO</th>
+                                                    <th>PRENOM</th>
+                                                    <th>NOM</th>
+                                                    <th>TYPE</th>
                                                 </tr>
                                             </thead>
-                                            {/* <tbody>
-                                                {this.state.employes.map(employe => (
+                                            <tbody>
+                                                {this.state.employesInVacationSuivante.map(employe => (
                                                     <tr key={employe.id}>
+                                                        <td>{employe.numero}</td>
                                                         <td>{employe.prenom}</td>
                                                         <td>{employe.nom}</td>
                                                         <td>{employe.typeEmploye}</td>
                                                     </tr>
                                                 ))}
-                                            </tbody> */}
-                                             <tbody>
-                                                <tr>
-                                                    <td>Papa Mamadou </td>
-                                                    <td>Ndiaye</td>
-                                                    <td>Superviseur</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>Mariame</td>
-                                                    <td>Sylla </td>
-                                                    <td> Hotesse</td></tr>
-                                                <tr>
-                                                <td>Francois Khote</td>
-                                                    <td>Diouf</td>
-                                                    <td>Hotesse</td> 
-                                                </tr>
-                                                <tr>
-                                                    <td>Assane</td>
-                                                    <td>Diop</td>
-                                                    <td>Commis</td>
-                                                </tr>
                                             </tbody>
+                                           
                                         </Table>
                                     </CardBody>
                                 </Card>

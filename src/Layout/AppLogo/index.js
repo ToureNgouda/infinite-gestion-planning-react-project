@@ -49,7 +49,7 @@ class HeaderLogo extends React.Component {
             <Fragment>
                 <div className="app-header__logo">
                          <img src={infiniteLogo} alt="" /> 
-                    
+                         
                     <div className="header__pane ml-auto">
                         <div onClick={this.toggleEnableClosedSidebar}>
                             <Hamburger
@@ -59,6 +59,7 @@ class HeaderLogo extends React.Component {
                             />
                         </div>
                     </div>
+                  
                 </div>
                 <AppMobileMenu/>
             </Fragment>

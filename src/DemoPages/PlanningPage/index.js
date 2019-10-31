@@ -3,6 +3,7 @@ import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar';
 import Basic from '../Dashboards/Basic';
 import AppFooter from '../../Layout/AppFooter';
+import Planning  from './ShowPlanning';
 
 export default class PlanningPage extends Component {
 
@@ -15,7 +16,7 @@ export default class PlanningPage extends Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
-                           
+                           <Planning/>
                         </div>
                         <AppFooter />
                     </div>

@@ -26,9 +26,13 @@ export default class EditEmploye extends Component {
         const adresse = resp.data.adresse;
         const zone = resp.data.adresse.zone;
         this.setState({ employe });
-        this.setState({ adresse });
         this.setState({ zone });
-        this.setState({ getEmploye:true})
+        if (adresse.complement == null) {
+          adresse.complement = '';
+          this.setState({ adresse });
+        } else
+          this.setState({ adresse });
+        this.setState({ getEmploye: true });
       }
     })
   }
@@ -47,7 +51,7 @@ export default class EditEmploye extends Component {
       adresse: {},
       isRedirect: false,
       zone: {},
-      getEmploye:false
+      getEmploye: false
     }
   }
   handleSubmit = event => {
@@ -56,9 +60,9 @@ export default class EditEmploye extends Component {
     console.log("state", this.state);
     return employeService.updateEmploye(this.state).then(resp => {
       console.log("response ", resp);
-      if (resp.status === 200){
+      if (resp.status === 200) {
         this.setState({ isRedirect: true });
-       this.props.history.push('/employes');
+        this.props.history.push('/employes');
       }
     });
   }
@@ -67,7 +71,7 @@ export default class EditEmploye extends Component {
     const employe = { ...this.state.employe };
     const adresse = { ...this.state.adresse };
     const zone = { ...this.state.zone }
-    console.log("name",name)
+    console.log("name", name)
     if (name === "nom") {
       employe.nom = value;
       this.setState({ employe });
@@ -121,123 +125,123 @@ export default class EditEmploye extends Component {
         {/* <AppHeader /> */}
         <Card className="main-card mb-3">
           {this.state.getEmploye &&
-          <CardBody>
-            <CardTitle className="heading">Editer Employé</CardTitle>
-            <Form className="form" onSubmit={this.handleSubmit}>
-              <FormGroup>
+            <CardBody>
+              <CardTitle className="heading">Editer Employé</CardTitle>
+              <Form className="form" onSubmit={this.handleSubmit}>
+                <FormGroup>
+                  <Row>
+                    <Col md="3">
+                      <Label for="adresse">Numero</Label>
+                    </Col>
+                    <Col md="3">
+                      <Label for="adresse">Nom</Label>
+                    </Col>
+                    <Col md="3">
+                      <Label for="adresse">Prenom</Label>
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md={3}>
+                      {/* <Label for="exampleEmail11">Email</Label> */}
+                      <Input type="number" name="numero"
+                        placeholder="Numero" value={this.state.employe.numero} onChange={this.handleChange} />
+                    </Col>
+                    <Col md={3}>
+                      {/* <Label for="exampleEmail11">Email</Label> */}
+                      <Input type="text" name="nom"
+                        placeholder="Nom" value={this.state.employe.nom} onChange={this.handleChange} />
+                    </Col>
+                    <Col md={3}>
+                      <Input type="text" name="prenom"
+                        placeholder="Prenom" value={this.state.employe.prenom} onChange={this.handleChange} />
+                    </Col>
+                  </Row>
+                </FormGroup>
                 <Row>
                   <Col md="3">
-                    <Label for="adresse">Numero</Label>
+                    <Label for="adresse">Email</Label>
                   </Col>
                   <Col md="3">
-                    <Label for="adresse">Nom</Label>
+                    <Label for="adresse">Numero Telephone</Label>
                   </Col>
                   <Col md="3">
-                    <Label for="adresse">Prenom</Label>
+                    <Label for="adresse">Genre</Label>
+                  </Col>
+                  <Col md="3">
+                    <Label for="adresse">Type</Label>
                   </Col>
                 </Row>
-                <Row form>
-                  <Col md={3}>
-                    {/* <Label for="exampleEmail11">Email</Label> */}
-                    <Input type="number" name="numero"
-                      placeholder="Numero" value={this.state.employe.numero} onChange={this.handleChange} />
-                  </Col>
-                  <Col md={3}>
-                    {/* <Label for="exampleEmail11">Email</Label> */}
-                    <Input type="text" name="nom"
-                      placeholder="Nom" value={this.state.employe.nom} onChange={this.handleChange} />
-                  </Col>
-                  <Col md={3}>
-                    <Input type="text" name="prenom"
-                      placeholder="Prenom" value={this.state.employe.prenom} onChange={this.handleChange} />
-                  </Col>
-                </Row>
-              </FormGroup>
-              <Row>
-                <Col md="3">
-                  <Label for="adresse">Email</Label>
-                </Col>
-                <Col md="3">
-                  <Label for="adresse">Numero Telephone</Label>
-                </Col>
-                <Col md="3">
-                  <Label for="adresse">Genre</Label>
-                </Col>
-                <Col md="3">
-                  <Label for="adresse">Type</Label>
-                </Col>
-              </Row>
-              <FormGroup>
-                <Row form>
-                  <Col md={3}>
-                    <Input type="text" name="email"
-                      placeholder="Email" value={this.state.employe.email} onChange={this.handleChange} />
-                  </Col>
-                  <Col md="3">
-                    {/* <Label for="exampleEmail11">Email</Label> */}
-                    <Input type="text" name="numeroTelephone"
-                      placeholder="Numero Telephone" value={this.state.employe.numeroTelephone} onChange={this.handleChange} />
-                  </Col>
-                  <Col md="3">
-                    <CustomInput type="select" name="genre" id="genre"
-                      onChange={this.handleChange} value={this.state.employe.genre}>
-                      {this.state.genres.map(g =>
-                        <option key={g.id} value={g.nom} >{g.nom}</option>
-                      )}
-                    </CustomInput>
-                  </Col>
-                  <Col md="3"> 
-                    <CustomInput type="select" placeholder="type Employe" id="typeEmploye"
-                      name="typeEmploye" onChange={this.handleChange} value={this.state.employe.typeEmploye}>
-                      {this.state.typeEmployes.map(type =>
-                        <option value={type.nom} key={type.id}>{type.nom}</option>
-                      )}
-                    </CustomInput>
-                  </Col>
-                </Row>
-              </FormGroup>
+                <FormGroup>
+                  <Row form>
+                    <Col md={3}>
+                      <Input type="text" name="email"
+                        placeholder="Email" value={this.state.employe.email} onChange={this.handleChange} />
+                    </Col>
+                    <Col md="3">
+                      {/* <Label for="exampleEmail11">Email</Label> */}
+                      <Input type="text" name="numeroTelephone"
+                        placeholder="Numero Telephone" value={this.state.employe.numeroTelephone} onChange={this.handleChange} />
+                    </Col>
+                    <Col md="3">
+                      <CustomInput type="select" name="genre" id="genre"
+                        onChange={this.handleChange} value={this.state.employe.genre}>
+                        {this.state.genres.map(g =>
+                          <option key={g.id} value={g.nom} >{g.nom}</option>
+                        )}
+                      </CustomInput>
+                    </Col>
+                    <Col md="3">
+                      <CustomInput type="select" placeholder="type Employe" id="typeEmploye"
+                        name="typeEmploye" onChange={this.handleChange} value={this.state.employe.typeEmploye}>
+                        {this.state.typeEmployes.map(type =>
+                          <option value={type.nom} key={type.id}>{type.nom}</option>
+                        )}
+                      </CustomInput>
+                    </Col>
+                  </Row>
+                </FormGroup>
 
-              <FormGroup>
-                <Row>
-                  <Col md="3">
-                    <Label for="adresse">Ville</Label>
-                  </Col>
-                  <Col md="3">
-                    <Label for="adresse">Quartier</Label>
-                  </Col>
-                  <Col md="3">
-                    <Label for="adresse">Complement</Label>
-                  </Col>
-                  <Col md="3">
-                    <Label for="adresse">Zone</Label>
-                  </Col>
-                </Row>
-                <Row form>
-                  <Col md="3">
-                    <Input type="text" name="ville"
-                      placeholder="Ville" value={this.state.adresse.ville} onChange={this.handleChange} />
-                  </Col>
-                  <Col md="3">
-                    <Input type="text" name="quartier"
-                      placeholder="Quartier" value={this.state.adresse.quartier} onChange={this.handleChange} />
-                  </Col>
-                  <Col md="3">
-                    <Input type="text" name="complement" id="complement"
-                      placeholder="Complement" value={this.state.adresse.complement} onChange={this.handleChange} />
-                  </Col>
-                  <Col md="3">
-                    <CustomInput type="select" id="zone"
-                      name="zone" onChange={this.handleChange} value={this.state.zone.nom}>
-                      {this.state.zones.map(zone =>
-                        <option value={zone.nom} key={zone.id} >{zone.nom}</option>
-                      )}
-                    </CustomInput>
-                  </Col>
-                </Row>
-              </FormGroup>
-              <Button color="primary" className="mt-2 mr-2 pull-right"> Modifier </Button>
-            </Form>
-          </CardBody> }
+                <FormGroup>
+                  <Row>
+                    <Col md="3">
+                      <Label for="adresse">Ville</Label>
+                    </Col>
+                    <Col md="3">
+                      <Label for="adresse">Quartier</Label>
+                    </Col>
+                    <Col md="3">
+                      <Label for="adresse">Complement</Label>
+                    </Col>
+                    <Col md="3">
+                      <Label for="adresse">Zone</Label>
+                    </Col>
+                  </Row>
+                  <Row form>
+                    <Col md="3">
+                      <Input type="text" name="ville"
+                        placeholder="Ville" value={this.state.adresse.ville} onChange={this.handleChange} />
+                    </Col>
+                    <Col md="3">
+                      <Input type="text" name="quartier"
+                        placeholder="Quartier" value={this.state.adresse.quartier} onChange={this.handleChange} />
+                    </Col>
+                    <Col md="3">
+                      <Input type="text" name="complement"
+                        placeholder="Complement" value={this.state.adresse.complement} onChange={this.handleChange} />
+                    </Col>
+                    <Col md="3">
+                      <CustomInput type="select" id="zone"
+                        name="zone" onChange={this.handleChange} value={this.state.zone.nom}>
+                        {this.state.zones.map(zone =>
+                          <option value={zone.nom} key={zone.id} >{zone.nom}</option>
+                        )}
+                      </CustomInput>
+                    </Col>
+                  </Row>
+                </FormGroup>
+                <Button color="primary" className="mt-2 mr-2 pull-right"> Modifier </Button>
+              </Form>
+            </CardBody>}
         </Card>
       </Fragment>)
   }

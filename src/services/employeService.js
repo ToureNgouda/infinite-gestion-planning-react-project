@@ -12,7 +12,10 @@ export const employeService = {
     getNombreBarman,
     getNombreCommis,
     getNombreSuperviseur,
-    getNombreHotesse
+    getNombreHotesse,
+    getVacationActuel,
+    getVacationPrecedante,
+    getVacationSuivante
 };
 
 function getAllEmployes() {
@@ -109,6 +112,34 @@ function getNombreHotesse(){
 function getNombreCommis(){
     const requestOptions = { headers: authHeader() };
     return axios.get(`${config.apiUrl}/getNombreCommis`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+
+function getVacationActuel(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/vacationActuel`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getVacationPrecedante(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/vacationPrecedante`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getVacationSuivante(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/vacationSuivante`, requestOptions)
     .then(response=>{
           return response;
     }).catch(error=>{
