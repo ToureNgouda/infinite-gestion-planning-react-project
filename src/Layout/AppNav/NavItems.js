@@ -118,28 +118,28 @@ export const ChartsNav = [
 ];
 export const Planning = [
     {
-        icon: 'pe-7s-graph2',
+        icon: 'pe-7s-note2',
         label: 'Planning',
         to: '#/planning',
     },
 ];
 export const Employes = [
     {
-        icon: 'pe-7s-graph2',
+        icon: 'pe-7s-user-female',
         label: 'Employes',
         to: '#/employes',
     },
 ];
 export const Utilisateurs = [
     {
-        icon: 'pe-7s-graph2',
+        icon: 'pe-7s-users',
         label: 'Utilisateurs',
         to: '#/utilisateurs',
     },
 ];
 export const Parametres = [
     {
-        icon: 'pe-7s-graph2',
+        icon: 'pe-7s-settings',
         label: 'Parametres',
         to: '#/parametres',
     },

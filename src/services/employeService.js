@@ -15,7 +15,8 @@ export const employeService = {
     getNombreHotesse,
     getVacationActuel,
     getVacationPrecedante,
-    getVacationSuivante
+    getVacationSuivante,
+    getVacationSemaine
 };
 
 function getAllEmployes() {
@@ -140,6 +141,15 @@ function getVacationPrecedante(){
 function getVacationSuivante(){
     const requestOptions = { headers: authHeader() };
     return axios.get(`${config.apiUrl}/vacationSuivante`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getVacationSemaine(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/vacation/getVacationsForWeek`, requestOptions)
     .then(response=>{
           return response;
     }).catch(error=>{
