@@ -23,7 +23,7 @@ export default class Planning extends Component {
                     this.setState({ jour1H1 });
                     this.setState({ jour1H2 })
                     this.setState({ jour1H3 })
-                    console.log("jour 1 horaire 1",this.state.jour1H1);
+                    console.log("jour 1 horaire 1", this.state.jour1H1);
 
                 }
                 if (result.data.jour2) {
@@ -41,6 +41,7 @@ export default class Planning extends Component {
                     this.setState({ jour2H1 });
                     this.setState({ jour2H2 });
                     this.setState({ jour2H3 });
+                    console.log("jour 2 H1",this.state.jour2H1)
                 }
                 if (result.data.jour3) {
                     const jour = {
@@ -57,6 +58,7 @@ export default class Planning extends Component {
                     this.setState({ jour3H1 });
                     this.setState({ jour3H2 });
                     this.setState({ jour3H3 });
+                    console.log("jour 2 H1",this.state.jour3H1)
                 }
 
                 if (result.data.jour4) {
@@ -192,6 +194,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -208,6 +212,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -223,6 +229,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -238,6 +246,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -253,6 +263,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -268,6 +280,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -283,6 +297,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -307,6 +323,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -323,6 +341,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -338,6 +358,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -353,6 +375,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -368,6 +392,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -383,6 +409,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -398,6 +426,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -422,6 +452,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -438,6 +470,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -453,6 +487,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -468,6 +504,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -483,6 +521,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -498,6 +538,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))
@@ -513,6 +555,8 @@ export default class Planning extends Component {
                                                 <div className="barman"> {employe.numero}</div>}
                                             {employe.typeEmploye === "Commis Cuisine" &&
                                                 <div className="commis" >{employe.numero}</div>}
+                                            {employe.typeEmploye === "Coordonnateur Cuisine" &&
+                                                <div className="coordonnateur" >{employe.numero}</div>}
                                         </div>
 
                                     ))

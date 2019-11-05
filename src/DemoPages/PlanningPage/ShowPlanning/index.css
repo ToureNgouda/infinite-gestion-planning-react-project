@@ -16,6 +16,13 @@
     color:white;
     margin-top: 3px;
 }
+.coordonnateur{
+    width:100%;
+    background-color:green;
+    text-align: center;
+    color:white;
+    margin-top: 3px;  
+}
 .superviseur{
     width:100%;
     background-color:violet;

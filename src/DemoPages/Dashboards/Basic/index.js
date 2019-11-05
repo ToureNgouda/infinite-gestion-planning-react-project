@@ -196,11 +196,10 @@ export default class AnalyticsDashboard1 extends Component {
                                         <Table responsive striped className="mb-0">
                                         <thead>
                                                 <tr>
-                                                   <th>NUMERO</th>
+                                                   <th>N°</th>
                                                     <th>PRENOM</th>
                                                     <th>NOM</th>
                                                     <th>TYPE</th>
-                                                    <th>TELEPHONE</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -210,7 +209,6 @@ export default class AnalyticsDashboard1 extends Component {
                                                         <td>{employe.prenom}</td>
                                                         <td>{employe.nom}</td>
                                                         <td>{employe.typeEmploye}</td>
-                                                        <td>{employe.numeroTelephone}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -228,11 +226,10 @@ export default class AnalyticsDashboard1 extends Component {
                                         <Table responsive striped className="mb-0">
                                         <thead>
                                                 <tr>
-                                                   <th>NUMERO</th>
+                                                   <th>N°</th>
                                                     <th>PRENOM</th>
                                                     <th>NOM</th>
                                                     <th>TYPE</th>
-                                                    <th>TELEPHONE</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -242,7 +239,6 @@ export default class AnalyticsDashboard1 extends Component {
                                                         <td>{employe.prenom}</td>
                                                         <td>{employe.nom}</td>
                                                         <td>{employe.typeEmploye}</td>
-                                                        <td>{employe.numeroTelephone}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -260,11 +256,10 @@ export default class AnalyticsDashboard1 extends Component {
                                         <Table responsive striped className="mb-0">
                                             <thead>
                                                 <tr>
-                                                   <th>NUMERO</th>
+                                                   <th>N°</th>
                                                     <th>PRENOM</th>
                                                     <th>NOM</th>
                                                     <th>TYPE</th>
-                                                    <th>TELEPHONE</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -274,7 +269,6 @@ export default class AnalyticsDashboard1 extends Component {
                                                         <td>{employe.prenom}</td>
                                                         <td>{employe.nom}</td>
                                                         <td>{employe.typeEmploye}</td>
-                                                        <td>{employe.numeroTelephone}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>

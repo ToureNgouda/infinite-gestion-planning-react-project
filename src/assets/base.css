@@ -1054,8 +1054,8 @@ pre {
     max-width: 50%; }
 
   .col-md-7 {
-    flex: 0 0 58.3333333333%;
-    max-width: 58.3333333333%; }
+    flex: 0 0 100%;
+    max-width: 100%; }
 
   .col-md-8 {
     flex: 0 0 66.6666666667%;
@@ -1442,6 +1442,7 @@ pre {
   .table th,
   .table td {
     padding: 0.55rem;
+    font-size:13px;
     vertical-align: top;
     border-top: 1px solid #e9ecef; }
   .table thead th {
@@ -3893,7 +3894,7 @@ input[type="button"].btn-block {
   border-bottom-right-radius: 0.2rem; }
 
 .badge {
-  display: inline-block;
+  display: block;
   padding: 0.25em 0.4em;
   font-size: 75%;
   font-weight: 700;
@@ -3914,7 +3915,8 @@ input[type="button"].btn-block {
 .badge-pill {
   padding-right: 0.6em;
   padding-left: 0.6em;
-  border-radius: 10rem; }
+  /* border-radius: 10rem;  */
+}
 
 .badge-primary {
   color: #fff;
@@ -3933,9 +3935,12 @@ input[type="button"].btn-block {
 .badge-success {
   color: #fff;
   background-color: #73A839; }
+.badge-success:hover {
+    color: #fff;
+    background-color: #73A839 !important; }
   a.badge-success:hover, a.badge-success:focus {
     color: #fff;
-    background-color: #59822c; }
+    background-color: #59822c !important;}
 
 .badge-info {
   color: #fff;
@@ -8557,8 +8562,8 @@ button,
   border-top: 0;
   border-bottom: #dee2e6 solid 1px; }
 .login{
-  margin-top: 230px;
-  margin-left: 450px;
+  margin: auto;
+  width: 800px;
 }
 .souvenir{
   margin-top:10px;
