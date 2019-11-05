@@ -23,6 +23,7 @@ export default class Planning extends Component {
                     this.setState({ jour1H1 });
                     this.setState({ jour1H2 })
                     this.setState({ jour1H3 })
+                    console.log("jour 1 horaire 1",this.state.jour1H1);
 
                 }
                 if (result.data.jour2) {
