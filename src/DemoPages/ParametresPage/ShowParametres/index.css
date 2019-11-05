@@ -1,0 +1,15 @@
+th{
+    text-align: center;
+}
+input{
+    width: 50%;
+    margin-top: 6px;
+    margin-left: 35px;
+    height: 20px;
+}
+.param{
+    margin-top: 5px;
+}
+.horaire{
+   width: 15%;
+}

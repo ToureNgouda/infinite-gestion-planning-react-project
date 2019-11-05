@@ -1,0 +1,33 @@
+@charset "UTF-8";
+
+
+.hotesse{
+    width:100%;
+    background-color:white;
+    text-align: center;
+    color:black;
+    margin-top: 3px;
+
+}
+.barman{
+    width:100%;
+    background-color:blue;
+    text-align: center;
+    color:white;
+    margin-top: 3px;
+}
+.superviseur{
+    width:100%;
+    background-color:violet;
+    text-align: center;
+    color:black;
+    margin-top: 3px;
+}
+.commis{
+    width:100%;
+    background-color:burlywood;
+    text-align: center;
+    color:white;
+    margin-top: 3px;
+  
+}
