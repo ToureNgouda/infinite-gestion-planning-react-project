@@ -16,7 +16,9 @@ export const employeService = {
     getVacationActuel,
     getVacationPrecedante,
     getVacationSuivante,
-    getVacationSemaine
+    getVacationSemaine,
+    getVacationSemainePrecedente,
+    getVacationSemaineSuivante
 };
 
 function getAllEmployes() {
@@ -150,6 +152,34 @@ function getVacationSuivante(){
 function getVacationSemaine(){
     const requestOptions = { headers: authHeader() };
     return axios.get(`${config.apiUrl}/vacation/getVacationsForWeek`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getVacationSemainePrecedente(state){
+    const requestOptions = { headers: authHeader() };
+    const object={
+  
+        "dateDebut": state
+        
+    };
+    return axios.post(`${config.apiUrl}/vacation/getVacationPrecedente`,object, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function getVacationSemaineSuivante(state){
+    const requestOptions = { headers: authHeader() };
+    const object={
+  
+        "dateFin": state
+        
+    };
+    return axios.post(`${config.apiUrl}/vacation/getVacationSuivante`,object, requestOptions)
     .then(response=>{
           return response;
     }).catch(error=>{

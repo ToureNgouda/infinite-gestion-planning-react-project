@@ -13,17 +13,6 @@ export default class PlanningPage extends Component {
             dateDebut: '',
             dateFin: ''
         }
-        this.getVacationSemaine();
-    }
-    getVacationSemaine() {
-        employeService.getVacationSemaine().then(result => {
-            if (result.status === 200) {
-                const dateDebut = result.data.dateDebut;
-                const dateFin = result.data.dateFin;
-                this.setState({ dateDebut });
-                this.setState({ dateFin });
-            }
-        })
     }
     render() {
 
@@ -34,14 +23,6 @@ export default class PlanningPage extends Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
-                            <img src="" />
-                            <div className="entete">
-                                <i>
-                                    <b>
-                                        Planning du  {this.state.dateDebut} au {this.state.dateFin}
-                                    </b>
-                                </i>
-                            </div>
                             <Planning />
                         </div>
                         <AppFooter />

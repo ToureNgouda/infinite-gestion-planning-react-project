@@ -7,7 +7,7 @@
     text-align: center;
     color:black;
     margin-top: 3px;
-
+    border-radius: 3px;
 }
 .barman{
     width:100%;
@@ -15,6 +15,13 @@
     text-align: center;
     color:white;
     margin-top: 3px;
+    border-radius: 3px;
+}
+.pe-7s-angle-right{
+   
+}
+.border{
+    border-color: red;
 }
 .coordonnateur{
     width:100%;
@@ -22,6 +29,7 @@
     text-align: center;
     color:white;
     margin-top: 3px;  
+    border-radius: 3px;
 }
 .superviseur{
     width:100%;
@@ -29,6 +37,26 @@
     text-align: center;
     color:black;
     margin-top: 3px;
+    border-radius: 3px;
+    
+}
+.zoneA{
+    border-color: red;
+    border-width:2px;
+    border-style:solid;
+}
+.diagramme{
+    margin-top: 35px;
+}
+.zoneB{
+    border-color: gold;
+    border-width:2px;
+    border-style:solid;
+}
+.zoneTampon{
+    border-color:black;
+    border-width:2px;
+    border-style:solid;
 }
 .commis{
     width:100%;
@@ -36,9 +64,20 @@
     text-align: center;
     color:white;
     margin-top: 3px;
+    border-radius: 3px;
   
 }
 .horaire{
     text-align: center;
     padding-top: 50px;
 }
+h1{
+    text-align: center;
+}
+div.row{
+    margin-top: -5px;
+}
+.col-md-11{
+  text-align: center;
+}
+

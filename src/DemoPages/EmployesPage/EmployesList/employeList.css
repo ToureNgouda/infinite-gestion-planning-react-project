@@ -21,6 +21,6 @@ tr{
     cursor: pointer;
 }
 tr:hover td {
-    background-color: #f9748f !important;
+    background-color: #f9748f ;
     color:white !important;
 }
