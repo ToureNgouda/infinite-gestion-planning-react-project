@@ -1,19 +1,14 @@
 import React, { Component, Fragment } from 'react';
-import AppHeader from '../../../Layout/AppHeader';
-import AppSidebar from '../../../Layout/AppSidebar';
-import AppFooter from '../../../Layout/AppFooter';
-import ReactCSSTransitionGroup from 'react-addons-css-transition-group';
-import FormInline from '../../../DemoPages/Forms/Elements/Layouts/Examples/FormInline';
 import { typeEmployeService } from '../../../services/typeEmployeService';
 import './index.css';
-import { Redirect }  from 'react-router-dom';
 import { zoneService } from '../../../services/zoneService';
 import {
     Col, Row, Card, CardBody,
     CardTitle, Button, Form, FormGroup, Label, Input, CustomInput
 } from 'reactstrap';
 import { employeService } from '../../../services/employeService';
-import { from } from 'rxjs';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 // import { Container } from './styles';
@@ -57,9 +52,16 @@ export default class EmployeCreate extends Component {
        console.log("state",this.state);
        return employeService.saveEmploye(this.state).then(resp=>{
               console.log("response ",resp);
-              if(resp.status===200){
-                this.setState({isRedirect:true})
+              if(resp && resp.status === 200){
+                toast.success(`${resp.data.prenom} ${resp.data.nom} a été ajouté avec succés`, {
+                    ptoastosition: toast.POSITION.TOP_CENTER
+                });
+                this.setState({ isRedirect:true })
                 this.props.history.push('/employes')
+              }else {
+                toast.error(`une erreur est survenue coté serveur`, {
+                    position: toast.POSITION.TOP_CENTER
+                });
               }
                  
        });
@@ -150,6 +152,7 @@ export default class EmployeCreate extends Component {
                                             </Row>
                                         </FormGroup>
                                         <Button color="primary" className="mt-2 mr-2 pull-right">Créer </Button>
+                                        <ToastContainer/>
                                     </Form>
                                 </CardBody>
                             </Card>

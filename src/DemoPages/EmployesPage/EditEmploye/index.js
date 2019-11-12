@@ -1,14 +1,14 @@
 import React, { Component, Fragment } from 'react';
 import { typeEmployeService } from '../../../services/typeEmployeService';
 import '../EmployeCreate/index';
-import { Redirect } from 'react-router-dom';
 import { zoneService } from '../../../services/zoneService';
 import {
   Col, Row, Card, CardBody,
   CardTitle, Button, Form, FormGroup, Label, Input, CustomInput
 } from 'reactstrap';
 import { employeService } from '../../../services/employeService';
-import { from } from 'rxjs';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export default class EditEmploye extends Component {
   getAllZone = () => {
@@ -60,9 +60,16 @@ export default class EditEmploye extends Component {
     console.log("state", this.state);
     return employeService.updateEmploye(this.state).then(resp => {
       console.log("response ", resp);
-      if (resp.status === 200) {
+      if (resp && resp.status === 200) {
+        toast.info(`${resp.data.prenom} ${resp.data.nom} a été modifié avec succés`, {
+          ptoastosition: toast.POSITION.TOP_CENTER
+      });
         this.setState({ isRedirect: true });
         this.props.history.push('/employes');
+      }else {
+        toast.success(`une erreur est survenue coté serveur`, {
+          ptoastosition: toast.POSITION.TOP_CENTER
+      });
       }
     });
   }
@@ -240,6 +247,7 @@ export default class EditEmploye extends Component {
                   </Row>
                 </FormGroup>
                 <Button color="primary" className="mt-2 mr-2 pull-right"> Modifier </Button>
+                <ToastContainer/>
               </Form>
             </CardBody>}
         </Card>

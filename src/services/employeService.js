@@ -18,7 +18,9 @@ export const employeService = {
     getVacationSuivante,
     getVacationSemaine,
     getVacationSemainePrecedente,
-    getVacationSemaineSuivante
+    getVacationSemaineSuivante,
+    ajouterEmployeToVacation,
+    supprimerEmployeToVacation
 };
 
 function getAllEmployes() {
@@ -180,6 +182,24 @@ function getVacationSemaineSuivante(state){
         
     };
     return axios.post(`${config.apiUrl}/vacation/getVacationSuivante`,object, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function ajouterEmployeToVacation(state){
+    const requestOptions = { headers: authHeader() };
+    return axios.post(`${config.apiUrl}/vacation/ajouterEmployeToVacation`,state, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+    });
+}
+function supprimerEmployeToVacation(state){
+    const requestOptions = { headers: authHeader() };
+    return axios.post(`${config.apiUrl}/vacation/supprimerEmployeToVacation`,state, requestOptions)
     .then(response=>{
           return response;
     }).catch(error=>{

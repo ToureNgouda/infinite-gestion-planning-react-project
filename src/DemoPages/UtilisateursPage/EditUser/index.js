@@ -1,14 +1,13 @@
 import React, { Component, Fragment } from 'react';
-import { typeEmployeService } from '../../../services/typeEmployeService';
 import './index.css';
-import { Redirect }  from 'react-router-dom';
-import { zoneService } from '../../../services/zoneService';
 import {
     Col, Row, Card, CardBody,
-    CardTitle, Button, Form, FormGroup, Label, Input, CustomInput
+    CardTitle, Button, Form, FormGroup, Input, CustomInput
 } from 'reactstrap';
 import { profilService } from '../../../services/profilService';
 import { userService } from '../../../services/userService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 // import { Container } from './styles';
@@ -47,8 +46,15 @@ export default class EmployeCreate extends Component {
        return userService.saveUser(this.state).then(resp=>{
               console.log("response ",resp);
               if(resp){
-                this.setState({isRedirect:true});
+                toast.info(`user ajouté avec succés`, {
+                    ptoastosition: toast.POSITION.TOP_CENTER
+                });
+                this.setState({ isRedirect:true });
                 this.props.history.push('/utilisateurs');
+              }else {
+                toast.error(`une erreur est survenue coté serveur `, {
+                    ptoastosition: toast.POSITION.TOP_CENTER
+                });
               }
                  
        });
@@ -109,6 +115,7 @@ export default class EmployeCreate extends Component {
                                         </FormGroup>
                                         
                                         <Button color="primary" className="mt-2 mr-2 pull-right">Créer </Button>
+                                       <ToastContainer /> 
                                     </Form>
                                 </CardBody>
                             </Card>

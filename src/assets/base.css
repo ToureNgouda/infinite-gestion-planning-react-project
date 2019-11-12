@@ -4447,7 +4447,8 @@ a.close.disabled {
   .modal-backdrop.fade {
     opacity: 0; }
   .modal-backdrop.show {
-    opacity: 0.5; }
+    opacity: 0.5;
+   }
 
 .modal-header {
   display: flex;
@@ -12333,5 +12334,9 @@ body {
 
   .header-icon {
     display: none; } }
+     
+    .ReactModal__Overlay--after-open{
+      background-color: rgba(56, 53, 53, 0.75) !important;
+    }
 
 /*# sourceMappingURL=base.css.map */

@@ -2,6 +2,14 @@ import React, { Component } from 'react';
 import { Table } from 'reactstrap';
 import { employeService } from '../../../services/employeService';
 import './index.css';
+import { typeEmployeService } from '../../../services/typeEmployeService';
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
+
 import {
     faChevronLeft, faChevronRight,
 
@@ -9,15 +17,26 @@ import {
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-    Row, Col,
+    Row, Col, Label, Button, CustomInput, Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
+
+const customStyles = {
+    content: {
+        top: '50%',
+        left: '50%',
+        right: 'auto',
+        bottom: 'auto',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)'
+    }
+};
 
 export default class Planning extends Component {
     getVacationSemaine() {
         employeService.getVacationSemaine().then(result => {
             let semaines = [];
             this.setState({ semaines });
-            if (result.status === 200) {
+            if (result && result.status === 200) {
                 const key = 0;
                 this.setState({ key });
                 const dateDebut = result.data.dateDebut;
@@ -35,6 +54,7 @@ export default class Planning extends Component {
                         key: Number
                     }
                     jour.jour = result.data.jour1;
+                    console.log("result", result.data)
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
@@ -42,8 +62,12 @@ export default class Planning extends Component {
                     const jour1H2 = result.data.jour1H2["\u0000*\u0000items"];
                     const jour1H3 = result.data.jour1H3["\u0000*\u0000items"];
                     this.setState({ jour1H1 });
-                    this.setState({ jour1H2 })
-                    this.setState({ jour1H3 })
+                    this.setState({ jour1H2 });
+                    this.setState({ jour1H3 });
+                    this.setState({ jour1Date: result.data.jour1 });
+                    this.setState({ tranche1: this.state.horaires[0] });
+                    this.setState({ tranche2: this.state.horaires[1] });
+                    this.setState({ tranche3: this.state.horaires[2] });
                     listEmployes = listEmployes.concat(jour1H1, jour1H2, jour1H3);
                 }
                 if (result.data.jour2) {
@@ -58,6 +82,7 @@ export default class Planning extends Component {
                     const jour2H1 = result.data.jour2H1["\u0000*\u0000items"];
                     const jour2H2 = result.data.jour2H2["\u0000*\u0000items"];
                     const jour2H3 = result.data.jour2H3["\u0000*\u0000items"];
+                    this.setState({ jour2Date: result.data.jour2 });
                     this.setState({ jour2H1 });
                     this.setState({ jour2H2 });
                     this.setState({ jour2H3 });
@@ -78,6 +103,7 @@ export default class Planning extends Component {
                     this.setState({ jour3H1 });
                     this.setState({ jour3H2 });
                     this.setState({ jour3H3 });
+                    this.setState({ jour3Date: result.data.jour3 });
                     listEmployes = listEmployes.concat(jour3H1, jour3H2, jour3H3);
                 }
 
@@ -96,6 +122,7 @@ export default class Planning extends Component {
                     this.setState({ jour4H1 });
                     this.setState({ jour4H2 });
                     this.setState({ jour4H3 });
+                    this.setState({ jour4Date: result.data.jour4 });
                     listEmployes = listEmployes.concat(jour4H1, jour4H2, jour4H3);
                 }
 
@@ -114,6 +141,7 @@ export default class Planning extends Component {
                     this.setState({ jour5H1 });
                     this.setState({ jour5H2 });
                     this.setState({ jour5H3 });
+                    this.setState({ jour5Date: result.data.jour5 });
                     listEmployes = listEmployes.concat(jour5H1, jour5H2, jour5H3);
                 }
 
@@ -132,6 +160,7 @@ export default class Planning extends Component {
                     this.setState({ jour6H1 });
                     this.setState({ jour6H2 });
                     this.setState({ jour6H3 });
+                    this.setState({ jour6Date: result.data.jour6 });
                     listEmployes = listEmployes.concat(jour6H1, jour6H2, jour6H3);
                 }
 
@@ -150,6 +179,7 @@ export default class Planning extends Component {
                     this.setState({ jour7H1 });
                     this.setState({ jour7H2 });
                     this.setState({ jour7H3 });
+                    this.setState({ jour7Date: result.data.jour7 });
                     listEmployes = listEmployes.concat(jour7H1, jour7H2, jour7H3);
                 }
 
@@ -164,7 +194,6 @@ export default class Planning extends Component {
                 this.setState({ listCoordonnateur });
                 this.setState({ listBarman });
                 this.setState({ listHotesse });
-                this.setState({ listEmployes })
             }
         });
     }
@@ -173,7 +202,7 @@ export default class Planning extends Component {
             let semaines = [];
             console.log("date debut", this.state.dateDebut);
             this.setState({ semaines });
-            if (result.status === 200) {
+            if (result && result.status === 200) {
                 const key = 0;
                 this.setState({ key });
                 console.log("result", result.data)
@@ -199,8 +228,9 @@ export default class Planning extends Component {
                     const jour1H2 = result.data.jour1H2["\u0000*\u0000items"];
                     const jour1H3 = result.data.jour1H3["\u0000*\u0000items"];
                     this.setState({ jour1H1 });
-                    this.setState({ jour1H2 })
-                    this.setState({ jour1H3 })
+                    this.setState({ jour1H2 });
+                    this.setState({ jour1H3 });
+                    this.setState({ jour1Date: result.data.jour1 });
                     listEmployes = listEmployes.concat(jour1H1, jour1H2, jour1H3);
 
                 }
@@ -219,6 +249,7 @@ export default class Planning extends Component {
                     this.setState({ jour2H1 });
                     this.setState({ jour2H2 });
                     this.setState({ jour2H3 });
+                    this.setState({ jour2Date: result.data.jour2 });
                     console.log("jour 2 H1", this.state.jour2H1)
                 }
                 if (result.data.jour3) {
@@ -236,6 +267,7 @@ export default class Planning extends Component {
                     this.setState({ jour3H1 });
                     this.setState({ jour3H2 });
                     this.setState({ jour3H3 });
+                    this.setState({ jour3Date: result.data.jour3 });
                     listEmployes = listEmployes.concat(jour3H1, jour3H2, jour3H3);
                 }
 
@@ -254,6 +286,7 @@ export default class Planning extends Component {
                     this.setState({ jour4H1 });
                     this.setState({ jour4H2 });
                     this.setState({ jour4H3 });
+                    this.setState({ jour4Date: result.data.jour4 });
                     listEmployes = listEmployes.concat(jour4H1, jour4H2, jour4H3);
                 }
 
@@ -272,6 +305,7 @@ export default class Planning extends Component {
                     this.setState({ jour5H1 });
                     this.setState({ jour5H2 });
                     this.setState({ jour5H3 });
+                    this.setState({ jour5Date: result.data.jour5 });
                     listEmployes = listEmployes.concat(jour5H1, jour5H2, jour5H3);
                 }
 
@@ -290,6 +324,7 @@ export default class Planning extends Component {
                     this.setState({ jour6H1 });
                     this.setState({ jour6H2 });
                     this.setState({ jour6H3 });
+                    this.setState({ jour6Date: result.data.jour6 });
                     listEmployes = listEmployes.concat(jour6H1, jour6H2, jour6H3);
                 }
 
@@ -308,6 +343,7 @@ export default class Planning extends Component {
                     this.setState({ jour7H1 });
                     this.setState({ jour7H2 });
                     this.setState({ jour7H3 });
+                    this.setState({ jour7Date: result.data.jour7 });
                     listEmployes = listEmployes.concat(jour7H1, jour7H2, jour7H3);
                 }
 
@@ -322,7 +358,6 @@ export default class Planning extends Component {
                 this.setState({ listCoordonnateur });
                 this.setState({ listBarman });
                 this.setState({ listHotesse });
-                this.setState({ listEmployes })
 
             }
         });
@@ -333,7 +368,7 @@ export default class Planning extends Component {
             let semaines = [];
             console.log("date debut", this.state.dateDebut);
             this.setState({ semaines });
-            if (result.status === 200) {
+            if (result && result.status === 200) {
                 const key = 0;
                 this.setState({ key });
                 console.log("result", result.data)
@@ -359,8 +394,9 @@ export default class Planning extends Component {
                     const jour1H2 = result.data.jour1H2["\u0000*\u0000items"];
                     const jour1H3 = result.data.jour1H3["\u0000*\u0000items"];
                     this.setState({ jour1H1 });
-                    this.setState({ jour1H2 })
-                    this.setState({ jour1H3 })
+                    this.setState({ jour1H2 });
+                    this.setState({ jour1H3 });
+                    this.setState({ jour1Date: result.data.jour1 });
                     listEmployes = listEmployes.concat(jour1H1, jour1H2, jour1H3);
 
                 }
@@ -379,6 +415,7 @@ export default class Planning extends Component {
                     this.setState({ jour2H1 });
                     this.setState({ jour2H2 });
                     this.setState({ jour2H3 });
+                    this.setState({ jour2Date: result.data.jour2 });
                     listEmployes = listEmployes.concat(jour2H1, jour2H2, jour2H3);
                 }
                 if (result.data.jour3) {
@@ -396,6 +433,7 @@ export default class Planning extends Component {
                     this.setState({ jour3H1 });
                     this.setState({ jour3H2 });
                     this.setState({ jour3H3 });
+                    this.setState({ jour3Date: result.data.jour3 });
                     listEmployes = listEmployes.concat(jour3H1, jour3H2, jour3H3);
                 }
 
@@ -414,6 +452,7 @@ export default class Planning extends Component {
                     this.setState({ jour4H1 });
                     this.setState({ jour4H2 });
                     this.setState({ jour4H3 });
+                    this.setState({ jour4Date: result.data.jour4 });
                     listEmployes = listEmployes.concat(jour4H1, jour4H2, jour4H3);
                 }
 
@@ -426,12 +465,14 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour5H1 = result.data.jour5H1["\u0000*\u0000items"];
-                    const jour5H2 = result.data.jour5H2["\u0000*\u0000items"];
-                    const jour5H3 = result.data.jour5H3["\u0000*\u0000items"];
+                    let jour5H1 = result.data.jour5H1["\u0000*\u0000items"];
+                    let jour5H2 = result.data.jour5H2["\u0000*\u0000items"];
+                    let jour5H3 = result.data.jour5H3["\u0000*\u0000items"];
+                    jour5H1 = jour5H1.sort();
                     this.setState({ jour5H1 });
                     this.setState({ jour5H2 });
                     this.setState({ jour5H3 });
+                    this.setState({ jour5Date: result.data.jour5 });
                     listEmployes = listEmployes.concat(jour5H1, jour5H2, jour5H3);
                 }
 
@@ -450,6 +491,7 @@ export default class Planning extends Component {
                     this.setState({ jour6H1 });
                     this.setState({ jour6H2 });
                     this.setState({ jour6H3 });
+                    this.setState({ jour6Date: result.data.jour6 });
                     listEmployes = listEmployes.concat(jour6H1, jour6H2, jour6H3);
                 }
 
@@ -462,37 +504,150 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour7H1 = result.data.jour7H1["\u0000*\u0000items"];
-                    const jour7H2 = result.data.jour7H2["\u0000*\u0000items"];
-                    const jour7H3 = result.data.jour7H3["\u0000*\u0000items"];
+                    let jour7H1 = result.data.jour7H1["\u0000*\u0000items"];
+                    let jour7H2 = result.data.jour7H2["\u0000*\u0000items"];
+                    let jour7H3 = result.data.jour7H3["\u0000*\u0000items"];
+                    jour7H1 = jour7H1.sort(employe => employe.typeEmploye === "Superviseur");
+                    jour7H2 = jour7H1.sort(employe => employe.typeEmploye === "Superviseur");
+                    jour7H3 = jour7H1.sort(employe => employe.typeEmploye === "Superviseur");
                     this.setState({ jour7H1 });
                     this.setState({ jour7H2 });
                     this.setState({ jour7H3 });
+                    this.setState({ jour7Date: result.data.jour7 });
                     listEmployes = listEmployes.concat(jour7H1, jour7H2, jour7H3);
                 }
 
                 this.setState({ semaines });
-                const listCommis = listEmployes.filter((employe, index) => employe.typeEmploye === "Commis Cuisine" && index === listEmployes.findIndex(emp => emp.id === employe.id));
-                const listSups = listEmployes.filter((employe, index) => employe.typeEmploye === "Superviseur" && index === listEmployes.findIndex(emp => emp.id === employe.id));
-                const listCoordonnateur = listEmployes.filter((employe, index) => employe.typeEmploye === "Coordonnateur Cuisine" && index === listEmployes.findIndex(emp => emp.id === employe.id));
-                const listBarman = listEmployes.filter((employe, index) => employe.typeEmploye === "Barman" && index === listEmployes.findIndex(emp => emp.id === employe.id));
-                const listHotesse = listEmployes.filter((employe, index) => employe.typeEmploye === "Hotesse" && index === listEmployes.findIndex(emp => emp.id === employe.id))
-                this.setState({ listCommis });
-                this.setState({ listSups });
-                this.setState({ listCoordonnateur });
-                this.setState({ listBarman });
-                this.setState({ listHotesse });
-                this.setState( { listEmployes})
+                // const listCommis = listEmployes.filter((employe, index) => employe.typeEmploye === "Commis Cuisine" && index === listEmployes.findIndex(emp => emp.id === employe.id));
+                // const listSups = listEmployes.filter((employe, index) => employe.typeEmploye === "Superviseur" && index === listEmployes.findIndex(emp => emp.id === employe.id));
+                // const listCoordonnateur = listEmployes.filter((employe, index) => employe.typeEmploye === "Coordonnateur Cuisine" && index === listEmployes.findIndex(emp => emp.id === employe.id));
+                // const listBarman = listEmployes.filter((employe, index) => employe.typeEmploye === "Barman" && index === listEmployes.findIndex(emp => emp.id === employe.id));
+                // const listHotesse = listEmployes.filter((employe, index) => employe.typeEmploye === "Hotesse" && index === listEmployes.findIndex(emp => emp.id === employe.id))
+                // this.setState({ listCommis });
+                // this.setState({ listSups });
+                // this.setState({ listCoordonnateur });
+                // this.setState({ listBarman });
+                // this.setState({ listHotesse });
 
             }
         });
     }
+    getListEmployes() {
+        employeService.getAllEmployes().then(result => {
+            if (result && result.status === 200) {
+                this.setState({ listEmployes: result.data });
+                this.setState({ idEmploye: this.state.listEmployes[0].id });
+                this.setState({ employe: this.state.listEmployes[0] });
+            }
+        });
+    };
+    handleChange = e => {
+        const { name, value } = e.target;
+        this.setState({ [name]: value });
+        if (name === "idEmploye") {
+            employeService.getEmploye(value).then(result => {
+                if (result.status === 200) {
+                    const employe = result.data;
+                    this.setState({ employe });
+                };
+            });
+        }
+    }
+    handleChangeDate = date => {
+        this.setState({ date });
+    }
+    handleSubmit = () => {
+        console.log("state", this.state.date);
+        console.log("id employe", this.state.idEmploye);
+        console.log("tranche horaire", this.state.idTranche)
+        employeService.ajouterEmployeToVacation(this.state).then(result => {
+            console.log("result", result);
+            if (result && result.status === 200) {
+                const date = result.data.date;
+                let dateDebut = '';
+                let dateFin = '';
+                if (result.data.tranche_horaire_id === 1) {
+                    dateDebut = "08h";
+                    dateFin = "16h"
+                } else if (result.data.tranche_horaire_id === 2) {
+                    dateDebut = "16h";
+                    dateFin = "00h"
+                } else {
+                    dateDebut = "00h";
+                    dateFin = "08h"
+                }
+                this.getVacationSemaine();
+                toast.success(`${this.state.employe.prenom} ${this.state.employe.nom} a été ajouté avec succés à la vacation du ${date} de ${dateDebut} à ${dateFin}`, {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                this.setState({ date: new Date() });
+            } else {
+                toast.error(`une erreur est survenue coté serveur veuillez réessayer svp  `, {
+                    position: toast.POSITION.TOP_CENTER
+                });
+            }
+        })
+    }
+    getAllTranchsHoraires() {
+        typeEmployeService.getHoraire().then(result => {
+            console.log("result", result)
+            if (result && result.status === 200) {
+                const horaires = result.data;
+                this.setState({ horaires });
+                this.setState({ idTranche: horaires[0].id });
+            }
+        });
+    }
+    handleDelete = (employe, tranche, date) => {
+        console.log("fonction appele", employe)
+        this.setState({ modalIsOpen: true });
+        this.setState({ idEmploye: employe.id });
+        this.setState({ employe });
+        this.setState({ idTranche: tranche.id });
+        this.setState({ dateVacation: date });
+        this.setState({ tranche });
+
+    }
+    openModal = () => {
+        this.setState({ modalIsOpen: true });
+    }
+
+    afterOpenModal = () => {
+        // references are now sync'd and can be accessed.
+        this.subtitle.style.color = '#f00';
+    }
+
+    closeModal = () => {
+        this.setState({ modalIsOpen: false });
+    }
+    handleDeleteSubmit = () => {
+        console.log("state", this.state.dateVacation);
+        console.log("id employe", this.state.idEmploye);
+        console.log("tranche horaire", this.state.idTranche)
+        employeService.supprimerEmployeToVacation(this.state).then(result => {
+            this.setState({ modalIsOpen: false });
+            if (result && result.status === 200) {
+                const date = result.data.date;
+                this.getVacationSemaine();
+                toast.success(`${this.state.employe.prenom} ${this.state.employe.nom} a été supprimé avec succés de la vacation du ${date} de ${this.state.tranche.heureDebut}-${this.state.tranche.heureFin}`, {
+                    position: toast.POSITION.TOP_CENTER
+                });
+            } else {
+                toast.error(`une erreur est survenue coté serveur veuillez réessayer svp  `, {
+                    position: toast.POSITION.TOP_CENTER
+                });
+            }
+        })
+
+    }
 
     constructor(props) {
-
         super(props);
         this.getVacationSemaine();
+        this.getListEmployes();
+        this.getAllTranchsHoraires();
         this.state = {
+            date: new Date(),
             semaines: [],
             dateDebut: '',
             dateFin: '',
@@ -518,6 +673,16 @@ export default class Planning extends Component {
             jour7H1: [],
             jour7H2: [],
             jour7H3: [],
+            jour1Date: '',
+            jour2Date: '',
+            jour3Date: '',
+            jour4Date: '',
+            jour5Date: '',
+            jour6Date: '',
+            jour7Date: '',
+            tranche1: '',
+            tranche2: '',
+            tranche3: '',
             isLastVacationOfMonth: false,
             isFirstVacationOfMonth: false,
             listCommis: [],
@@ -526,12 +691,29 @@ export default class Planning extends Component {
             listCoordonnateur: [],
             listHotesse: [],
             listEmployes: [],
+            horaires: [],
+            idTranche: '',
+            idEmploye: '',
+            modalIsOpen: false,
+            dateVacation: '',
+            employe: {},
+            tranche: {},
 
         }
     }
     render() {
         return (
             <div>
+                <Modal isOpen={this.state.modalIsOpen} toggle={this.closeModal}>
+                    <ModalHeader toggle={this.closeModal}>Supprimer un employé à une vacation</ModalHeader>
+                    <ModalBody>
+                        Etes vous  sûr de vouloir supprimer <b> {this.state.employe.prenom} {this.state.employe.nom} </b><br /> de la vacation du <b>{this.state.dateVacation} </b> de {this.state.tranche.heureDebut}-{this.state.tranche.heureFin}
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="secondary" onClick={this.closeModal}>Annuler</Button>{' '}
+                        <Button color="primary" onClick={this.handleDeleteSubmit}>Confirmer</Button>
+                    </ModalFooter>
+                </Modal>
                 <Row>
                     <Col md="11">
                         <div >
@@ -574,35 +756,35 @@ export default class Planning extends Component {
                                         this.state.jour1H1.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -612,35 +794,35 @@ export default class Planning extends Component {
                                         this.state.jour2H1.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -649,35 +831,35 @@ export default class Planning extends Component {
                                         this.state.jour3H1.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -686,35 +868,35 @@ export default class Planning extends Component {
                                         this.state.jour4H1.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
-                                                {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" && 
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -723,35 +905,35 @@ export default class Planning extends Component {
                                         this.state.jour5H1.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)} >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -760,35 +942,35 @@ export default class Planning extends Component {
                                         this.state.jour6H1.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                     <div className="barman zoneA"> {employe.numero} { employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -797,35 +979,35 @@ export default class Planning extends Component {
                                         this.state.jour7H1.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)} >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche1, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -843,35 +1025,35 @@ export default class Planning extends Component {
                                         this.state.jour1H2.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -881,35 +1063,35 @@ export default class Planning extends Component {
                                         this.state.jour2H2.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -918,35 +1100,35 @@ export default class Planning extends Component {
                                         this.state.jour3H2.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -955,35 +1137,35 @@ export default class Planning extends Component {
                                         this.state.jour4H2.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -992,35 +1174,35 @@ export default class Planning extends Component {
                                         this.state.jour5H2.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1029,35 +1211,35 @@ export default class Planning extends Component {
                                         this.state.jour6H2.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1066,35 +1248,35 @@ export default class Planning extends Component {
                                         this.state.jour7H2.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche2, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1112,35 +1294,35 @@ export default class Planning extends Component {
                                         this.state.jour1H3.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour1Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1150,35 +1332,35 @@ export default class Planning extends Component {
                                         this.state.jour2H3.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)} >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour2Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1187,35 +1369,35 @@ export default class Planning extends Component {
                                         this.state.jour3H3.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)} >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour3Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1224,35 +1406,35 @@ export default class Planning extends Component {
                                         this.state.jour4H3.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour4Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1261,35 +1443,35 @@ export default class Planning extends Component {
                                         this.state.jour5H3.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour5Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1298,35 +1480,35 @@ export default class Planning extends Component {
                                         this.state.jour6H3.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)} > {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour6Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1335,35 +1517,35 @@ export default class Planning extends Component {
                                         this.state.jour7H3.map(employe => (
                                             <div key={employe.id}>
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneA" &&
-                                                    <div className="superviseur zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && employe.zone === "ZoneB" &&
-                                                    <div className="superviseur zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Superviseur" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="superviseur zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="superviseur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneA" &&
-                                                    <div className="hotesse zoneA">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && employe.zone === "ZoneB" &&
-                                                    <div className="hotesse zoneB">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Hotesse" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="hotesse zoneTampon">{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="hotesse zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneA" &&
-                                                    <div className="barman zoneA"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && employe.zone === "ZoneB" &&
-                                                    <div className="barman zoneB"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Barman" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="barman zoneTampon"> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="barman zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}> {employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="commis zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="commis zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Commis Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="commis zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="commis zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneA" &&
-                                                    <div className="coordonnateur zoneA" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneA" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && employe.zone === "ZoneB" &&
-                                                    <div className="coordonnateur zoneB" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneB" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                                 {employe.typeEmploye === "Coordonnateur Cuisine" && (employe.zone === "ZoneC" || employe.zone === "ZoneD") &&
-                                                    <div className="coordonnateur zoneTampon" >{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
+                                                    <div className="coordonnateur zoneTampon" onClick={() => this.handleDelete(employe, this.state.tranche3, this.state.jour7Date)}>{employe.numero} {employe.prenom.charAt(0)}. {employe.nom}</div>}
                                             </div>
 
                                         ))
@@ -1375,9 +1557,10 @@ export default class Planning extends Component {
                         </tr>
                     </tbody>
                 </Table>
-                {this.state.listEmployes.length > 0 && 
-                <div className="diagramme">
-                    <Row >
+                {
+                    this.state.listEmployes.length > 0 &&
+                    <div className="diagramme">
+                        {/* <Row >
                         <Col md="3">
                             <Table bordered >
                                 <thead>
@@ -1460,15 +1643,79 @@ export default class Planning extends Component {
                                       ))}
                                 </tbody>
                             </Table>
-                        </Col>
+                        </Col> */}
+                        <Row >
+                            <Col md="12">
+                                <Label> <b>Ajouter un employé à une vacation</b></Label>
+                            </Col>
+                        </Row>
+                        <Row>
+                            <Col md="3">
+                                <CustomInput type="select" name="idEmploye" id="idEmploye"
+                                    onChange={this.handleChange}>
+                                    {this.state.listEmployes.map(e =>
+                                        <option value={e.id} key={e.id} >{e.numero} {e.nom} {e.prenom}</option>
+                                    )}
+                                </CustomInput>
+                            </Col>
+                            <Col md="3">
+                                {/* <Input placeholder="Date" onKeyDown={this.showDate} /> */}
+                                <DatePicker placeholderText="Date"
+                                    popperPlacement="botom-start"
+                                    selected={this.state.date}
+                                    onChange={this.handleChangeDate}
+                                    className="date" />
+                            </Col>
+                            <Col md="3">
+                                <CustomInput type="select" name="idTranche" id="idTranche"
+                                    onChange={this.handleChange}>
+                                    {this.state.horaires.map(t =>
+                                        <option value={t.id} key={t.id}>{t.heureDebut}-{t.heureFin}</option>
+                                    )}
+                                </CustomInput>
+                            </Col>
+                            <Col md="3">
+                                <Button onClick={this.handleSubmit} className="btn btn-default btn-lg btn-block"><b>Valider</b></Button>
+                                <ToastContainer />
+                            </Col>
+                        </Row>
+                        <div className="diagramme">
+                            <Row>
+                                <Col md="12">
+                                    <Label><b>Diagramme</b></Label>
+                                </Col>
+                            </Row>
+                            <Row>
+                                <Col md="1">
+                                    <div className="superviseurD"> </div>
+                                    <div className="barmanD"></div>
+                                    <div className="coordonnateurD"></div>
+                                    <div className="commisD"> </div>
+                                    <div className="hotesseD"></div>
+                                </Col>
+                                <Col md="3">
+                                    <div className="nomZone" > Superviseur</div>
+                                    <div className="nomZone">Barman</div>
+                                    <div className="nomZone">Coordonnateur Cuisine</div>
+                                    <div className="nomZone">Commis Cuisine</div>
+                                    <div className="nomZone">Hotesse</div>
+                                </Col>
 
-                    </Row>
-                </div>}
-
-            </div>
-
-
+                                <Col md="1">
+                                    <div className="zoneAD"> </div>
+                                    <div className="zoneBD"></div>
+                                    <div className="zoneTamponD"></div>
+                                </Col>
+                                <Col md="3">
+                                    <div className="nomZone" > Zone A</div>
+                                    <div className="nomZone">Zone B</div>
+                                    <div className="nomZone">Zone Tampon</div>
+                                </Col>
+                            </Row>
+                        </div>
+                    </div>
+                }
+            </div >
         );
     }
-
 }

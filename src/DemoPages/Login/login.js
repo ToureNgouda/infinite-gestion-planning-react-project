@@ -11,6 +11,8 @@ import {
 } from 'reactstrap';
 import { from } from 'rxjs';
 import './login.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // import { Container } from './styles';
 
@@ -32,9 +34,12 @@ export default class Login extends Component {
     authenticationService.login(this.state)
       .then(
         response => {
-          console.log("response",response)
-            if(response.status===200){
+            if(response && response.status === 200){
               this.setState({redirect:true}) 
+            }else{
+              toast.error(`une erreur est survenue coté serveur veuillez réessayer svp ou verifier le login et le mot de passe `, {
+                position: toast.POSITION.TOP_CENTER
+            });
             }
         },
         error => {
@@ -71,11 +76,13 @@ export default class Login extends Component {
                       placeholder="Entre votre mot de passe" value={this.state.password} onChange={this.handleChange} />
                   </FormGroup>
                   <Button color="primary" className="mt-1" >Connexion</Button>
+                 <ToastContainer /> 
                   <CustomInput type="checkbox" id="exampleCustomCheckbox"
                     label="Se souvenir de moi" />
                 </Form>
               </CardBody>
             </Card>
+            <ToastContainer /> 
           </Col>
         </Row>
       </div>
