@@ -16,3 +16,6 @@ input{
 .btn-primary{
     margin-right: 45x;
 }
+input{
+    text-align: center;
+}

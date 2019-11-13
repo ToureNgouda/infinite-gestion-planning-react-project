@@ -74,28 +74,37 @@ const data2 = [
 export default class AnalyticsDashboard1 extends Component {
     getVacationActuel() {
         employeService.getVacationActuel().then(resp => {
-            if (resp.status === 200) {
+            if (resp && resp.status === 200) {
                 console.log("vacation actuel", resp);
-                 const employesInVacationActuel = resp.data;
-                 this.setState({ employesInVacationActuel })
+                const employesInVacationActuel = resp.data.employes;
+                this.setState({ employesInVacationActuel });
+                this.setState({ heureDebutVactuel: resp.data.heureDebut });
+                this.setState({ heureFinVactuel: resp.data.heureFin });
+                this.setState({ date: resp.data.date });
             };
         });
     }
     getVacationPrecedante() {
         employeService.getVacationPrecedante().then(resp => {
-            if (resp.status === 200) {
-                console.log("vacation precedente", resp);
-                 const employesInVacationPrecedante = resp.data;
-                 this.setState({ employesInVacationPrecedante })
+            console.log("vacation precedente", resp);
+            if (resp && resp.status === 200) {
+                const employesInVacationPrecedante = resp.data.employes;
+                this.setState({ employesInVacationPrecedante });
+                this.setState({ heureDebutVprec: resp.data.heureDebut });
+                this.setState({ heureFinVprec: resp.data.heureFin });
+                this.setState({ date: resp.data.date });
             };
         });
     }
     getVacationSuivante() {
         employeService.getVacationSuivante().then(resp => {
-            if (resp.status === 200) {
+            if (resp && resp.status === 200) {
                 console.log("vacation suivante", resp);
-                 const employesInVacationSuivante = resp.data;
-                 this.setState({ employesInVacationSuivante })
+                const employesInVacationSuivante = resp.data.employes;
+                this.setState({ employesInVacationSuivante });
+                this.setState({ heureDebutVsuiv: resp.data.heureDebut });
+                this.setState({ heureFinVsuiv: resp.data.heureFin });
+                this.setState({ dateSuivant: resp.data.date });
             };
         });
     }
@@ -114,7 +123,15 @@ export default class AnalyticsDashboard1 extends Component {
             nombreEmployes: 0,
             employesInVacationActuel: [],
             employesInVacationSuivante: [],
-            employesInVacationPrecedante: []
+            employesInVacationPrecedante: [],
+            date: '',
+            heureDebutVactuel: '',
+            heureFinVactuel: '',
+            heureDebutVsuiv: '',
+            heureFinVsuiv: '',
+            heureDebutVprec: '',
+            heureFinVprec: '',
+            dateSuivant: '',
 
         };
         this.toggle = this.toggle.bind(this);
@@ -190,13 +207,13 @@ export default class AnalyticsDashboard1 extends Component {
                                 <Card className="main-card mb-3">
                                     <CardBody>
                                         <CardTitle>
-                                            Vacation actuel
-                                                </CardTitle>
+                                            Vacation actuel <br /> {this.state.date} à {this.state.heureDebutVactuel}-{this.state.heureFinVactuel}
+                                        </CardTitle>
 
-                                        <Table responsive striped className="mb-0">
-                                        <thead>
+                                        <Table responsive  className="mb-0">
+                                            <thead>
                                                 <tr>
-                                                   <th>N°</th>
+                                                    <th>N°</th>
                                                     <th>PRENOM</th>
                                                     <th>NOM</th>
                                                     <th>TYPE</th>
@@ -220,13 +237,13 @@ export default class AnalyticsDashboard1 extends Component {
                                 <Card className="main-card mb-3">
                                     <CardBody>
                                         <CardTitle>
-                                            Vacation precédente
-                                                </CardTitle>
+                                            Vacation precédente <br /> {this.state.date} à {this.state.heureDebutVprec}-{this.state.heureFinVprec}
+                                        </CardTitle>
 
                                         <Table responsive striped className="mb-0">
-                                        <thead>
+                                            <thead>
                                                 <tr>
-                                                   <th>N°</th>
+                                                    <th>N°</th>
                                                     <th>PRENOM</th>
                                                     <th>NOM</th>
                                                     <th>TYPE</th>
@@ -250,13 +267,13 @@ export default class AnalyticsDashboard1 extends Component {
                                 <Card className="main-card mb-3">
                                     <CardBody>
                                         <CardTitle>
-                                            Vacation suivante
-                                                </CardTitle>
+                                            Vacation suivante <br /> {this.state.dateSuivant} à {this.state.heureDebutVsuiv}-{this.state.heureFinVsuiv}
+                                        </CardTitle>
 
                                         <Table responsive striped className="mb-0">
                                             <thead>
                                                 <tr>
-                                                   <th>N°</th>
+                                                    <th>N°</th>
                                                     <th>PRENOM</th>
                                                     <th>NOM</th>
                                                     <th>TYPE</th>
@@ -272,7 +289,7 @@ export default class AnalyticsDashboard1 extends Component {
                                                     </tr>
                                                 ))}
                                             </tbody>
-                                           
+
                                         </Table>
                                     </CardBody>
                                 </Card>

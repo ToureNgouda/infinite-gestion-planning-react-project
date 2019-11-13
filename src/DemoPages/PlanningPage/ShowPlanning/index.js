@@ -203,6 +203,7 @@ export default class Planning extends Component {
             console.log("date debut", this.state.dateDebut);
             this.setState({ semaines });
             if (result && result.status === 200) {
+                console.log("result",result.data);
                 const key = 0;
                 this.setState({ key });
                 console.log("result", result.data)
@@ -398,7 +399,6 @@ export default class Planning extends Component {
                     this.setState({ jour1H3 });
                     this.setState({ jour1Date: result.data.jour1 });
                     listEmployes = listEmployes.concat(jour1H1, jour1H2, jour1H3);
-
                 }
                 if (result.data.jour2) {
                     const jour = {
@@ -507,9 +507,6 @@ export default class Planning extends Component {
                     let jour7H1 = result.data.jour7H1["\u0000*\u0000items"];
                     let jour7H2 = result.data.jour7H2["\u0000*\u0000items"];
                     let jour7H3 = result.data.jour7H3["\u0000*\u0000items"];
-                    jour7H1 = jour7H1.sort(employe => employe.typeEmploye === "Superviseur");
-                    jour7H2 = jour7H1.sort(employe => employe.typeEmploye === "Superviseur");
-                    jour7H3 = jour7H1.sort(employe => employe.typeEmploye === "Superviseur");
                     this.setState({ jour7H1 });
                     this.setState({ jour7H2 });
                     this.setState({ jour7H3 });
