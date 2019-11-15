@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './index.css';
 import { Table } from 'reactstrap';
 import { gestionHoraireService } from '../../../services/gestionHoraireService';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 // import { Container } from './styles';
 
@@ -94,6 +96,7 @@ export default class ShowParametres extends Component {
                     const jour7H3 = result.data.jour7H3["\u0000*\u0000original"];
                     this.setState({ jour7H3 })
                 }
+                this.setState({ getParams: true})
             }
         })
     }
@@ -123,7 +126,22 @@ export default class ShowParametres extends Component {
             jour7H1: {},
             jour7H2: {},
             jour7H3: {},
+            getParams:false
         }
+    }
+    handleSubmit=()=>{
+        gestionHoraireService.updateGestionHoraire(this.state).then(result=>{
+              if(result && result.status === 200){
+                   this.getAllGestionHoraire();
+                    toast.success(`les paramétres ont été mis à jour avec succés`, {
+                    position: toast.POSITION.TOP_CENTER
+                });
+              }else{
+                toast.error(`une erreur interne est survenue coté serveur`, {
+                    position: toast.POSITION.TOP_CENTER
+                });
+              };
+        });
     }
     handleChange = (e) => {
         const { name, value } = e.target;
@@ -587,8 +605,9 @@ export default class ShowParametres extends Component {
     render() {
         return (
             <div>
+                 <ToastContainer />
+                 {this.state.getParams && 
                 <Table bordered>
-
                     <thead>
                         <tr>
                             <th></th>
@@ -616,23 +635,23 @@ export default class ShowParametres extends Component {
                                 {this.state.jour1H1 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ1H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ1H1" onChange={this.handleChange}
                                                 value={this.state.jour1H1.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ1H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ1H1" onChange={this.handleChange}
                                                 value={this.state.jour1H1.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ1H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ1H1" onChange={this.handleChange}
                                                 value={this.state.jour1H1.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ1H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ1H1" onChange={this.handleChange}
                                                 value={this.state.jour1H1.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ1H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ1H1" onChange={this.handleChange}
                                                 value={this.state.jour1H1.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -642,23 +661,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour2H1 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ2H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ2H1" onChange={this.handleChange}
                                                 value={this.state.jour2H1.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ2H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ2H1" onChange={this.handleChange}
                                                 value={this.state.jour2H1.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ2H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ2H1" onChange={this.handleChange}
                                                 value={this.state.jour2H1.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ2H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ2H1" onChange={this.handleChange}
                                                 value={this.state.jour2H1.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ2H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ2H1" onChange={this.handleChange}
                                                 value={this.state.jour2H1.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -668,23 +687,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour3H1 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ3H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ3H1" onChange={this.handleChange}
                                                 value={this.state.jour3H1.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ3H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ3H1" onChange={this.handleChange}
                                                 value={this.state.jour3H1.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ3H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ3H1" onChange={this.handleChange}
                                                 value={this.state.jour3H1.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ3H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ3H1" onChange={this.handleChange}
                                                 value={this.state.jour3H1.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ3H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ3H1" onChange={this.handleChange}
                                                 value={this.state.jour3H1.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -694,23 +713,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour4H1 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ4H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ4H1" onChange={this.handleChange}
                                                 value={this.state.jour4H1.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ4H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ4H1" onChange={this.handleChange}
                                                 value={this.state.jour4H1.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ4H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ4H1" onChange={this.handleChange}
                                                 value={this.state.jour4H1.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ4H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ4H1" onChange={this.handleChange}
                                                 value={this.state.jour4H1.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ4H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ4H1" onChange={this.handleChange}
                                                 value={this.state.jour4H1.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -719,23 +738,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour5H1 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ5H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ5H1" onChange={this.handleChange}
                                                 value={this.state.jour5H1.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ5H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ5H1" onChange={this.handleChange}
                                                 value={this.state.jour1H1.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ5H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ5H1" onChange={this.handleChange}
                                                 value={this.state.jour5H1.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ5H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ5H1" onChange={this.handleChange}
                                                 value={this.state.jour5H1.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ5H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ5H1" onChange={this.handleChange}
                                                 value={this.state.jour5H1.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -744,23 +763,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour6H1 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ6H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ6H1" onChange={this.handleChange}
                                                 value={this.state.jour6H1.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ6H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ6H1" onChange={this.handleChange}
                                                 value={this.state.jour6H1.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ6H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ6H1" onChange={this.handleChange}
                                                 value={this.state.jour6H1.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ6H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ6H1" onChange={this.handleChange}
                                                 value={this.state.jour6H1.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ6H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ6H1" onChange={this.handleChange}
                                                 value={this.state.jour6H1.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -769,23 +788,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour7H1 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ7H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ7H1" onChange={this.handleChange}
                                                 value={this.state.jour7H1.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ7H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ7H1" onChange={this.handleChange}
                                                 value={this.state.jour7H1.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ7H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ7H1" onChange={this.handleChange}
                                                 value={this.state.jour7H1.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ7H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ7H1" onChange={this.handleChange}
                                                 value={this.state.jour7H1.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ7H1" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ7H1" onChange={this.handleChange}
                                                 value={this.state.jour7H1.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -804,23 +823,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour1H2 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ1H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ1H2" onChange={this.handleChange}
                                                 value={this.state.jour1H2.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ1H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ1H2" onChange={this.handleChange}
                                                 value={this.state.jour1H2.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ1H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ1H2" onChange={this.handleChange}
                                                 value={this.state.jour1H2.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ1H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ1H2" onChange={this.handleChange}
                                                 value={this.state.jour1H2.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ1H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ1H2" onChange={this.handleChange}
                                                 value={this.state.jour1H2.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -829,23 +848,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour2H2 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ2H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ2H2" onChange={this.handleChange}
                                                 value={this.state.jour2H2.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ2H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ2H2" onChange={this.handleChange}
                                                 value={this.state.jour2H2.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ2H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ2H2" onChange={this.handleChange}
                                                 value={this.state.jour2H2.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ2H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ2H2" onChange={this.handleChange}
                                                 value={this.state.jour2H2.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ2H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ2H2" onChange={this.handleChange}
                                                 value={this.state.jour2H2.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -854,23 +873,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour3H2 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ3H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ3H2" onChange={this.handleChange}
                                                 value={this.state.jour3H2.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ3H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ3H2" onChange={this.handleChange}
                                                 value={this.state.jour3H2.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ3H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ3H2" onChange={this.handleChange}
                                                 value={this.state.jour3H2.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ3H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ3H2" onChange={this.handleChange}
                                                 value={this.state.jour3H2.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ3H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ3H2" onChange={this.handleChange}
                                                 value={this.state.jour3H2.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -879,23 +898,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour4H2 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ4H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ4H2" onChange={this.handleChange}
                                                 value={this.state.jour4H2.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ4H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ4H2" onChange={this.handleChange}
                                                 value={this.state.jour4H2.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ4H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ4H2" onChange={this.handleChange}
                                                 value={this.state.jour4H2.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ4H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ4H2" onChange={this.handleChange}
                                                 value={this.state.jour4H2.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ4H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ4H2" onChange={this.handleChange}
                                                 value={this.state.jour4H2.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -904,23 +923,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour5H2 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ5H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ5H2" onChange={this.handleChange}
                                                 value={this.state.jour5H2.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ5H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ5H2" onChange={this.handleChange}
                                                 value={this.state.jour5H2.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ5H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ5H2" onChange={this.handleChange}
                                                 value={this.state.jour5H2.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ5H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ5H2" onChange={this.handleChange}
                                                 value={this.state.jour5H2.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ5H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ5H2" onChange={this.handleChange}
                                                 value={this.state.jour5H2.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -929,23 +948,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour6H2 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ6H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ6H2" onChange={this.handleChange}
                                                 value={this.state.jour6H2.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ6H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ6H2" onChange={this.handleChange}
                                                 value={this.state.jour6H2.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ6H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ6H2" onChange={this.handleChange}
                                                 value={this.state.jour6H2.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ6H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ6H2" onChange={this.handleChange}
                                                 value={this.state.jour6H2.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ6H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ6H2" onChange={this.handleChange}
                                                 value={this.state.jour6H2.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -954,23 +973,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour7H2 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ7H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ7H2" onChange={this.handleChange}
                                                 value={this.state.jour7H2.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ7H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ7H2" onChange={this.handleChange}
                                                 value={this.state.jour7H2.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ7H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ7H2" onChange={this.handleChange}
                                                 value={this.state.jour7H2.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ7H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ7H2" onChange={this.handleChange}
                                                 value={this.state.jour7H2.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ7H2" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ7H2" onChange={this.handleChange}
                                                 value={this.state.jour7H2.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -989,23 +1008,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour1H3 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ1H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ1H3" onChange={this.handleChange}
                                                 value={this.state.jour1H3.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ1H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ1H3" onChange={this.handleChange}
                                                 value={this.state.jour1H3.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ1H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ1H3" onChange={this.handleChange}
                                                 value={this.state.jour1H3.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ1H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ1H3" onChange={this.handleChange}
                                                 value={this.state.jour1H3.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ1H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ1H3" onChange={this.handleChange}
                                                 value={this.state.jour1H3.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -1014,23 +1033,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour2H3 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ2H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ2H3" onChange={this.handleChange}
                                                 value={this.state.jour2H3.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ2H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ2H3" onChange={this.handleChange}
                                                 value={this.state.jour2H3.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ2H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ2H3" onChange={this.handleChange}
                                                 value={this.state.jour2H3.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ2H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ2H3" onChange={this.handleChange}
                                                 value={this.state.jour2H3.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ2H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ2H3" onChange={this.handleChange}
                                                 value={this.state.jour2H3.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -1039,23 +1058,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour3H3 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ3H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ3H3" onChange={this.handleChange}
                                                 value={this.state.jour3H3.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ3H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ3H3" onChange={this.handleChange}
                                                 value={this.state.jour3H3.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ3H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ3H3" onChange={this.handleChange}
                                                 value={this.state.jour3H3.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ3H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ3H3" onChange={this.handleChange}
                                                 value={this.state.jour3H3.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ3H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ3H3" onChange={this.handleChange}
                                                 value={this.state.jour3H3.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -1064,23 +1083,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour4H3 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ4H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ4H3" onChange={this.handleChange}
                                                 value={this.state.jour4H3.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ4H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ4H3" onChange={this.handleChange}
                                                 value={this.state.jour4H3.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ4H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ4H3" onChange={this.handleChange}
                                                 value={this.state.jour4H3.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ4H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ4H3" onChange={this.handleChange}
                                                 value={this.state.jour4H3.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ4H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ4H3" onChange={this.handleChange}
                                                 value={this.state.jour4H3.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -1089,23 +1108,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour5H3 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ5H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ5H3" onChange={this.handleChange}
                                                 value={this.state.jour5H3.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ5H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ5H3" onChange={this.handleChange}
                                                 value={this.state.jour5H3.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ5H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ5H3" onChange={this.handleChange}
                                                 value={this.state.jour5H3.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ5H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ5H3" onChange={this.handleChange}
                                                 value={this.state.jour5H3.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ5H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ5H3" onChange={this.handleChange}
                                                 value={this.state.jour5H3.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -1114,23 +1133,23 @@ export default class ShowParametres extends Component {
                             {this.state.jour6H3 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ6H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ6H3" onChange={this.handleChange}
                                                 value={this.state.jour6H3.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ6H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ6H3" onChange={this.handleChange}
                                                 value={this.state.jour6H3.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ6H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ6H3" onChange={this.handleChange}
                                                 value={this.state.jour6H3.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ6H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ6H3" onChange={this.handleChange}
                                                 value={this.state.jour6H3.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ6H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ6H3" onChange={this.handleChange}
                                                 value={this.state.jour6H3.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
@@ -1139,33 +1158,34 @@ export default class ShowParametres extends Component {
                             {this.state.jour7H3 &&
                                     <div>
                                         <div>
-                                            <input type="number" name="supJ7H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="supJ7H3" onChange={this.handleChange}
                                                 value={this.state.jour7H3.nombreDeSuperviseur} />
                                         </div>
                                         <div>
-                                            <input type="number" name="commisJ7H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="commisJ7H3" onChange={this.handleChange}
                                                 value={this.state.jour7H3.nombreDeCommis} />
                                         </div>
                                         <div>
-                                            <input type="number" name="hoteJ7H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="hoteJ7H3" onChange={this.handleChange}
                                                 value={this.state.jour7H3.nombreDeHotesse} />
                                         </div>
                                         <div>
-                                            <input type="number" name="barmanJ7H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="barmanJ7H3" onChange={this.handleChange}
                                                 value={this.state.jour7H3.nombreDeBarman} />
                                         </div>
                                         <div>
-                                            <input type="number" name="coordJ7H3" onChange={this.handleChange}
+                                            <input className="params" type="number" name="coordJ7H3" onChange={this.handleChange}
                                                 value={this.state.jour7H3.nombreDeCoordonnateur} />
                                         </div>
                                     </div>}
                                 </td>
                         </tr>
                     </tbody>
-                </Table>
+                </Table>}
+                {this.state.getParams && 
                 <div className="pull-right">
-                    <button className="btn btn-primary">Enregistre</button>
-                </div>
+                    <button className="btn btn-primary" onClick={this.handleSubmit}>Enregistre</button>
+                </div>}
             </div>
 
 

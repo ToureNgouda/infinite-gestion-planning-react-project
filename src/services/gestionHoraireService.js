@@ -4,6 +4,7 @@ import { authHeader } from './helpers/auth-header';
 
 export const gestionHoraireService = {
     getAllGestionHoraire,
+    updateGestionHoraire
    
 };
 
@@ -17,6 +18,18 @@ function getAllGestionHoraire() {
         return resp;
     }).catch(error=>{
           console.log(error);
-    })
+    });
 
+}
+function updateGestionHoraire(state) {
+    // remove user from local storage to log user out
+    const requestOptions = { headers: authHeader() };
+    return axios.put(`${config.apiUrl}/gestionhoraire`,state,requestOptions)
+    .then(resp => {
+         console.log("response",resp)
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        return resp;
+    }).catch(error=>{
+          console.log(error);
+    });
 }
