@@ -7,6 +7,8 @@ import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Spinner from 'react-bootstrap-spinner'
+import { planningService } from '../../../services/planningService';
 
 
 
@@ -203,7 +205,7 @@ export default class Planning extends Component {
             console.log("date debut", this.state.dateDebut);
             this.setState({ semaines });
             if (result && result.status === 200) {
-                console.log("result",result.data);
+                console.log("result", result.data);
                 const key = 0;
                 this.setState({ key });
                 console.log("result", result.data)
@@ -695,8 +697,35 @@ export default class Planning extends Component {
             dateVacation: '',
             employe: {},
             tranche: {},
-
+            isLoading: false,
+            genererPlanningMoisProchain: true,
+            regenererPlanningMoisProchain: false,
+            regenererPlanningMoisEnCours: false,
         }
+    }
+    genererPlanningMoisProchain = () => {
+        this.setState({ isLoading: true });
+        planningService.genererPlanningMoisProchain().then(result =>{
+            if(result && result.status === 200){
+                this.setState({ isLoading: false});
+            }
+        })
+    }
+    regenererPlanningMoisProchain= ()=>{
+        this.setState({ isLoading: true});
+       planningService.regenererPlanningMoisProchain().then(result =>{
+        if(result && result.status === 200){
+            this.setState({ isLoading: false});
+        }
+       })
+    }
+    regenererPlanningMoisEnCours=()=>{
+        this.setState({ isLoading: true});
+        employeService.regenererPlanningMoisEnCours().then(result=>{
+            if(result && result.status === 200){
+                this.setState({ isLoading: false});
+            }
+        })
     }
     render() {
         return (
@@ -711,8 +740,30 @@ export default class Planning extends Component {
                         <Button color="primary" onClick={this.handleDeleteSubmit}>Confirmer</Button>
                     </ModalFooter>
                 </Modal>
+                {this.state.isLoading &&
+                    <div>
+                        <Spinner animation="border" variant="light" />
+
+                    </div>}
                 <Row>
-                    <Col md="11">
+                    <Col md="5">
+                        <div className="moisProchain">
+                            {this.state.genererPlanningMoisProchain &&
+                                <Button color="info" onClick={this.genererPlanningMoisProchain}>Generer planning mois prochain</Button>
+
+                            }
+                            {this.state.regenererPlanningMoisProchain &&
+                                <Button color="info" onClick={this.regenererPlanningMoisProchain}>Regenerer planning mois prochain</Button>
+
+                            }
+                            {this.state.regenererPlanningMoisEnCours &&
+                                <Button color="info" onClick={this.regenererPlanningMoisEnCours}>Regenerer planning mois en cours</Button>
+
+                            }
+                        </div>
+
+                    </Col>
+                    <Col md="6">
                         <div >
                             <i>
                                 <b>
@@ -721,7 +772,7 @@ export default class Planning extends Component {
                             </i>
                         </div>
                     </Col>
-                    <Col md="1">
+                    <Col md="1" className="moisProchain">
                         <div>
                             {!this.state.isFirstVacationOfMonth &&
                                 <button className="btn btn-info" onClick={this.getVacationSemainePrecedente}>

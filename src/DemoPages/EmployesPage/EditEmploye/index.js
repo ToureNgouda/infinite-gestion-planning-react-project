@@ -247,8 +247,8 @@ export default class EditEmploye extends Component {
                   </Row>
                 </FormGroup>
                 <Button color="primary" className="mt-2 mr-2 pull-right"> Modifier </Button>
-                <ToastContainer/>
               </Form>
+              <ToastContainer/>
             </CardBody>}
         </Card>
       </Fragment>)

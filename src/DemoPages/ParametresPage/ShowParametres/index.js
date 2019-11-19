@@ -130,6 +130,7 @@ export default class ShowParametres extends Component {
         }
     }
     handleSubmit=()=>{
+        console.log("jour 5 h3", this.state.jour5H3);
         gestionHoraireService.updateGestionHoraire(this.state).then(result=>{
               if(result && result.status === 200){
                    this.getAllGestionHoraire();
@@ -340,7 +341,7 @@ export default class ShowParametres extends Component {
         }
 
 
-         //commis
+         //hotesses
          if (name === "hoteJ1H1") {
             jour1H1.nombreDeHotesse = value;
             this.setState({ jour1H1 });
@@ -605,7 +606,6 @@ export default class ShowParametres extends Component {
     render() {
         return (
             <div>
-                 <ToastContainer />
                  {this.state.getParams && 
                 <Table bordered>
                     <thead>
@@ -1182,6 +1182,7 @@ export default class ShowParametres extends Component {
                         </tr>
                     </tbody>
                 </Table>}
+                <ToastContainer />
                 {this.state.getParams && 
                 <div className="pull-right">
                     <button className="btn btn-primary" onClick={this.handleSubmit}>Enregistre</button>
