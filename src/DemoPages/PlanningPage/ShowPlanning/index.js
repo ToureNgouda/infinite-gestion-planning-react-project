@@ -38,6 +38,7 @@ export default class Planning extends Component {
         employeService.getVacationSemaine().then(result => {
             let semaines = [];
             this.setState({ semaines });
+            console.log("gest vacatons semaines",result)
             if (result && result.status === 200) {
                 const key = 0;
                 this.setState({ key });
@@ -645,6 +646,7 @@ export default class Planning extends Component {
         this.getVacationSemaine();
         this.getListEmployes();
         this.getAllTranchsHoraires();
+        this.verifierPlanningIsGenerate();
         this.state = {
             date: new Date(),
             semaines: [],
@@ -698,10 +700,18 @@ export default class Planning extends Component {
             employe: {},
             tranche: {},
             isLoading: false,
-            genererPlanningMoisProchain: true,
-            regenererPlanningMoisProchain: false,
-            regenererPlanningMoisEnCours: false,
+            planningIsgenerate: false,
+            day:0
         }
+    }
+    verifierPlanningIsGenerate(){
+        planningService.verifieGenerationPlanning().then(result=>{
+              if(result && result.status ===200){
+                  this.setState({ planningIsgenerate: result.data.planningIsgenerate});
+                  this.setState({ day: result.data.day});
+                  console.log("daye",result.data.day)
+              }
+        })
     }
     genererPlanningMoisProchain = () => {
         this.setState({ isLoading: true });
@@ -724,6 +734,7 @@ export default class Planning extends Component {
         employeService.regenererPlanningMoisEnCours().then(result=>{
             if(result && result.status === 200){
                 this.setState({ isLoading: false});
+               
             }
         })
     }
@@ -748,15 +759,15 @@ export default class Planning extends Component {
                 <Row>
                     <Col md="5">
                         <div className="moisProchain">
-                            {this.state.genererPlanningMoisProchain &&
+                            {!this.state.planningIsgenerate && this.state.day >=20 && 
                                 <Button color="info" onClick={this.genererPlanningMoisProchain}>Generer planning mois prochain</Button>
 
                             }
-                            {this.state.regenererPlanningMoisProchain &&
+                            {this.state.planningIsgenerate &&
                                 <Button color="info" onClick={this.regenererPlanningMoisProchain}>Regenerer planning mois prochain</Button>
 
                             }
-                            {this.state.regenererPlanningMoisEnCours &&
+                            {!this.state.planningIsgenerate && this.state.day < 20 && 
                                 <Button color="info" onClick={this.regenererPlanningMoisEnCours}>Regenerer planning mois en cours</Button>
 
                             }

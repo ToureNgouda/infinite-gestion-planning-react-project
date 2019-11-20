@@ -5,7 +5,8 @@ import { authHeader } from './helpers/auth-header';
 export const planningService = {
     genererPlanningMoisProchain,
     regenererPlanningMoisProchain,
-    regenererPlanningMoisEnCours
+    regenererPlanningMoisEnCours,
+    verifieGenerationPlanning
 
    
 };
@@ -26,7 +27,7 @@ function genererPlanningMoisProchain() {
 function regenererPlanningMoisProchain(state) {
     // remove user from local storage to log user out
     const requestOptions = { headers: authHeader() };
-    return axios.put(`${config.apiUrl}/planning/regenerMoisProchain`,state,requestOptions)
+    return axios.get(`${config.apiUrl}/planning/regenerMoisProchain`,state,requestOptions)
     .then(resp => {
          console.log("response",resp)
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -38,7 +39,19 @@ function regenererPlanningMoisProchain(state) {
 function regenererPlanningMoisEnCours(state) {
     // remove user from local storage to log user out
     const requestOptions = { headers: authHeader() };
-    return axios.put(`${config.apiUrl}/planning/regenererMoisEnCours`,state,requestOptions)
+    return axios.get(`${config.apiUrl}/planning/regenererMoisEnCours`,state,requestOptions)
+    .then(resp => {
+         console.log("response",resp)
+        // store user details and jwt token in local storage to keep user logged in between page refreshes
+        return resp;
+    }).catch(error=>{
+          console.log(error);
+    });
+}
+function verifieGenerationPlanning() {
+    // remove user from local storage to log user out
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/planning/verifieGenerationPlanning`,requestOptions)
     .then(resp => {
          console.log("response",resp)
         // store user details and jwt token in local storage to keep user logged in between page refreshes

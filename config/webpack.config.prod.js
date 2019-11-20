@@ -60,7 +60,7 @@ module.exports = {
   externals: {
     // global app config object
     config: JSON.stringify({
-        apiUrl: 'http://planning.infiniteairport.com/back/public/api'
+        apiUrl: 'https://gestionstaffing.herokuapp.com/api'
     })
 },
   output: {
