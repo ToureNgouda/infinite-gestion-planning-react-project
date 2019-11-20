@@ -70,14 +70,14 @@ export default class Login extends Component {
                 Système de gestion du planning
 					    </span>
               <div className="wrap-input100 validate-input m-b-10 inp" data-validate = "Login obligatoire">
-						<input className="input100" type="text" name="email" placeholder="Login" onChange={this.handleChange}/>
+						<input className="input100" type="text" name="email" placeholder="Login" onChange={this.handleChange} />
 						<span className="focus-input100"></span>
 						<span className="symbol-input100">
 							<i className="fa fa-user"><FontAwesomeIcon icon={faUser}/></i>
 						</span>
 					</div>
-          <div className="wrap-input100 validate-input m-b-10" data-validate = "Mot de passe obligatoire" onChange={this.handleChange}>
-						<input className="input100" type="password" name="password" placeholder="Mot de passe"/>
+          <div className="wrap-input100 validate-input m-b-10" data-validate = "Mot de passe obligatoire" >
+						<input className="input100" type="password" name="password" placeholder="Mot de passe" onChange={this.handleChange}  />
 						<span className="focus-input100"></span>
 						<span className="symbol-input100">
 							<i className="fa fa-lock"><FontAwesomeIcon icon={faLock}/></i>

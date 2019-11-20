@@ -20,7 +20,7 @@
 tr{
     cursor: pointer;
 }
-tr:hover td {
+.employeslist:hover {
     background-color: #f9748f ;
     color:white !important;
 }

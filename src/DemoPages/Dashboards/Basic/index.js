@@ -240,7 +240,7 @@ export default class AnalyticsDashboard1 extends Component {
                                             Vacation precédente <br /> {this.state.date} à {this.state.heureDebutVprec}-{this.state.heureFinVprec}
                                         </CardTitle>
 
-                                        <Table responsive striped className="mb-0">
+                                        <Table responsive  className="mb-0">
                                             <thead>
                                                 <tr>
                                                     <th>N°</th>
@@ -270,7 +270,7 @@ export default class AnalyticsDashboard1 extends Component {
                                             Vacation suivante <br /> {this.state.dateSuivant} à {this.state.heureDebutVsuiv}-{this.state.heureFinVsuiv}
                                         </CardTitle>
 
-                                        <Table responsive striped className="mb-0">
+                                        <Table responsive className="mb-0">
                                             <thead>
                                                 <tr>
                                                     <th>N°</th>

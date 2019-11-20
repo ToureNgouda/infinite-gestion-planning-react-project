@@ -740,7 +740,7 @@ export default class Planning extends Component {
     }
     render() {
         return (
-            <div>
+            <div className="showPlanning">
                 <Modal isOpen={this.state.modalIsOpen} toggle={this.closeModal}>
                     <ModalHeader toggle={this.closeModal}>Supprimer un employé à une vacation</ModalHeader>
                     <ModalBody>
@@ -758,7 +758,7 @@ export default class Planning extends Component {
                     </div>}
                 <Row>
                     <Col md="5">
-                        <div className="moisProchain">
+                        <div className="generer">
                             {!this.state.planningIsgenerate && this.state.day >=20 && 
                                 <Button color="info" onClick={this.genererPlanningMoisProchain}>Generer planning mois prochain</Button>
 
@@ -774,8 +774,8 @@ export default class Planning extends Component {
                         </div>
 
                     </Col>
-                    <Col md="6">
-                        <div >
+                    <Col md="4">
+                        <div className="titre">
                             <i>
                                 <b>
                                     Planning du  {this.state.dateDebut} au {this.state.dateFin}
@@ -783,8 +783,8 @@ export default class Planning extends Component {
                             </i>
                         </div>
                     </Col>
-                    <Col md="1" className="moisProchain">
-                        <div>
+                    <Col md="3" >
+                        <div className="moisProchainPred">
                             {!this.state.isFirstVacationOfMonth &&
                                 <button className="btn btn-info" onClick={this.getVacationSemainePrecedente}>
                                     <i ><FontAwesomeIcon icon={faChevronLeft} /></i>

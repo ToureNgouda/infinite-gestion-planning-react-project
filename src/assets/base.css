@@ -1476,7 +1476,8 @@ pre {
   background-color: rgba(0, 0, 0, 0.03); }
 
 .table-hover tbody tr:hover {
-  background-color: #d1f3ff; }
+  /* background-color: #d1f3ff;  */
+}
 .planning {
     background-color: white !important;
 }
@@ -1672,7 +1673,8 @@ pre {
   .table-dark.table-striped tbody tr:nth-of-type(odd) {
     background-color: rgba(255, 255, 255, 0.05); }
   .table-dark.table-hover tbody tr:hover {
-    background-color: rgba(255, 255, 255, 0.075); }
+    /* background-color: rgba(255, 255, 255, 0.075);  */
+  }
 
 @media (max-width: 575.98px) {
   .table-responsive-sm {
