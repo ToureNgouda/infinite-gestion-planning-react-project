@@ -13,7 +13,7 @@
 }
 .barman{
     width:100%;
-    background-color:blue;
+    background-color:#0000ff;
     text-align: center;
     color:white;
     margin-top: 3px;
@@ -33,7 +33,7 @@
 }
 .superviseur{
     width:100%;
-    background-color:violet;
+    background-color:#ee82ee;
     text-align: center;
     color:black;
     margin-top: 3px;
@@ -53,10 +53,10 @@
   height: 37px;
 }
 .btn-info{
-    margin-top: -25px !important;
+    margin-top: -5px !important;
 }
 .titre{
-    margin-top: -7px !important;
+    margin-top: -4px !important;
 }
 .moisProchainPred{
     margin-top: -0px;
@@ -143,7 +143,7 @@
 }
 .commis{
     width:100%;
-    background-color:burlywood;
+    background-color:#deb887;
     text-align: center;
     color:white;
     margin-top: 3px;

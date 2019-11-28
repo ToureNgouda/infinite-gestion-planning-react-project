@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { Table } from 'reactstrap';
+import { Table ,  DropdownToggle, DropdownMenu,
+    Nav, NavItem, NavLink,
+     UncontrolledButtonDropdown} from 'reactstrap';
 import { employeService } from '../../../services/employeService';
 import './index.css';
 import { typeEmployeService } from '../../../services/typeEmployeService';
@@ -10,35 +12,21 @@ import 'react-toastify/dist/ReactToastify.css';
 import Spinner from 'react-bootstrap-spinner'
 import { planningService } from '../../../services/planningService';
 
-
-
 import {
-    faChevronLeft, faChevronRight,
+    faChevronLeft, faChevronRight, faChevronDown
 
 } from '@fortawesome/free-solid-svg-icons';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
     Row, Col, Label, Button, CustomInput, Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
-
-const customStyles = {
-    content: {
-        top: '50%',
-        left: '50%',
-        right: 'auto',
-        bottom: 'auto',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)'
-    }
-};
 
 export default class Planning extends Component {
     getVacationSemaine() {
         employeService.getVacationSemaine().then(result => {
             let semaines = [];
             this.setState({ semaines });
-            console.log("gest vacatons semaines",result)
+            console.log("gest vacatons semaines", result)
             if (result && result.status === 200) {
                 const key = 0;
                 this.setState({ key });
@@ -61,9 +49,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour1H1 = result.data.jour1H1["\u0000*\u0000items"];
-                    const jour1H2 = result.data.jour1H2["\u0000*\u0000items"];
-                    const jour1H3 = result.data.jour1H3["\u0000*\u0000items"];
+                    const jour1H1 = result.data.jour1H1;
+                    const jour1H2 = result.data.jour1H2;
+                    const jour1H3 = result.data.jour1H3;
                     this.setState({ jour1H1 });
                     this.setState({ jour1H2 });
                     this.setState({ jour1H3 });
@@ -82,9 +70,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour2H1 = result.data.jour2H1["\u0000*\u0000items"];
-                    const jour2H2 = result.data.jour2H2["\u0000*\u0000items"];
-                    const jour2H3 = result.data.jour2H3["\u0000*\u0000items"];
+                    const jour2H1 = result.data.jour2H1;
+                    const jour2H2 = result.data.jour2H2;
+                    const jour2H3 = result.data.jour2H3;
                     this.setState({ jour2Date: result.data.jour2 });
                     this.setState({ jour2H1 });
                     this.setState({ jour2H2 });
@@ -100,9 +88,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour3H1 = result.data.jour3H1["\u0000*\u0000items"];
-                    const jour3H2 = result.data.jour3H2["\u0000*\u0000items"];
-                    const jour3H3 = result.data.jour3H3["\u0000*\u0000items"];
+                    const jour3H1 = result.data.jour3H1;
+                    const jour3H2 = result.data.jour3H2;
+                    const jour3H3 = result.data.jour3H3;
                     this.setState({ jour3H1 });
                     this.setState({ jour3H2 });
                     this.setState({ jour3H3 });
@@ -119,9 +107,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour4H1 = result.data.jour4H1["\u0000*\u0000items"];
-                    const jour4H2 = result.data.jour4H2["\u0000*\u0000items"];
-                    const jour4H3 = result.data.jour4H3["\u0000*\u0000items"];
+                    const jour4H1 = result.data.jour4H1;
+                    const jour4H2 = result.data.jour4H2;
+                    const jour4H3 = result.data.jour4H3;
                     this.setState({ jour4H1 });
                     this.setState({ jour4H2 });
                     this.setState({ jour4H3 });
@@ -138,9 +126,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour5H1 = result.data.jour5H1["\u0000*\u0000items"];
-                    const jour5H2 = result.data.jour5H2["\u0000*\u0000items"];
-                    const jour5H3 = result.data.jour5H3["\u0000*\u0000items"];
+                    const jour5H1 = result.data.jour5H1;
+                    const jour5H2 = result.data.jour5H2;
+                    const jour5H3 = result.data.jour5H3;
                     this.setState({ jour5H1 });
                     this.setState({ jour5H2 });
                     this.setState({ jour5H3 });
@@ -157,9 +145,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour6H1 = result.data.jour6H1["\u0000*\u0000items"];
-                    const jour6H2 = result.data.jour6H2["\u0000*\u0000items"];
-                    const jour6H3 = result.data.jour6H3["\u0000*\u0000items"];
+                    const jour6H1 = result.data.jour6H1;
+                    const jour6H2 = result.data.jour6H2;
+                    const jour6H3 = result.data.jour6H3;
                     this.setState({ jour6H1 });
                     this.setState({ jour6H2 });
                     this.setState({ jour6H3 });
@@ -176,9 +164,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour7H1 = result.data.jour7H1["\u0000*\u0000items"];
-                    const jour7H2 = result.data.jour7H2["\u0000*\u0000items"];
-                    const jour7H3 = result.data.jour7H3["\u0000*\u0000items"];
+                    const jour7H1 = result.data.jour7H1;
+                    const jour7H2 = result.data.jour7H2;
+                    const jour7H3 = result.data.jour7H3;
                     this.setState({ jour7H1 });
                     this.setState({ jour7H2 });
                     this.setState({ jour7H3 });
@@ -228,9 +216,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour1H1 = result.data.jour1H1["\u0000*\u0000items"];
-                    const jour1H2 = result.data.jour1H2["\u0000*\u0000items"];
-                    const jour1H3 = result.data.jour1H3["\u0000*\u0000items"];
+                    const jour1H1 = result.data.jour1H1;
+                    const jour1H2 = result.data.jour1H2;
+                    const jour1H3 = result.data.jour1H3;
                     this.setState({ jour1H1 });
                     this.setState({ jour1H2 });
                     this.setState({ jour1H3 });
@@ -247,9 +235,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour2H1 = result.data.jour2H1["\u0000*\u0000items"];
-                    const jour2H2 = result.data.jour2H2["\u0000*\u0000items"];
-                    const jour2H3 = result.data.jour2H3["\u0000*\u0000items"];
+                    const jour2H1 = result.data.jour2H1;
+                    const jour2H2 = result.data.jour2H2;
+                    const jour2H3 = result.data.jour2H3;
                     this.setState({ jour2H1 });
                     this.setState({ jour2H2 });
                     this.setState({ jour2H3 });
@@ -265,9 +253,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour3H1 = result.data.jour3H1["\u0000*\u0000items"];
-                    const jour3H2 = result.data.jour3H2["\u0000*\u0000items"];
-                    const jour3H3 = result.data.jour3H3["\u0000*\u0000items"];
+                    const jour3H1 = result.data.jour3H1;
+                    const jour3H2 = result.data.jour3H2;
+                    const jour3H3 = result.data.jour3H3;
                     this.setState({ jour3H1 });
                     this.setState({ jour3H2 });
                     this.setState({ jour3H3 });
@@ -284,9 +272,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour4H1 = result.data.jour4H1["\u0000*\u0000items"];
-                    const jour4H2 = result.data.jour4H2["\u0000*\u0000items"];
-                    const jour4H3 = result.data.jour4H3["\u0000*\u0000items"];
+                    const jour4H1 = result.data.jour4H1;
+                    const jour4H2 = result.data.jour4H2;
+                    const jour4H3 = result.data.jour4H3;
                     this.setState({ jour4H1 });
                     this.setState({ jour4H2 });
                     this.setState({ jour4H3 });
@@ -303,9 +291,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour5H1 = result.data.jour5H1["\u0000*\u0000items"];
-                    const jour5H2 = result.data.jour5H2["\u0000*\u0000items"];
-                    const jour5H3 = result.data.jour5H3["\u0000*\u0000items"];
+                    const jour5H1 = result.data.jour5H1;
+                    const jour5H2 = result.data.jour5H2;
+                    const jour5H3 = result.data.jour5H3;
                     this.setState({ jour5H1 });
                     this.setState({ jour5H2 });
                     this.setState({ jour5H3 });
@@ -322,9 +310,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour6H1 = result.data.jour6H1["\u0000*\u0000items"];
-                    const jour6H2 = result.data.jour6H2["\u0000*\u0000items"];
-                    const jour6H3 = result.data.jour6H3["\u0000*\u0000items"];
+                    const jour6H1 = result.data.jour6H1;
+                    const jour6H2 = result.data.jour6H2;
+                    const jour6H3 = result.data.jour6H3;
                     this.setState({ jour6H1 });
                     this.setState({ jour6H2 });
                     this.setState({ jour6H3 });
@@ -341,9 +329,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour7H1 = result.data.jour7H1["\u0000*\u0000items"];
-                    const jour7H2 = result.data.jour7H2["\u0000*\u0000items"];
-                    const jour7H3 = result.data.jour7H3["\u0000*\u0000items"];
+                    const jour7H1 = result.data.jour7H1;
+                    const jour7H2 = result.data.jour7H2;
+                    const jour7H3 = result.data.jour7H3;
                     this.setState({ jour7H1 });
                     this.setState({ jour7H2 });
                     this.setState({ jour7H3 });
@@ -394,9 +382,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour1H1 = result.data.jour1H1["\u0000*\u0000items"];
-                    const jour1H2 = result.data.jour1H2["\u0000*\u0000items"];
-                    const jour1H3 = result.data.jour1H3["\u0000*\u0000items"];
+                    const jour1H1 = result.data.jour1H1;
+                    const jour1H2 = result.data.jour1H2;
+                    const jour1H3 = result.data.jour1H3;
                     this.setState({ jour1H1 });
                     this.setState({ jour1H2 });
                     this.setState({ jour1H3 });
@@ -412,9 +400,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour2H1 = result.data.jour2H1["\u0000*\u0000items"];
-                    const jour2H2 = result.data.jour2H2["\u0000*\u0000items"];
-                    const jour2H3 = result.data.jour2H3["\u0000*\u0000items"];
+                    const jour2H1 = result.data.jour2H1;
+                    const jour2H2 = result.data.jour2H2;
+                    const jour2H3 = result.data.jour2H3;
                     this.setState({ jour2H1 });
                     this.setState({ jour2H2 });
                     this.setState({ jour2H3 });
@@ -430,9 +418,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour3H1 = result.data.jour3H1["\u0000*\u0000items"];
-                    const jour3H2 = result.data.jour3H2["\u0000*\u0000items"];
-                    const jour3H3 = result.data.jour3H3["\u0000*\u0000items"];
+                    const jour3H1 = result.data.jour3H1;
+                    const jour3H2 = result.data.jour3H2;
+                    const jour3H3 = result.data.jour3H3;
                     this.setState({ jour3H1 });
                     this.setState({ jour3H2 });
                     this.setState({ jour3H3 });
@@ -449,9 +437,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour4H1 = result.data.jour4H1["\u0000*\u0000items"];
-                    const jour4H2 = result.data.jour4H2["\u0000*\u0000items"];
-                    const jour4H3 = result.data.jour4H3["\u0000*\u0000items"];
+                    const jour4H1 = result.data.jour4H1;
+                    const jour4H2 = result.data.jour4H2;
+                    const jour4H3 = result.data.jour4H3;
                     this.setState({ jour4H1 });
                     this.setState({ jour4H2 });
                     this.setState({ jour4H3 });
@@ -468,9 +456,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    let jour5H1 = result.data.jour5H1["\u0000*\u0000items"];
-                    let jour5H2 = result.data.jour5H2["\u0000*\u0000items"];
-                    let jour5H3 = result.data.jour5H3["\u0000*\u0000items"];
+                    let jour5H1 = result.data.jour5H1;
+                    let jour5H2 = result.data.jour5H2;
+                    let jour5H3 = result.data.jour5H3;
                     jour5H1 = jour5H1.sort();
                     this.setState({ jour5H1 });
                     this.setState({ jour5H2 });
@@ -488,9 +476,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    const jour6H1 = result.data.jour6H1["\u0000*\u0000items"];
-                    const jour6H2 = result.data.jour6H2["\u0000*\u0000items"];
-                    const jour6H3 = result.data.jour6H3["\u0000*\u0000items"];
+                    const jour6H1 = result.data.jour6H1;
+                    const jour6H2 = result.data.jour6H2;
+                    const jour6H3 = result.data.jour6H3;
                     this.setState({ jour6H1 });
                     this.setState({ jour6H2 });
                     this.setState({ jour6H3 });
@@ -507,9 +495,9 @@ export default class Planning extends Component {
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
-                    let jour7H1 = result.data.jour7H1["\u0000*\u0000items"];
-                    let jour7H2 = result.data.jour7H2["\u0000*\u0000items"];
-                    let jour7H3 = result.data.jour7H3["\u0000*\u0000items"];
+                    let jour7H1 = result.data.jour7H1;
+                    let jour7H2 = result.data.jour7H2;
+                    let jour7H3 = result.data.jour7H3;
                     this.setState({ jour7H1 });
                     this.setState({ jour7H2 });
                     this.setState({ jour7H3 });
@@ -701,41 +689,68 @@ export default class Planning extends Component {
             tranche: {},
             isLoading: false,
             planningIsgenerate: false,
-            day:0
+            day: 0,
+            showPlanning: true,
         }
     }
-    verifierPlanningIsGenerate(){
-        planningService.verifieGenerationPlanning().then(result=>{
-              if(result && result.status ===200){
-                  this.setState({ planningIsgenerate: result.data.planningIsgenerate});
-                  this.setState({ day: result.data.day});
-                  console.log("daye",result.data.day)
-              }
+    verifierPlanningIsGenerate() {
+        planningService.verifieGenerationPlanning().then(result => {
+            if (result && result.status === 200) {
+                this.setState({ planningIsgenerate: result.data.planningIsgenerate });
+                this.setState({ day: result.data.day });
+                console.log("daye", result.data.day)
+            }
         })
     }
     genererPlanningMoisProchain = () => {
         this.setState({ isLoading: true });
-        planningService.genererPlanningMoisProchain().then(result =>{
-            if(result && result.status === 200){
-                this.setState({ isLoading: false});
+        planningService.genererPlanningMoisProchain().then(result => {
+            if (result && result.status === 200) {
+                this.setState({ isLoading: false });
             }
         })
     }
-    regenererPlanningMoisProchain= ()=>{
-        this.setState({ isLoading: true});
-       planningService.regenererPlanningMoisProchain().then(result =>{
-        if(result && result.status === 200){
-            this.setState({ isLoading: false});
-        }
-       })
+    regenererPlanningMoisProchain = () => {
+        this.setState({ isLoading: true });
+        // planningService.regenererPlanningMoisProchain().then(result => {
+        //     if (result && result.status === 200) {
+        //         this.setState({ isLoading: false });
+        //     }
+        // })
     }
-    regenererPlanningMoisEnCours=()=>{
-        this.setState({ isLoading: true});
-        employeService.regenererPlanningMoisEnCours().then(result=>{
-            if(result && result.status === 200){
-                this.setState({ isLoading: false});
-               
+    regenererPlanningMoisEnCours = () => {
+        this.setState({ isLoading: true });
+        employeService.regenererPlanningMoisEnCours().then(result => {
+            if (result && result.status === 200) {
+                this.setState({ isLoading: false });
+
             }
+        })
+    }
+    exportPlanning = () => {
+        const loc = `https://gestionstaffing.herokuapp.com/exporterplanning/${this.state.dateDebut}`;
+        window.location = loc;
+    //     planningService.exportPlanning(this.state.dateDebut).then(result=>{
+    //         if(result && result.status===200){
+    //           console.log("planning expoter avec succés");
+    //         }else{
+    //         }
+    //   })
+    }
+    sendPlanning= ()=>{
+        console.log("fonction appelé",this.state.dateDebut);
+        // const loc = `http://localhost/infinite-gestion-planning-back/public/sendEmail/${this.state.dateDebut}`;
+        // window.location = loc;
+        planningService.sendEmail(this.state.dateDebut).then(result=>{
+              if(result && result.status===200){
+                toast.success('Le planning a bien été envoyé à tous les employés', {
+                    position: toast.POSITION.TOP_CENTER
+                }); 
+              }else{
+                toast.error('Erreur lors de l\'envoi du planning', {
+                    position: toast.POSITION.TOP_CENTER
+                }); 
+              }
         })
     }
     render() {
@@ -757,9 +772,9 @@ export default class Planning extends Component {
 
                     </div>}
                 <Row>
-                    <Col md="5">
+                    <Col md="3">
                         <div className="generer">
-                            {!this.state.planningIsgenerate && this.state.day >=20 && 
+                            {!this.state.planningIsgenerate && this.state.day >= 20 &&
                                 <Button color="info" onClick={this.genererPlanningMoisProchain}>Generer planning mois prochain</Button>
 
                             }
@@ -767,14 +782,14 @@ export default class Planning extends Component {
                                 <Button color="info" onClick={this.regenererPlanningMoisProchain}>Regenerer planning mois prochain</Button>
 
                             }
-                            {!this.state.planningIsgenerate && this.state.day < 20 && 
+                            {!this.state.planningIsgenerate && this.state.day < 20 &&
                                 <Button color="info" onClick={this.regenererPlanningMoisEnCours}>Regenerer planning mois en cours</Button>
 
                             }
                         </div>
 
                     </Col>
-                    <Col md="4">
+                    <Col md="5">
                         <div className="titre">
                             <i>
                                 <b>
@@ -791,12 +806,37 @@ export default class Planning extends Component {
                                 </button>}
                             {!this.state.isLastVacationOfMonth &&
                                 <button className="btn btn-info" onClick={this.getVacationSemaineSuivante}>
-                                    <i ><FontAwesomeIcon icon={faChevronRight} /></i>
+                                    <i ><FontAwesomeIcon  icon={faChevronRight} /></i>
                                 </button>}
                         </div>
                     </Col>
+                    <Col md="1">
+                        <div className="pull-right">
+                            <UncontrolledButtonDropdown>
+                                    <DropdownToggle color="link">
+                                        <i className="btn btn-info">
+                                           <FontAwesomeIcon  className="opacity-8" icon={faChevronDown}/>
+                                        </i>
+                                    </DropdownToggle>
+                                    <DropdownMenu right className="rm-pointers dropdown-menu-lg">
+                                        <Nav vertical>
+                                            <NavItem>
+                                                <NavLink onClick={this.exportPlanning}>
+                                                    Exporter le planning
+                                                </NavLink>
+                                            </NavItem>
+                                            <NavItem>
+                                                <NavLink onClick={this.sendPlanning}>
+                                                     Envoyer le planning
+                                                </NavLink>
+                                            </NavItem>
+                                        </Nav>
+                                    </DropdownMenu>
+                                </UncontrolledButtonDropdown>
+                        </div>
+                    </Col>
                 </Row>
-                <Table bordered className="planning">
+                <Table boder="1" className="planning" id="planning-to-pdf">
 
                     <thead>
                         <tr>
@@ -1616,93 +1656,10 @@ export default class Planning extends Component {
                         </tr>
                     </tbody>
                 </Table>
+
                 {
                     this.state.listEmployes.length > 0 &&
                     <div className="diagramme">
-                        {/* <Row >
-                        <Col md="3">
-                            <Table bordered >
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>NOM</th>
-                                        <th>PRENOM</th>
-                                    </tr>
-
-                                </thead>
-                                <tbody>
-                                    {this.state.listCommis.map(commis => (
-                                        <tr key={commis.id}>
-                                            <td>{commis.numero}</td>
-                                            <td>{commis.nom}</td>
-                                            <td>{commis.prenom}</td>
-                                        </tr>
-                                      ))}
-                                </tbody>
-                            </Table>
-                        </Col>
-                        <Col md="3">
-                            <Table bordered >
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>NOM</th>
-                                        <th>PRENOM</th>
-                                    </tr>
-
-                                </thead>
-                                <tbody>
-                                {this.state.listBarman.map(b => (
-                                        <tr key={b.id}>
-                                            <td>{b.numero}</td>
-                                            <td>{b.nom}</td>
-                                            <td>{b.prenom}</td>
-                                        </tr>
-                                      ))}
-                                </tbody>
-                            </Table>
-                        </Col>
-                        <Col md="3">
-                            <Table bordered >
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>NOM</th>
-                                        <th>PRENOM</th>
-                                    </tr>
-
-                                </thead>
-                                <tbody>
-                                {this.state.listCoordonnateur.map(c => (
-                                        <tr key={c.id}>
-                                            <td>{c.numero}</td>
-                                            <td>{c.nom}</td>
-                                            <td>{c.prenom}</td>
-                                        </tr>
-                                      ))}
-                                </tbody>
-                            </Table>
-                        </Col>
-                        <Col md="3">
-                            <Table bordered >
-                                <thead>
-                                    <tr>
-                                        <th>N°</th>
-                                        <th>NOM</th>
-                                        <th>PRENOM</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                {this.state.listHotesse.map(h => (
-                                        <tr key={h.id}>
-                                            <td>{h.numero}</td>
-                                            <td>{h.nom}</td>
-                                            <td>{h.prenom}</td>
-                                        </tr>
-                                      ))}
-                                </tbody>
-                            </Table>
-                        </Col> */}
                         <Row >
                             <Col md="12">
                                 <Label> <b>Ajouter un employé à une vacation</b></Label>
