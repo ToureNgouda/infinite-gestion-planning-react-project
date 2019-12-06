@@ -8121,13 +8121,13 @@ button,
   background: url("~assets/utils/images/infinite.png"); }
 
 .app-sidebar {
-  width: 280px;
+  width: 230px;
   display: flex;
   z-index: 11;
   overflow: hidden;
-  min-width: 280px;
+  min-width: 230px;
   position: relative;
-  flex: 0 0 280px;
+  flex: 0 0 230px;
   margin-top: -60px;
   padding-top: 60px;
   transition: all .2s; }
@@ -8336,9 +8336,13 @@ button,
 .fixed-sidebar .app-sidebar {
   position: fixed;
   height: 100vh; }
+  .Toastify__toast-container--top-center {
+ 
+    margin-top: 100px !important;
+}
 .fixed-sidebar .app-main .app-main__outer {
   z-index: 9;
-  padding-left: 280px; }
+  padding-left: 230px; }
 .fixed-sidebar.fixed-header .app-sidebar .app-header__logo {
   display: none; }
 .fixed-sidebar:not(.fixed-header) .app-sidebar .app-header__logo {
@@ -12130,9 +12134,9 @@ body {
     display: none; }
 
   .app-sidebar {
-    flex: 0 0 280px !important;
-    width: 280px !important;
-    transform: translateX(-280px); }
+    flex: 0 0 230px !important;
+    width: 230px !important;
+    transform: translateX(-230px); }
     .app-sidebar .app-header__logo {
       display: none; }
 

@@ -26,10 +26,10 @@ function genererPlanningMoisProchain() {
     });
 
 }
-function regenererPlanningMoisProchain(state) {
+function regenererPlanningMoisProchain() {
     // remove user from local storage to log user out
     const requestOptions = { headers: authHeader() };
-    return axios.get(`${config.apiUrl}/planning/regenerMoisProchain`,state,requestOptions)
+    return axios.get(`${config.apiUrl}/planning/regenerMoisProchain`,requestOptions)
     .then(resp => {
          console.log("response",resp)
         // store user details and jwt token in local storage to keep user logged in between page refreshes
@@ -38,10 +38,10 @@ function regenererPlanningMoisProchain(state) {
           console.log(error);
     });
 }
-function regenererPlanningMoisEnCours(state) {
+function regenererPlanningMoisEnCours() {
     // remove user from local storage to log user out
     const requestOptions = { headers: authHeader() };
-    return axios.get(`${config.apiUrl}/planning/regenererMoisEnCours`,state,requestOptions)
+    return axios.get(`${config.apiUrl}/planning/regenerMoisEnCours`,requestOptions)
     .then(resp => {
          console.log("response",resp)
         // store user details and jwt token in local storage to keep user logged in between page refreshes

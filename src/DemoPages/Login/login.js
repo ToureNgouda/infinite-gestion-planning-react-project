@@ -54,6 +54,8 @@ export default class Login extends Component {
       this.setState({ disableButton: false});
     }
   }
+
+
   render() {
     if (this.state.redirect) {
       return (<Redirect to={'/dashboard'} />)
@@ -84,7 +86,7 @@ export default class Login extends Component {
 						</span>
 					</div>
           <div className="container-login100-form-btn p-t-10">
-						<button className="login100-form-btn" disabled={this.state.disableButton} onClick={this.handleSubmit}>
+						<button className="login100-form-btn"  onClick={this.handleSubmit}>
 							Connexion
 						</button>
 					</div>

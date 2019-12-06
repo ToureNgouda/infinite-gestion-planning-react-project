@@ -11,6 +11,10 @@
     margin-top: 3px;
     border-radius: 3px;
 }
+.toastCont{
+    z-index: 2500;
+    margin-top:100px;
+}
 .barman{
     width:100%;
     background-color:#0000ff;
@@ -19,6 +23,7 @@
     margin-top: 3px;
     border-radius: 3px;
 }
+
 
 .border{
     border-color: red;
@@ -126,6 +131,7 @@
 }
 .diagramme{
     margin-top: 35px;
+    margin-left: 5px;
 }
 .zoneTamponD{
     background-color: black;

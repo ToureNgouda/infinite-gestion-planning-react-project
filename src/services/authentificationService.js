@@ -25,10 +25,10 @@ function login(state) {
               console.log(error);
         })
 }
-function logout() {
+function logout(state) {
     // remove user from local storage to log user out
     const requestOptions = { headers: authHeader() };
-    return axios.post(`${config.apiUrl}/auth/logout`,requestOptions)
+    return axios.post(`${config.apiUrl}/auth/logout`,state,requestOptions)
     .then(resp => {
          console.log("response",resp)
         localStorage.removeItem('currentUser');

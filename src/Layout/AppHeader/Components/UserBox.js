@@ -31,6 +31,7 @@ class UserBox extends React.Component {
         let user = JSON.parse(localStorage.getItem('currentUser'));
         let profil = user.profil;
         this.state = {
+            user:user,
             active: false,
             nom:user.nom,
             prenom:user.prenom,
@@ -50,9 +51,9 @@ class UserBox extends React.Component {
     
     handleLogout = ()=>{
         console.log("fonction appele")
-      authenticationService.logout().then(resp=>{
+      authenticationService.logout(this.state).then(resp=>{
            console.log("logout success",resp);
-           if(resp.status===200)
+           if(resp && resp.status===200)
               this.setState({redirect:true})
       }).catch(error=>{
             console.log("error",error)

@@ -4,6 +4,7 @@ import React, {Suspense, lazy, Fragment} from 'react';
 import {
     ToastContainer,
 } from 'react-toastify';
+import BounceLoader from 'react-spinners/BounceLoader';
 
 
 const Dashboards = lazy(() => import('../../DemoPages/Dashboards'));
@@ -122,6 +123,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
+                            <BounceLoader/>
+
                            Merci de patienter ...
                             <small></small>
                         </h6>
@@ -134,6 +137,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
+                           <BounceLoader/>
+
                            Merci de patienter ...
                             <small></small>
                         </h6>
@@ -147,6 +152,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
+                        <BounceLoader/>
+
                            Merci de patienter ...
                             <small></small>
                         </h6>
@@ -160,6 +167,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
+                        <BounceLoader/>
+
                            Merci de patienter ...
                             <small></small>
                         </h6>
@@ -172,6 +181,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
+                          <BounceLoader/>
+
                            Merci de patienter ...
                             <small></small>
                         </h6>
@@ -184,6 +195,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
+                        <BounceLoader/>
+
                            Merci de patienter ...
                             <small></small>
                         </h6>
@@ -196,6 +209,8 @@ const AppMain = () => {
                 <div className="loader-container">
                     <div className="loader-container-inner">
                         <h6 className="mt-3">
+                        <BounceLoader/>
+
                            Merci de patienter ...
                             <small></small>
                         </h6>
