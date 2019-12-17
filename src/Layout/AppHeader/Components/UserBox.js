@@ -36,9 +36,9 @@ class UserBox extends React.Component {
             nom:user.nom,
             prenom:user.prenom,
             typeProfil: profil.typeProfil,
-            redirect:false
-        };
-
+            redirect:false,
+            redirectToProfile:false
+        }
     }
 
     notify2 = () => this.toastId = toast("You don't have any new items in your calendar for today! Go out and play!", {
@@ -59,10 +59,17 @@ class UserBox extends React.Component {
             console.log("error",error)
       })
     }
+    handleProfile = ()=>{
+       this.setState({ redirectToProfile: true})
+    // 
+    }
   
     render() {
         if(this.state.redirect){
             return (<Redirect  to={'/login'}/>)
+        }
+        if(this.state.redirectToProfile){
+            return (<Redirect  to={'/profile'}/>)
         }
         return (
             <Fragment>
@@ -81,7 +88,7 @@ class UserBox extends React.Component {
                                                 Mon Compte
                                             </NavItem>
                                             <NavItem>
-                                                <NavLink >
+                                                <NavLink onClick={this.handleProfile}>
                                                     Profile
                                                 </NavLink>
                                             </NavItem>

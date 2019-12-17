@@ -12,96 +12,120 @@ import 'react-toastify/dist/ReactToastify.css';
 
 // import { Container } from './styles';
 
-export default class EmployeCreate extends Component {
-    getAllProfil=()=>{
-        return profilService.getAllProfil().then(resp=>{
-          
-                console.log("la liste des profils",resp)
-                 if(resp.status===200){
-                    const profils = resp.data;
-                    this.setState({profils});
-                    this.setState({profil:profils[0].typeProfil})
-                 }
+export default class EditUser extends Component {
+    getAllProfil = () => {
+        return profilService.getAllProfil().then(resp => {
+            console.log("la liste des profils", resp)
+            if (resp.status === 200) {
+                const profils = resp.data;
+                this.setState({ profils });
+                this.setState({ profil: profils[0].typeProfil })
+            }
         })
     }
-    constructor(props){
+    constructor(props) {
         super(props);
-        console.log("props",this.props);
+        console.log("props", this.props);
         this.getAllProfil();
-        this.state={
-            nom:'',
-            prenom:'',
-            email:'',
-            profil:'',
-            profils:[],
-            isRedirect:false,
-            confirmePassword:'',
-            password:''
+        const id = this.props.match.params.id;
+        this.getUser(id);
+        this.state = {
+            profils: [],
+            isRedirect: false,
+            user: {},
+            userMount: false
         }
     }
-   
-    handleSubmit=(event)=>{
-        event.preventDefault();
-       console.log("state",this.state);
-       return userService.saveUser(this.state).then(resp=>{
-              console.log("response ",resp);
-              if(resp){
-                toast.info(`user ajouté avec succés`, {
-                    ptoastosition: toast.POSITION.TOP_CENTER
-                });
-                this.setState({ isRedirect:true });
-                this.props.history.push('/utilisateurs');
-              }else {
-                toast.error(`une erreur est survenue coté serveur `, {
-                    ptoastosition: toast.POSITION.TOP_CENTER
-                });
-              }
-                 
-       });
+    getUser(id) {
+        userService.getUser(id).then(result => {
+            if (result && result.status === 200) {
+                const user = result.data
+                this.setState({ user });
+                this.setState({ userMount: true });
+                console.log("user recupere ", this.state.user);
+
+            }
+        })
+
     }
-   handleChange = e=>{
-    const { name, value } = e.target;
-    this.setState({ [name]: value });
-   }
+
+    handleSubmit = (event) => {
+        event.preventDefault();
+        console.log("state", this.state);
+        userService.updateUser(this.state).then(result => {
+            if (result && result.status === 200) {
+                console.log(result.data);
+                // userService.getAllUsers().then(resp => {
+                //     if (resp && resp.status === 200) {
+                //         const users = resp.data;
+                        
+                //     }
+                // }).catch(error => {
+                //     console.log("error cote serveur", error);
+                // })
+                this.props.history.push("/utilisateurs");
+            }
+        })
+    }
+    handleChange = e => {
+        const { name, value } = e.target;
+        const user = { ...this.state.user };
+        if (name === "nom") {
+            user.nom = value;
+            this.setState({ user });
+        }
+        if (name === "prenom") {
+            user.prenom = value;
+            this.setState({ user });
+        }
+        if (name === "email") {
+            user.email = value;
+            this.setState({ user });
+        }
+        if (name === "profil") {
+            user.profil = value;
+            this.setState({ user });
+        }
+    }
     render() {
         return (
             <Fragment>
-                {/* <AppHeader /> */}
-                            <Card className="main-card mb-3">
-                                <CardBody>
-                                    <CardTitle className="heading">Création Utilisateur</CardTitle>
-                                    <Form className="form" onSubmit={this.handleSubmit}>
-                                        <FormGroup>
-                                            <Row form>
-                                                <Col md={6}>
-                                                    {/* <Label for="exampleEmail11">Email</Label> */}
-                                                    <Input type="text" name="nom" 
-                                                        placeholder="Nom"  value={this.state.nom} onChange={this.handleChange}/>
-                                                </Col>
-                                                <Col md={6}>
-                                                    <Input type="text" name="prenom" 
-                                                        placeholder="Prénom"  value={this.state.prenom} onChange={this.handleChange}/>
-                                                </Col>
-                                            </Row>
-                                        </FormGroup>
-                                        <FormGroup>
-                                            <Row form>
-                                            <Col md={6}>
-                                                    <Input type="text" name="email" 
-                                                        placeholder="Email"  value={this.state.email} onChange={this.handleChange}/>
-                                                </Col>
-                                                <Col md="6">
-                                                <CustomInput type="select" name="profil"  id="profil"
-                                                              onChange={this.handleChange}>
-                                                    {this.state.profils.map(profil=>
-                                                         <option key={profil.id} value={profil.typeProfil} >{profil.typeProfil}</option>
-                                                        )}
-                                                </CustomInput>
-                                                </Col>
-                                              
-                                            </Row>
-                                        </FormGroup>
-                                        <FormGroup>
+                <Card className="main-card mb-3">
+                    {this.state.userMount &&
+                        <CardBody>
+                            <CardTitle className="heading">Modifier User</CardTitle>
+                            <Form className="form" onSubmit={this.handleSubmit}>
+                                <FormGroup>
+                                    <Row form>
+                                        <Col md={6}>
+                                            {/* <Label for="exampleEmail11">Email</Label> */}
+                                            <Input type="text" name="nom"
+                                                placeholder="Nom" value={this.state.user.nom} onChange={this.handleChange} />
+                                        </Col>
+                                        <Col md={6}>
+                                            <Input type="text" name="prenom"
+                                                placeholder="Prénom" value={this.state.user.prenom} onChange={this.handleChange} />
+                                        </Col>
+                                    </Row>
+                                </FormGroup>
+                                <FormGroup>
+                                    <Row form>
+                                        <Col md={6}>
+                                            <Input type="text" name="email"
+                                                placeholder="Email" value={this.state.user.email} onChange={this.handleChange} />
+                                        </Col>
+                                        <Col md="6">
+                                            <CustomInput type="select" name="profil" id="profil"
+                                                onChange={this.handleChange} value={this.state.user.profil}>
+                                                {this.state.profils.map(profil =>
+                                                    <option key={profil.id} value={profil.typeProfil} >{profil.typeProfil}</option>
+                                                )}
+                                            </CustomInput>
+                                        </Col>
+
+                                    </Row>
+                                </FormGroup>
+                                {/* <FormGroup>
                                             <Row>
                                             <Col md={6}>
                                                     <Input type="password" name="password" 
@@ -112,13 +136,13 @@ export default class EmployeCreate extends Component {
                                                         placeholder="Confirmer mot de Passe"  value={this.state.confirmePassword} onChange={this.handleChange}/>
                                                 </Col>
                                             </Row>
-                                        </FormGroup>
-                                        
-                                        <Button color="primary" className="mt-2 mr-2 pull-right">Créer </Button>
-                                       <ToastContainer /> 
-                                    </Form>
-                                </CardBody>
-                            </Card>
+                                        </FormGroup> */}
+
+                                <Button color="primary" className="mt-2 mr-2 pull-right" type="submit"> Modifier </Button>
+                                <ToastContainer />
+                            </Form>
+                        </CardBody>}
+                </Card>
             </Fragment>
         )
     }

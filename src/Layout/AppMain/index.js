@@ -162,6 +162,20 @@ const AppMain = () => {
             }>
                 <Route path="/dashboard" component={Home}/>
             </Suspense>
+            <Suspense fallback={
+                <div className="loader-container">
+                    <div className="loader-container-inner">
+                        <h6 className="mt-3">
+                        <BounceLoader/>
+
+                           Merci de patienter ...
+                            <small></small>
+                        </h6>
+                    </div>
+                </div>
+            }>
+                <Route path="/profile" component={Home}/>
+            </Suspense>
            
             <Suspense fallback={
                 <div className="loader-container">

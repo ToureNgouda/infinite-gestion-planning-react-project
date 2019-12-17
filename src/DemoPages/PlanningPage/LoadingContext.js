@@ -7,5 +7,6 @@ export default React.createContext({
      active:Boolean,
      regenererPlanningMoisProchain:()=>{},
      regenererPlanningMoisEnCours:()=>{},
-     genererPlanningMoisProchain:()=>{}
+     genererPlanningMoisProchain:()=>{},
+     exportPlanning:()=>{}
 });

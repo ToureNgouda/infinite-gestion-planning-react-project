@@ -7980,7 +7980,7 @@ button,
 .app-header__logo {
   padding: 0 1.5rem;
   height: 60px;
-  width: 280px;
+  width: 232px;
   display: flex;
   align-items: center;
   transition: width .2s; }
@@ -9001,6 +9001,10 @@ button,
   background-image: -webkit-gradient(linear, left bottom, left top, from(#0000ff), to(#272733)) !important;
     background-image: -o-linear-gradient(bottom, #0000ff 0%, #272733 100%) !important;
     background-image: linear-gradient(to top, #0000ff 0%, #272733 100%) !important; }
+    .bg-love-coord {
+      background-image: -webkit-gradient(linear, left bottom, left top, from(#008000), to(#272733)) !important;
+        background-image: -o-linear-gradient(bottom, #008000 0%, #272733 100%) !important;
+        background-image: linear-gradient(to top, #008000 0%, #272733 100%) !important; }
 
 .bg-premium-dark {
   background-image: linear-gradient(to right, #434343 0%, black 100%) !important; }
@@ -12125,7 +12129,7 @@ body {
 
 @media only screen and (max-width: 1320px) {
   .header-user-info {
-    display: none; } }
+    } }
 @media (max-width: 991.98px) {
   .app-main {
     display: block; }

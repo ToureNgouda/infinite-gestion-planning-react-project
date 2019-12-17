@@ -58,14 +58,21 @@
   height: 37px;
 }
 .btn-info{
-    margin-top: -5px !important;
+    /* margin-top: -5px !important; */
 }
 .titre{
-    margin-top: -4px !important;
+    /* margin-top: -4px !important; */
+    text-align: center;
+}
+.chevron{
+    /* margin-top: 5px; */
+}
+.pull-right{
+    margin-top: 13%; 
 }
 .moisProchainPred{
-    margin-top: -0px;
-    margin-left: 72%; 
+    /* margin-top: -0px;
+    margin-left: 72%;  */
 }
 .barmanD{
     background-color:blue;
@@ -130,8 +137,16 @@
     margin-top: 3px;
 }
 .diagramme{
-    margin-top: 35px;
+    margin-top: 15px;
     margin-left: 5px;
+}
+.diagrammeColor{
+    margin-top: -5px !important;
+    margin-left: 5px;
+}
+.bounceloader{
+    /* margin-top:-100px; */
+    height: 100%;
 }
 .zoneTamponD{
     background-color: black;

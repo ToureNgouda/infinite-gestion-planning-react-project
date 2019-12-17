@@ -17,10 +17,7 @@
     margin-top: 8px !important;
 }
 
-tr{
-    cursor: pointer;
-}
 .employeslist:hover {
     background-color: #f9748f ;
-    color:white !important;
+    cursor: pointer;    
 }

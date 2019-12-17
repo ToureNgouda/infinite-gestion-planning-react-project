@@ -15,6 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './index.css';
 import CreerUser from './CreateUser';
+import EditUser from  './EditUser';
 
 export default class UtilisateursPage extends Component {
 
@@ -24,13 +25,19 @@ export default class UtilisateursPage extends Component {
             users: [],
             profil: '',
             match: this.props.match,
+            isEditUser:false
         }
         this.getAllUsers();
     }
-    createUser=(user)=>{
-       const users = [...this.state.users];
-       users.push(user);
-       this.setState({users});
+    createUser = (user) => {
+        const users = [...this.state.users];
+        users.push(user);
+        this.setState({ users });
+    }
+    editUser = ( user )=>{
+        console.log("fonction edit user appele", user)
+        this.props.history.push(`/utilisateurs/${user.id}`);
+        this.setState({ isEditUser:true});
     }
     getAllUsers() {
         userService.getAllUsers().then(resp => {
@@ -40,10 +47,13 @@ export default class UtilisateursPage extends Component {
             console.log("error cote serveur", error);
         })
     }
+    updateUser(users){
+       this.setState( { users });
+    }
     render() {
         const users = this.state.users.map(user =>
             <ShowUsers key={user.id}
-                user={user}
+                user={user}  editUser={this.editUser}
             />
         )
         return (
@@ -59,12 +69,12 @@ export default class UtilisateursPage extends Component {
                                         <CardBody>
                                             <CardTitle>
                                                 <Row>
-                                                    <Col md="8">Liste Utilisateurs</Col>
-                                                    <Col md="4" className="ajouter">
+                                                    <Col md="10">Liste Utilisateurs</Col>
+                                                    <Col md="2" >
                                                         <Link to="/utilisateurs/creerUser">
                                                             <Button outline color="secondary">
                                                                 <FontAwesomeIcon icon={faPlus} /> {'   '}
-                                                                <span>Ajouter</span>
+                                                                <span >Ajouter</span>
                                                             </Button>
                                                         </Link>
                                                     </Col>
@@ -89,7 +99,9 @@ export default class UtilisateursPage extends Component {
                                     </Card>
                                 )} />
                             <Route exact path='/utilisateurs/creerUser' component={CreerUser} createUser={this.createUser}></Route>
-
+                            {this.state.isEditUser &&
+                                <Route exact path='/utilisateurs/:id' component={EditUser} updateUser={this.updateUser}></Route>
+                            }
                         </div>
                         <AppFooter />
                     </div>

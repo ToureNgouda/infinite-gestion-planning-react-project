@@ -2,6 +2,7 @@ import React, {Fragment} from 'react';
 import {connect} from 'react-redux';
 import cx from 'classnames';
 import {withRouter} from 'react-router-dom';
+import { Redirect } from 'react-router';
 
 import ResizeDetector from 'react-resize-detector';
 
@@ -11,7 +12,8 @@ class Main extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            closedSmallerSidebar: false
+            closedSmallerSidebar: false,
+            date:new Date()
         };
     }
 
@@ -26,7 +28,6 @@ class Main extends React.Component {
             enableMobileMenu,
             enablePageTabsAlt,
         } = this.props;
-
         return (
             <ResizeDetector
                 handleWidth

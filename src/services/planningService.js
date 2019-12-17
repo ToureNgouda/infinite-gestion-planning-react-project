@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from 'config';
 import { authHeader } from './helpers/auth-header';
+import { handleResponse } from './helpers/handle-response';
 
 export const planningService = {
     genererPlanningMoisProchain,
@@ -23,6 +24,7 @@ function genererPlanningMoisProchain() {
         return resp;
     }).catch(error=>{
           console.log(error);
+          handleResponse(error);
     });
 
 }
@@ -35,6 +37,7 @@ function regenererPlanningMoisProchain() {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         return resp;
     }).catch(error=>{
+        handleResponse(error);
           console.log(error);
     });
 }
@@ -47,6 +50,7 @@ function regenererPlanningMoisEnCours() {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         return resp;
     }).catch(error=>{
+        handleResponse(error);
           console.log(error);
     });
 }
@@ -59,6 +63,7 @@ function verifieGenerationPlanning() {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         return resp;
     }).catch(error=>{
+        handleResponse(error);
           console.log(error);
     });
 }
@@ -71,6 +76,7 @@ function sendEmail(state) {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         return resp;
     }).catch(error=>{
+        handleResponse(error);
           console.log(error);
     });
 }
@@ -83,6 +89,7 @@ function exportPlanning(state) {
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         return resp;
     }).catch(error=>{
+        handleResponse(error);
           console.log(error);
     });
     // const loc = `https://gestionstaffing.herokuapp.com/exporterplanning/${this.state.dateDebut}`;

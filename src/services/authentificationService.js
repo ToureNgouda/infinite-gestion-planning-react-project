@@ -2,6 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import axios from 'axios';
 import config from 'config';
 import { authHeader } from './helpers/auth-header';
+import { handleResponse } from './helpers/handle-response';
 
 const currentUserSubject = new BehaviorSubject(JSON.parse(localStorage.getItem('currentUser')));
 
@@ -13,7 +14,6 @@ export const authenticationService = {
 };
 
 function login(state) {
-
     return axios.post(`${config.apiUrl}/auth/login`,state)
         .then(resp => {
             console.log("user",resp)
@@ -37,6 +37,7 @@ function logout(state) {
         return resp;
     }).catch(error=>{
           console.log(error);
+          handleResponse(error);
     })
 
 }

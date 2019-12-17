@@ -20,14 +20,16 @@ export const employeService = {
     getVacationSemainePrecedente,
     getVacationSemaineSuivante,
     ajouterEmployeToVacation,
-    supprimerEmployeToVacation
+    supprimerEmployeToVacation,
+    verifierPresenceInVacation,
+    getAllEmployeWithNumberVacation,
+    getNombreCoordonnateur
 };
 
 function getAllEmployes() {
     const requestOptions = { headers: authHeader() };
-    return axios.get(`${config.apiUrl}/employe`, requestOptions)
+    return axios.get(`${config.apiUrl}/employe/getEmployeActif`, requestOptions)
     .then(response=>{
-          console.log("employes",response);
           return response;
     }).catch(error=>{
          handleResponse(error);
@@ -35,29 +37,26 @@ function getAllEmployes() {
     });
 }
 function saveEmploye(state){
-    console.log("employe",state)
     const requestOptions = { headers: authHeader() };
     return axios.post(`${config.apiUrl}/employe`,state, requestOptions)
     .then(response=>{
-          console.log("employe cree",response);
           return response;
     }).catch(error=>{
-         console.log(error);
+        //  console.log(error);
+        handleResponse(error);
     });
 }
 function getEmploye(id){
-    console.log("id",id)
     const requestOptions = { headers: authHeader() };
     return axios.get(`${config.apiUrl}/employe/${id}`, requestOptions)
     .then(response=>{
-          console.log("employe recupere",response);
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
     });
 }
 function updateEmploye(state){
-    console.log("state",state)
     let zone='';
     if(state.zone.nom)
        zone=state.zone.nom;
@@ -78,13 +77,13 @@ function updateEmploye(state){
         "adresse_complement":state.adresse.complement,
         "zone":zone
     }
-    console.log("request",request)
     const requestOptions = { headers: authHeader() };
     return axios.put(`${config.apiUrl}/employe/${request.id}`, request, requestOptions)
     .then(response=>{
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
     });
 }
 function getNombreBarman(){
@@ -94,6 +93,7 @@ function getNombreBarman(){
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
     });
 }
 function getNombreSuperviseur(){
@@ -103,6 +103,7 @@ function getNombreSuperviseur(){
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
     });
 }
 function getNombreHotesse(){
@@ -111,6 +112,7 @@ function getNombreHotesse(){
     .then(response=>{
           return response;
     }).catch(error=>{
+         handleResponse(error);
          console.log(error);
     });
 }
@@ -121,6 +123,17 @@ function getNombreCommis(){
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
+    });
+}
+function getNombreCoordonnateur(){
+    const requestOptions = { headers: authHeader() };
+    return axios.get(`${config.apiUrl}/getNombreCoordonnateur`, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+         handleResponse(error);
     });
 }
 
@@ -130,6 +143,7 @@ function getVacationActuel(){
     .then(response=>{
           return response;
     }).catch(error=>{
+        handleResponse(error);
          console.log(error);
     });
 }
@@ -140,6 +154,7 @@ function getVacationPrecedante(){
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
     });
 }
 function getVacationSuivante(){
@@ -149,6 +164,7 @@ function getVacationSuivante(){
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
     });
 }
 function getVacationSemaine(){
@@ -157,6 +173,7 @@ function getVacationSemaine(){
     .then(response=>{
           return response;
     }).catch(error=>{
+        handleResponse(error);
          console.log(error);
     });
 }
@@ -171,21 +188,21 @@ function getVacationSemainePrecedente(state){
     .then(response=>{
           return response;
     }).catch(error=>{
+        handleResponse(error);
          console.log(error);
     });
 }
 function getVacationSemaineSuivante(state){
     const requestOptions = { headers: authHeader() };
     const object={
-  
         "dateFin": state
-        
     };
     return axios.post(`${config.apiUrl}/vacation/getVacationSuivante`,object, requestOptions)
     .then(response=>{
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
     });
 }
 function ajouterEmployeToVacation(state){
@@ -195,6 +212,7 @@ function ajouterEmployeToVacation(state){
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
     });
 }
 function supprimerEmployeToVacation(state){
@@ -204,5 +222,26 @@ function supprimerEmployeToVacation(state){
           return response;
     }).catch(error=>{
          console.log(error);
+         handleResponse(error);
+    });
+}
+function verifierPresenceInVacation(state){
+    const requestOptions = { headers: authHeader() };
+    return axios.post(`${config.apiUrl}/verifierPresenceInVacation`,state, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+         handleResponse(error);
+    });
+}
+function getAllEmployeWithNumberVacation(state){
+    const requestOptions = { headers: authHeader() };
+    return axios.post(`${config.apiUrl}/getAllEmployeWithNumberVacation`,state, requestOptions)
+    .then(response=>{
+          return response;
+    }).catch(error=>{
+         console.log(error);
+         handleResponse(error);
     });
 }

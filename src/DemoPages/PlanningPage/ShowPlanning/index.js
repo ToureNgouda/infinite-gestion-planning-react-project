@@ -9,7 +9,7 @@ import './index.css';
 import { typeEmployeService } from '../../../services/typeEmployeService';
 import DatePicker from "react-datepicker";
 import "react-datepicker/dist/react-datepicker.css";
-import { ToastContainer, toast } from 'react-toastify'; 
+import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { planningService } from '../../../services/planningService';
 import {
@@ -17,12 +17,13 @@ import {
 
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import BounceLoader from 'react-spinners/BounceLoader';
 import {
     Row, Col, Label, Button, CustomInput, Modal, ModalHeader, ModalBody, ModalFooter
 } from 'reactstrap';
 import LoadingContext from '../LoadingContext';
 
-export default class Planning extends Component {
+export default class     extends Component {
 
 
     // static contextType = LoadingContext;
@@ -210,6 +211,7 @@ export default class Planning extends Component {
                 this.setState({ dateFin });
                 this.setState({ isFirstVacationOfMonth });
                 this.setState({ isLastVacationOfMonth });
+                this.getListEmployes();
                 let listEmployes = [];
                 if (result.data.jour1) {
                     const jour = {
@@ -376,6 +378,7 @@ export default class Planning extends Component {
                 this.setState({ dateFin });
                 this.setState({ isFirstVacationOfMonth });
                 this.setState({ isLastVacationOfMonth });
+                this.getListEmployes();
                 let listEmployes = [];
                 if (result.data.jour1) {
                     const jour = {
@@ -525,7 +528,7 @@ export default class Planning extends Component {
         });
     }
     getListEmployes() {
-        employeService.getAllEmployes().then(result => {
+        employeService.getAllEmployeWithNumberVacation(this.state).then(result => {
             if (result && result.status === 200) {
                 this.setState({ listEmployes: result.data });
                 this.setState({ idEmploye: this.state.listEmployes[0].id });
@@ -633,7 +636,6 @@ export default class Planning extends Component {
     constructor(props) {
         super(props);
         this.getVacationSemaine();
-        this.getListEmployes();
         this.getAllTranchsHoraires();
         this.verifierPlanningIsGenerate();
         this.state = {
@@ -694,6 +696,7 @@ export default class Planning extends Component {
             showPlanning: true,
             sendingMail: false
         }
+        this.getListEmployes();
     }
     verifierPlanningIsGenerate() {
         planningService.verifieGenerationPlanning().then(result => {
@@ -703,17 +706,6 @@ export default class Planning extends Component {
                 console.log("daye", result.data.day)
             }
         })
-    }
-    
-    exportPlanning = () => {
-        const loc = `https://gestionstaffing.herokuapp.com/exporterplanning/${this.state.dateDebut}`;
-        window.location = loc;
-        //     planningService.exportPlanning(this.state.dateDebut).then(result=>{
-        //         if(result && result.status===200){
-        //           console.log("planning expoter avec succés");
-        //         }else{
-        //         }
-        //   })
     }
     sendPlanning = () => {
         console.log("fonction appelé", this.state.dateDebut);
@@ -750,7 +742,7 @@ export default class Planning extends Component {
                 </Modal>
                 <Row>
                     <Col md="3">
-                        <div className="generer">
+                        <div >
                             {!this.state.planningIsgenerate && this.state.day >= 20 &&
                                 <Button color="info" onClick={this.props.genererPlanningMoisProchain}>Generer planning mois prochain</Button>
 
@@ -766,28 +758,28 @@ export default class Planning extends Component {
                         </div>
 
                     </Col>
-                    <Col md="4">
-                        <div className="titre">
-                            <i>
+                    <Col md="6" className="titre">
+                        <div >
                                 <b>
+                                    <i>
                                     Planning du  {this.state.dateDebut} au {this.state.dateFin}
+                                    </i>
                                 </b>
-                            </i>
-                        </div>
-                    </Col>
-                    <Col md="3" >
-                        <div className="moisProchainPred">
-                            {!this.state.isFirstVacationOfMonth &&
-                                <button className="btn btn-info" onClick={()=>this.getVacationSemainePrecedente(this.state.dateFin)}>
-                                    <i ><FontAwesomeIcon icon={faChevronLeft} /></i>
-                                </button>}
-                            {!this.state.isLastVacationOfMonth &&
-                                <button className="btn btn-info" onClick={()=>this.getVacationSemaineSuivante(this.state.dateFin)}>
-                                    <i ><FontAwesomeIcon icon={faChevronRight} /></i>
-                                </button>}
                         </div>
                     </Col>
                     <Col md="2">
+                        {/* <div className="chevron"> */}
+                            {!this.state.isFirstVacationOfMonth &&
+                                <button className="btn btn-info" onClick={() => this.getVacationSemainePrecedente(this.state.dateFin)}>
+                                    <i ><FontAwesomeIcon icon={faChevronLeft} /></i>
+                                </button>}
+                            {!this.state.isLastVacationOfMonth &&
+                                <button className="btn btn-info" onClick={() => this.getVacationSemaineSuivante(this.state.dateFin)}>
+                                    <i ><FontAwesomeIcon icon={faChevronRight} /></i>
+                                </button>}
+                        {/* </div> */}
+                    </Col>
+                    <Col md="1">
                         <div className="pull-right">
                             <UncontrolledButtonDropdown>
                                 <DropdownToggle color="link">
@@ -798,7 +790,7 @@ export default class Planning extends Component {
                                 <DropdownMenu right className="rm-pointers dropdown-menu-lg">
                                     <Nav vertical>
                                         <NavItem>
-                                            <NavLink onClick={this.exportPlanning}>
+                                            <NavLink onClick={() => this.props.exportPlanning(this.state.dateDebut)}>
                                                 Exporter le planning
                                                 </NavLink>
                                         </NavItem>
@@ -812,7 +804,7 @@ export default class Planning extends Component {
                             </UncontrolledButtonDropdown>
                         </div>
                     </Col>
-                </Row>
+                </Row> 
                 <Table boder="1" className="planning" id="planning-to-pdf">
 
                     <thead>
@@ -1646,7 +1638,7 @@ export default class Planning extends Component {
                                 <CustomInput type="select" name="idEmploye" id="idEmploye"
                                     onChange={this.handleChange}>
                                     {this.state.listEmployes.map(e =>
-                                        <option value={e.id} key={e.id} >{e.numero} {e.nom} {e.prenom}</option>
+                                        <option value={e.id} key={e.id} >{e.numero} {e.nom} {e.prenom} {'    '} {e.nombreVacationInMonth}</option>
                                     )}
                                 </CustomInput>
                             </Col>
@@ -1669,11 +1661,11 @@ export default class Planning extends Component {
                             <Col md="3">
                                 <Button onClick={this.handleSubmit} className="btn btn-default btn-lg btn-block"><b>Valider</b></Button>
                                 <div className="toastCont">
-                                     <ToastContainer  />
+                                    <ToastContainer />
                                 </div>
                             </Col>
                         </Row>
-                        <div className="diagramme">
+                        <div>
                             <Row>
                                 <Col md="12">
                                     <Label><b>Diagramme</b></Label>

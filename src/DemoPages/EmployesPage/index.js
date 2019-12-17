@@ -70,14 +70,15 @@ export default class EmployesPage extends Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
+                        <div className="showEmploye">
                             <Route exact strict path={`${this.state.match.url}`} render={() => (
                                 (
                                     <Card className="main-card mb-3">
                                         <CardBody>
                                             <CardTitle>
                                                 <Row>
-                                                    <Col md="8">Liste Employés</Col>
-                                                    <Col md="4" className="ajouter">
+                                                    <Col md="10">Liste Employés</Col>
+                                                    <Col md="2">
                                                         <Link to="/employes/creerEmploye">
                                                             <Button outline color="secondary" onClick={this.handleAddEmploye}>
                                                                 <FontAwesomeIcon icon={faPlus} /> {'   '}
@@ -115,6 +116,7 @@ export default class EmployesPage extends Component {
                             {this.state.isRedirect &&
                                 <Route exact path={"/employes/:id"} component={EditEmploye}></Route>}
 
+                        </div>
                         </div>
                         <AppFooter />
                     </div>

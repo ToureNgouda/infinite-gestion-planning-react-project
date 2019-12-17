@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { Component, Fragment, Suspense, lazy, } from 'react';
 import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar';
 import AppFooter from '../../Layout/AppFooter';
@@ -9,6 +9,7 @@ import BounceLoader from 'react-spinners/BounceLoader';
 import LoadingContext from './LoadingContext';
 import { planningService }  from '../../services/planningService';
 import { ToastContainer, toast } from 'react-toastify';
+
 export default class PlanningPage extends Component {
     constructor(props) {
         super(props);
@@ -17,6 +18,33 @@ export default class PlanningPage extends Component {
             dateFin: '',
             isLoading:false
         }
+    }
+    timeOut(state){
+       setTimeout(() => {
+             this.setState({ isLoading:false });
+          }, 18000);
+
+    }
+   
+    exportPlanning = (state) => {
+        console.log("fonction appele",state)
+         this.setState({ isLoading:true });
+        // this.timeOut(state);
+        const loc = `http://localhost:80/infinite-gestion-planning-back/public/exporterplanning/${state}`;
+        window.location = loc;
+        planningService.exportPlanning(state).then(result =>{
+               if(result && result.status === 200){
+                this.setState({ isLoading: false});
+                 console.log("result",result)
+               }else{
+                this.setState({ isLoading: false});
+                toast.error('Une erreur est survenue coté serveur lors de l\'export du planning.', {
+                    position: toast.POSITION.TOP_CENTER
+                });
+                 
+               }
+        })
+       
     }
     regenererPlanningMoisProchain=()=>{
         this.setState({ isLoading: true})
@@ -70,15 +98,8 @@ export default class PlanningPage extends Component {
     }
  
     render() {
-        const contextValue={
-            active:this.state.isLoading,
-            regenererPlanningMoisProchain:this.regenererPlanningMoisProchain,
-            regenererPlanningMoisEnCours:this.regenererPlanningMoisEnCours,
-            genererPlanningMoisProchain:this.genererPlanningMoisProchain
-       }
-       console.log(contextValue)
         return (
-            <LoadingContext.Provider value={contextValue}>
+            <LoadingContext.Provider >
             <LoadingOverlay className="bounceloader"
             active={this.state.isLoading}
             text='Merci de patienter...'
@@ -93,6 +114,7 @@ export default class PlanningPage extends Component {
                             <Planning regenererPlanningMoisProchain={this.regenererPlanningMoisProchain} 
                              genererPlanningMoisProchain={this.genererPlanningMoisProchain} 
                              regenererPlanningMoisEnCours={this.regenererPlanningMoisEnCours}
+                             exportPlanning={this.exportPlanning}
                             />
                             <div className="toastCont">
                                 <ToastContainer/>

@@ -1,6 +1,7 @@
 import axios from 'axios';
 import config from 'config';
 import { authHeader } from './helpers/auth-header';
+import { handleResponse } from './helpers/handle-response';
 
 export const gestionHoraireService = {
     getAllGestionHoraire,
@@ -18,6 +19,7 @@ function getAllGestionHoraire() {
         return resp;
     }).catch(error=>{
           console.log(error);
+          handleResponse(error);
     });
 
 }
@@ -31,5 +33,6 @@ function updateGestionHoraire(state) {
         return resp;
     }).catch(error=>{
           console.log(error);
+          handleResponse(error);
     });
 }

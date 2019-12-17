@@ -36,6 +36,7 @@ function getHoraire(){
     return axios.get(`${config.apiUrl}/tranchehoraire`, requestOptions).then(resp=>{
           return resp;
     }).catch(error=>{
+        handleResponse(error);
          console.log(error)
     });
 

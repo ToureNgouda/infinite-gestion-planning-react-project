@@ -6,7 +6,7 @@ import { employeService } from '../../../services/employeService';
 import {
     Row, Col,
     Card, Table,
-    CardBody, CardTitle,
+    CardBody, CardTitle, CustomInput
 } from 'reactstrap';
 
 import {
@@ -93,6 +93,7 @@ export default class AnalyticsDashboard1 extends Component {
             nombreBarman: 0,
             nombreSuperviseur: 0,
             nombreCommis: 0,
+            nombreCoordonnateur:0,
             nombreHotesse: 0,
             nombreEmployes: 0,
             employesInVacationActuel: [],
@@ -106,6 +107,7 @@ export default class AnalyticsDashboard1 extends Component {
             heureDebutVprec: '',
             heureFinVprec: '',
             dateSuivant: '',
+            disabled:false
 
         };
         this.toggle = this.toggle.bind(this);
@@ -114,7 +116,30 @@ export default class AnalyticsDashboard1 extends Component {
         this.getNombreCommis();
         this.getNombreHotesse();
         this.getNombreSuperviseur();
+        this.getNombreCoordonnateur();
+    }
+    handleChangeIsPresent = (employe) => {
+        this.setState({ disabled:true});
+        employeService.verifierPresenceInVacation(employe).then(result => {
+            if (result && result.status === 200) {
+                this.setState({ disabled:false});
+                if (employe.nomVacation === "vacationActuel")
+                    this.getVacationActuel();
+                else if (employe.nomVacation === "vacationSuivante")
+                    this.getVacationSuivante();
+                else
+                    this.getVacationPrecedante();
 
+            }
+            this.setState({ disabled:false});
+        });
+
+    }
+    verifiePresenceVacation = (isPresent) => {
+        if (isPresent === true)
+            return true;
+        else
+            return false;
     }
     getEmploye(employe) {
         if (employe.typeEmploye === "Superviseur") {
@@ -124,6 +149,8 @@ export default class AnalyticsDashboard1 extends Component {
                     <td>{employe.prenom}</td>
                     <td>{employe.nom}</td>
                     <td>{employe.typeEmploye}</td>
+                    <td>  <CustomInput type="checkbox" id={employe.id} name={employe.id} checked={employe.isPresent} onChange={() => this.handleChangeIsPresent(employe)} disabled={this.state.disabled}/>
+                    </td>
                 </tr>
             )
         }
@@ -134,6 +161,8 @@ export default class AnalyticsDashboard1 extends Component {
                     <td>{employe.prenom}</td>
                     <td>{employe.nom}</td>
                     <td>{employe.typeEmploye}</td>
+                    <td>  <CustomInput type="checkbox" id={employe.id} name={employe.id} checked={employe.isPresent} onChange={() => this.handleChangeIsPresent(employe)} disabled={this.state.disabled}/>
+                    </td>
                 </tr>
             )
         }
@@ -144,6 +173,8 @@ export default class AnalyticsDashboard1 extends Component {
                     <td>{employe.prenom}</td>
                     <td>{employe.nom}</td>
                     <td>{employe.typeEmploye}</td>
+                    <td>  <CustomInput type="checkbox" id={employe.id} name={employe.id} checked={employe.isPresent} onChange={() => this.handleChangeIsPresent(employe)} disabled={this.state.disabled} />
+                    </td>
                 </tr>
             )
         }
@@ -154,6 +185,8 @@ export default class AnalyticsDashboard1 extends Component {
                     <td>{employe.prenom}</td>
                     <td>{employe.nom}</td>
                     <td>{employe.typeEmploye}</td>
+                    <td>  <CustomInput type="checkbox" id={employe.id} name={employe.id} checked={employe.isPresent} onChange={() => this.handleChangeIsPresent(employe)} disabled={this.state.disabled}/>
+                    </td>
                 </tr>
             )
         }
@@ -164,22 +197,34 @@ export default class AnalyticsDashboard1 extends Component {
                     <td>{employe.prenom}</td>
                     <td>{employe.nom}</td>
                     <td>{employe.typeEmploye}</td>
+                    <td>  <CustomInput type="checkbox" id={employe.id} name={employe.id} checked={employe.isPresent} onChange={() => this.handleChangeIsPresent(employe)} disabled={this.state.disabled}/>
+                    </td>
                 </tr>
             )
         }
     }
     getNombreBarman() {
         employeService.getNombreBarman().then(resp => {
-            const nombreBarman = resp.data;
-            console.log("nombre barman", resp)
-            this.setState({ nombreBarman });
-
+            if(resp && resp.status === 200){
+                const nombreBarman = resp.data;
+                console.log("nombre barman", resp)
+                this.setState({ nombreBarman });
+            }
+        })
+    }
+    getNombreCoordonnateur() {
+        employeService.getNombreCoordonnateur().then(resp => {
+            if(resp && resp.status===200){
+                const nombreCoordonnateur = resp.data;
+                console.log("nombre coordonnateur", resp)
+                this.setState({ nombreCoordonnateur });
+            }
         })
     }
     getNombreSuperviseur() {
         employeService.getNombreSuperviseur().then(resp => {
             console.log("nombre commis", resp.data)
-            if (resp.status === 200) {
+            if (resp && resp.status === 200) {
                 const nombreSuperviseur = resp.data;
                 this.setState({ nombreSuperviseur });
             }
@@ -195,7 +240,7 @@ export default class AnalyticsDashboard1 extends Component {
     }
     getNombreHotesse() {
         employeService.getNombreHotesse().then(resp => {
-            if (resp.status === 200) {
+            if (resp && resp.status === 200) {
                 const nombreHotesse = resp.data;
                 this.setState({ nombreHotesse });
             }
@@ -243,6 +288,7 @@ export default class AnalyticsDashboard1 extends Component {
                                                     <th className="titre">PRENOM</th>
                                                     <th className="nom">NOM</th>
                                                     <th className="type">TYPE</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -270,10 +316,14 @@ export default class AnalyticsDashboard1 extends Component {
                                             <div className="widget-subheading">
                                                 <b>Superviseurs actifs</b>
                                             </div>
-                                            {/* <div className="widget-description text-white">
-                                                <FontAwesomeIcon icon={faAngleUp}/>
-                                                <span className="pl-1">54.9%</span>
-                                            </div> */}
+                                            <div className="widget-chart-wrapper">
+                                                <ResponsiveContainer width='100%' aspect={3.0 / 1.0}>
+                                                    <LineChart data={data}
+                                                        margin={{ top: 0, right: 5, left: 5, bottom: 0 }}>
+                                                        <Line type='monotone' dataKey='pv' stroke='#ffffff' strokeWidth={3} />
+                                                    </LineChart>
+                                                </ResponsiveContainer>
+                                            </div>
                                         </div>
                                     </Col>
                                     <Col md="6">
@@ -288,10 +338,14 @@ export default class AnalyticsDashboard1 extends Component {
                                             <div className="widget-subheading hot">
                                                 <b> Hotesses actives</b>
                                             </div>
-                                            {/* <div className="widget-description text-white">
-                                                <FontAwesomeIcon icon={faArrowRight}/>
-                                                <span className="pl-1">72.1%</span>
-                                            </div> */}
+                                            <div className="widget-chart-wrapper">
+                                                <ResponsiveContainer width='100%' aspect={3.0 / 1.0}>
+                                                    <LineChart data={data}
+                                                        margin={{ top: 0, right: 5, left: 5, bottom: 0 }}>
+                                                        <Line type='monotone' dataKey='pv' stroke='#808080' strokeWidth={3} />
+                                                    </LineChart>
+                                                </ResponsiveContainer>
+                                            </div>
                                         </div>
                                     </Col>
 
@@ -309,10 +363,14 @@ export default class AnalyticsDashboard1 extends Component {
                                             <div className="widget-subheading">
                                                 <b> Commis cuisine actifs</b>
                                             </div>
-                                            {/* <div className="widget-description text-white">
-                                                <span className="pr-1">62,7%</span>
-                                                <FontAwesomeIcon icon={faArrowLeft}/>
-                                            </div> */}
+                                            <div className="widget-chart-wrapper">
+                                                <ResponsiveContainer width='100%' aspect={3.0 / 1.0}>
+                                                    <LineChart data={data}
+                                                        margin={{ top: 0, right: 5, left: 5, bottom: 0 }}>
+                                                        <Line type='monotone' dataKey='pv' stroke='#ffffff' strokeWidth={3} />
+                                                    </LineChart>
+                                                </ResponsiveContainer>
+                                            </div>
                                         </div>
                                     </Col>
 
@@ -328,6 +386,37 @@ export default class AnalyticsDashboard1 extends Component {
                                                 </div>
                                                 <div className="widget-subheading">
                                                     <b>Barmans actifs</b>
+                                                </div>
+                                                {/* <div className="widget-description">
+                                                    <FontAwesomeIcon className="text-white opacity-5" icon={faAngleUp}/>
+                                                    <span className="text-white">175.5%</span>
+                                                </div> */}
+                                            </div>
+                                            <div className="widget-chart-wrapper">
+                                                <ResponsiveContainer width='100%' aspect={3.0 / 1.0}>
+                                                    <LineChart data={data}
+                                                        margin={{ top: 0, right: 5, left: 5, bottom: 0 }}>
+                                                        <Line type='monotone' dataKey='pv' stroke='#ffffff' strokeWidth={3} />
+                                                    </LineChart>
+                                                </ResponsiveContainer>
+                                            </div>
+                                        </div>
+                                    </Col>
+                                </Row>
+                                <Row>
+
+                                    <Col md="6">
+                                        <div className="card mb-3 bg-love-coord widget-chart card-border">
+                                            <div className="widget-chart-content text-white">
+                                                <div className="icon-wrapper rounded-circle">
+                                                    <div className="icon-wrapper-bg bg-white opacity-4" />
+                                                    <i className="lnr-cog" />
+                                                </div>
+                                                <div className="widget-numbers">
+                                                    {this.state.nombreCoordonnateur}
+                                                </div>
+                                                <div className="widget-subheading">
+                                                    <b>Coordonnateur Cuisine actifs</b>
                                                 </div>
                                                 {/* <div className="widget-description">
                                                     <FontAwesomeIcon className="text-white opacity-5" icon={faAngleUp}/>
@@ -362,6 +451,7 @@ export default class AnalyticsDashboard1 extends Component {
                                                     <th className="titre">PRENOM</th>
                                                     <th className="nom">NOM</th>
                                                     <th className="type">TYPE</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -387,6 +477,7 @@ export default class AnalyticsDashboard1 extends Component {
                                                     <th className="titre">PRENOM</th>
                                                     <th className="titre">NOM</th>
                                                     <th className="titre">TYPE</th>
+                                                    <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
