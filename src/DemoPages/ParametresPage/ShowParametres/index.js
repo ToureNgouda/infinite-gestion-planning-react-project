@@ -130,10 +130,10 @@ export default class ShowParametres extends Component {
         }
     }
     handleSubmit=()=>{
-        console.log("jour 5 h3", this.state.jour5H3);
+        console.log("jour 5 h3", this.state);
         gestionHoraireService.updateGestionHoraire(this.state).then(result=>{
               if(result && result.status === 200){
-                   this.getAllGestionHoraire();
+                //    this.getAllGestionHoraire();
                     toast.success(`les paramétres ont été mis à jour avec succés`, {
                     position: toast.POSITION.TOP_CENTER
                 });

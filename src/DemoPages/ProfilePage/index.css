@@ -5,3 +5,6 @@
 label{
     margin-top: 3px;
 }
+.errorPassword{
+    color: red;
+}

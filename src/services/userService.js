@@ -8,7 +8,9 @@ export const userService = {
     getAllUsers,
     saveUser,
     getUser,
-    updateUser
+    updateUser,
+    verifierPasswordUser,
+    modifierProfileUser
 };
 
 function getAllUsers() {
@@ -44,6 +46,26 @@ function getUser(id) {
 function updateUser(state) {
     const requestOptions = { headers: authHeader() };
     return axios.put(`${config.apiUrl}/user/${state.user.id}`,state,requestOptions).then(user=>{
+          console.log("user recupere ",user);
+          return user;
+    }).catch(error=>{
+        handleResponse(error);
+         console.log(error);
+    });
+}
+function verifierPasswordUser(state) {
+    const requestOptions = { headers: authHeader() };
+    return axios.post(`${config.apiUrl}/user/verifierPasswordUser`,state,requestOptions).then(user=>{
+          console.log("user recupere ",user);
+          return user;
+    }).catch(error=>{
+        handleResponse(error);
+         console.log(error);
+    });
+}
+function modifierProfileUser(state) {
+    const requestOptions = { headers: authHeader() };
+    return axios.post(`${config.apiUrl}/user/modifierProfileUser`,state,requestOptions).then(user=>{
           console.log("user recupere ",user);
           return user;
     }).catch(error=>{

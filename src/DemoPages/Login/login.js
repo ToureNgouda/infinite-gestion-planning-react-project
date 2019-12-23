@@ -34,9 +34,14 @@ export default class Login extends Component {
           if (response && response.status === 200) {
             this.setState({ redirect: true })
           } else {
-            toast.error(`une erreur est survenue coté serveur veuillez réessayer svp ou verifier le login et le mot de passe `, {
+            if(response.message === "Request failed with status code 401")
+            toast.error(`Login ou mot de passe incorrect `, {
               position: toast.POSITION.TOP_CENTER
             });
+            else
+              toast.error(`une erreur est survenue coté serveur veuillez réessayer svp `, {
+                position: toast.POSITION.TOP_CENTER
+              });
           }
         },
         error => {
@@ -90,7 +95,7 @@ export default class Login extends Component {
 							Connexion
 						</button>
 					</div>
-
+              <ToastContainer/>
             </form>
           </div>
         </div>

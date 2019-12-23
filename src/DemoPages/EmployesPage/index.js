@@ -34,6 +34,18 @@ export default class EmployesPage extends Component {
         console.log("math", this.state.match)
         // this.getAllEmployes();
     }
+    activerEmploye = (employe, isActif) => {
+        console.log("fonction activer employe appele",employe);
+        if (isActif)
+            employe.isActif = true;
+        else
+            employe.isActif = false;
+        employeService.activerEmploye(employe).then(result => {
+            if (result && result.status === 200) {
+                this.getAllEmployes();
+            }
+        });
+    }
     handleAddEmploye = () => {
         this.setState({ redirectCreateEmploye: true })
     }
@@ -61,7 +73,7 @@ export default class EmployesPage extends Component {
         //     return (<Redirect to={'/employes/creerEmploye'}/>)
         // }
         const listEmployes = this.state.employes.map(employe =>
-            <EmployesList key={employe.id} employe={employe} editEmploye={this.editEmploye} />
+            <EmployesList key={employe.id} employe={employe} editEmploye={this.editEmploye} activerEmploye={this.activerEmploye} />
         )
         return (
             <Fragment>
@@ -70,53 +82,53 @@ export default class EmployesPage extends Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
-                        <div className="showEmploye">
-                            <Route exact strict path={`${this.state.match.url}`} render={() => (
-                                (
-                                    <Card className="main-card mb-3">
-                                        <CardBody>
-                                            <CardTitle>
-                                                <Row>
-                                                    <Col md="10">Liste Employés</Col>
-                                                    <Col md="2">
-                                                        <Link to="/employes/creerEmploye">
-                                                            <Button outline color="secondary" onClick={this.handleAddEmploye}>
-                                                                <FontAwesomeIcon icon={faPlus} /> {'   '}
-                                                                <span>Ajouter</span>
-                                                            </Button>
-                                                        </Link>
-                                                    </Col>
-                                                </Row>
-                                            </CardTitle>
-                                            <Table responsive className="mb-0">
-                                                <thead>
-                                                    <tr>
-                                                        <th>NUMERO</th>
-                                                        <th>PRENOM</th>
-                                                        <th>NOM</th>
-                                                        <th>EMAIL</th>
-                                                        <th>GENRE</th>
-                                                        <th>TYPE</th>
-                                                        <th>TELEPHONE</th>
-                                                        <th>ADRESSE</th>
-                                                        <th></th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    {this.state.getEmployes && listEmployes}
-                                                </tbody>
-                                            </Table>
-                                        </CardBody>
-                                    </Card>
-                                )
-                            )} />
-                            <Route exact path='/employes/creerEmploye' component={CreerEmploye}></Route>
+                            <div className="showEmploye">
+                                <Route exact strict path={`${this.state.match.url}`} render={() => (
+                                    (
+                                        <Card className="main-card mb-3">
+                                            <CardBody>
+                                                <CardTitle>
+                                                    <Row>
+                                                        <Col md="10">Liste Employés</Col>
+                                                        <Col md="2">
+                                                            <Link to="/employes/creerEmploye">
+                                                                <Button outline color="secondary" onClick={this.handleAddEmploye}>
+                                                                    <FontAwesomeIcon icon={faPlus} /> {'   '}
+                                                                    <span>Ajouter</span>
+                                                                </Button>
+                                                            </Link>
+                                                        </Col>
+                                                    </Row>
+                                                </CardTitle>
+                                                <Table responsive className="mb-0">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>NUMERO</th>
+                                                            <th>PRENOM</th>
+                                                            <th>NOM</th>
+                                                            <th>EMAIL</th>
+                                                            <th>GENRE</th>
+                                                            <th>TYPE</th>
+                                                            <th>TELEPHONE</th>
+                                                            <th>ADRESSE</th>
+                                                            <th></th>
+                                                            <th></th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {this.state.getEmployes && listEmployes}
+                                                    </tbody>
+                                                </Table>
+                                            </CardBody>
+                                        </Card>
+                                    )
+                                )} />
+                                <Route exact path='/employes/creerEmploye' component={CreerEmploye}></Route>
 
-                            {this.state.isRedirect &&
-                                <Route exact path={"/employes/:id"} component={EditEmploye}></Route>}
+                                {this.state.isRedirect &&
+                                    <Route exact path={"/employes/:id"} component={EditEmploye}></Route>}
 
-                        </div>
+                            </div>
                         </div>
                         <AppFooter />
                     </div>

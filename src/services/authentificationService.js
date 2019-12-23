@@ -23,6 +23,7 @@ function login(state) {
             return resp;
         }).catch(error=>{
               console.log(error);
+              return error;
         })
 }
 function logout(state) {
