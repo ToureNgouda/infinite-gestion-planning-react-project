@@ -9542,6 +9542,10 @@ body {
   a.badge-success:hover, a.badge-success:focus {
     color: #fff;
     background-color: #59822c; }
+  .toastCont{
+      z-index: 2500;
+      margin-top:100px;
+  }
 
 .badge-info {
   color: #fff;

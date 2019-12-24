@@ -3,13 +3,14 @@ import AppHeader from '../../Layout/AppHeader';
 import AppSidebar from '../../Layout/AppSidebar';
 import AppFooter from '../../Layout/AppFooter';
 import { EmployesList } from './EmployesList';
-import { Table, CardTitle, CardBody, Card, Col, Row, Button } from 'reactstrap';
+import { Table, CardTitle, CardBody, Card, Col, Row, Button, Modal, ModalBody, ModalHeader, ModalFooter } from 'reactstrap';
 import { Route, Link } from 'react-router-dom';
 import EditEmploye from './EditEmploye';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './index.css';
 import CreerEmploye from './EmployeCreate';
-import { AnimatedSwitch } from 'react-router-transition';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
 
     faPlus,
@@ -25,8 +26,9 @@ export default class EmployesPage extends Component {
         this.state = {
             employes: [],
             match: this.props.match,
-            employe: null,
+            employe: {},
             params: '',
+            modalIsOpen:false,
             isRedirect: false,
             redirectCreateEmploye: false,
             getEmployes: false
@@ -34,15 +36,33 @@ export default class EmployesPage extends Component {
         console.log("math", this.state.match)
         // this.getAllEmployes();
     }
-    activerEmploye = (employe, isActif) => {
-        console.log("fonction activer employe appele",employe);
-        if (isActif)
-            employe.isActif = true;
-        else
-            employe.isActif = false;
+    activerEmploye = (employe) => {
         employeService.activerEmploye(employe).then(result => {
             if (result && result.status === 200) {
                 this.getAllEmployes();
+            }
+        });
+    }
+    desactiverEmploye = (employe) => {
+        employeService.desactiverEmploye(employe).then(result => {
+            if (result && result.status === 200) {
+                this.getAllEmployes();
+            }
+        });
+    }
+    supprimerEmploye = () => {
+        employeService.supprimerEmploye(this.state.employe).then(result => {
+            if (result && result.status === 200) {
+                this.setState({ modalIsOpen: false});
+                this.getAllEmployes();
+                toast.success(`l'employé a été supprimé avec succés`, {
+                    ptoastosition: toast.POSITION.TOP_CENTER
+                });
+            }else {
+                this.setState({ modalIsOpen: false});
+                toast.error(`Une erreur est survenue coté serveur`, {
+                    ptoastosition: toast.POSITION.TOP_CENTER
+                });
             }
         });
     }
@@ -68,12 +88,19 @@ export default class EmployesPage extends Component {
         this.setState({ isRedirect: true })
         //console.log(typeof(this.props.match.params.id))
     }
+    closeModal=()=>{
+        this.setState({ modalIsOpen:false});
+    }
+    openModal=(employe)=>{
+        this.setState({ employe });
+        this.setState({ modalIsOpen: true });
+    }
     render() {
         // if(this.state.redirectCreateEmploye){
         //     return (<Redirect to={'/employes/creerEmploye'}/>)
         // }
         const listEmployes = this.state.employes.map(employe =>
-            <EmployesList key={employe.id} employe={employe} editEmploye={this.editEmploye} activerEmploye={this.activerEmploye} />
+            <EmployesList key={employe.id} employe={employe} editEmploye={this.editEmploye} openModal={this.openModal} activerEmploye={this.activerEmploye} desactiverEmploye={this.desactiverEmploye} />
         )
         return (
             <Fragment>
@@ -83,6 +110,17 @@ export default class EmployesPage extends Component {
                     <div className="app-main__outer">
                         <div className="app-main__inner">
                             <div className="showEmploye">
+                                <ToastContainer/>
+                                <Modal isOpen={this.state.modalIsOpen} toggle={this.closeModal}>
+                                    <ModalHeader toggle={this.closeModal}>Supprimer un employé</ModalHeader>
+                                    <ModalBody>
+                                        Etes vous  sûr de vouloir supprimer <b> {this.state.employe.prenom} {this.state.employe.nom} </b><br /> de la liste des employés
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="secondary" onClick={this.closeModal}>Annuler</Button>{' '}
+                                        <Button color="primary" onClick={this.supprimerEmploye}>Confirmer</Button>
+                                    </ModalFooter>
+                                </Modal>
                                 <Route exact strict path={`${this.state.match.url}`} render={() => (
                                     (
                                         <Card className="main-card mb-3">

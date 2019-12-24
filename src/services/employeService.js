@@ -24,7 +24,9 @@ export const employeService = {
     verifierPresenceInVacation,
     getAllEmployeWithNumberVacation,
     getNombreCoordonnateur,
-    activerEmploye
+    activerEmploye,
+    desactiverEmploye,
+    supprimerEmploye
 };
 
 function getAllEmployes() {
@@ -238,10 +240,29 @@ function verifierPresenceInVacation(state){
 }
 function activerEmploye(state){
     const requestOptions = { headers: authHeader() };
-    const request={
-        isActif:state.isActif
-    };
-    return axios.put(`${config.apiUrl}/activerEmploye`,state, requestOptions)
+    return axios.put(`${config.apiUrl}/activerEmploye/state.id`,state, requestOptions)
+    .then(response=>{
+        console.log("activer employe ",response)
+          return response;
+    }).catch(error=>{
+         console.log(error);
+         handleResponse(error);
+    });
+}
+function desactiverEmploye(state){
+    const requestOptions = { headers: authHeader() };
+    return axios.put(`${config.apiUrl}/desactiverEmploye/state.id`,state, requestOptions)
+    .then(response=>{
+        console.log("activer employe ",response)
+          return response;
+    }).catch(error=>{
+         console.log(error);
+         handleResponse(error);
+    });
+}
+function supprimerEmploye(state){
+    const requestOptions = { headers: authHeader() };
+    return axios.put(`${config.apiUrl}/supprimerEmploye/state.id`,state, requestOptions)
     .then(response=>{
         console.log("activer employe ",response)
           return response;

@@ -1,9 +1,9 @@
 @charset "UTF-8";
 
 .badge-danger{
-   margin-top: 5px;
+   /* margin-top: 5px;
    width: 75px;
-   height: 18px;
+   height: 18px; */
 
 }
 .badge-success{
@@ -20,7 +20,7 @@
 tr{
     cursor: pointer;
 }
-tr:hover td {
+.usersList:hover{
     background-color: #f9748f ;
     color:white !important;
 }

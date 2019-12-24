@@ -10,7 +10,10 @@ export const userService = {
     getUser,
     updateUser,
     verifierPasswordUser,
-    modifierProfileUser
+    modifierProfileUser,
+    activerUser,
+    desactiverUser,
+    supprimerUser
 };
 
 function getAllUsers() {
@@ -66,6 +69,38 @@ function verifierPasswordUser(state) {
 function modifierProfileUser(state) {
     const requestOptions = { headers: authHeader() };
     return axios.post(`${config.apiUrl}/user/modifierProfileUser`,state,requestOptions).then(user=>{
+          console.log("user recupere ",user);
+          return user;
+    }).catch(error=>{
+        handleResponse(error);
+         console.log(error);
+    });
+}
+function activerUser(state) {
+    const requestOptions = { headers: authHeader() };
+    return axios.put(`${config.apiUrl}/user/activerUser/${state.id}`,state,requestOptions).then(user=>{
+          console.log("user recupere ",user);
+          return user;
+    }).catch(error=>{
+        handleResponse(error);
+         console.log(error);
+    });
+}
+
+function desactiverUser(state) {
+    const requestOptions = { headers: authHeader() };
+    return axios.put(`${config.apiUrl}/user/desactiverUser/${state.id}`,state,requestOptions).then(user=>{
+          console.log("user recupere ",user);
+          return user;
+    }).catch(error=>{
+        handleResponse(error);
+         console.log(error);
+    });
+}
+
+function supprimerUser(state) {
+    const requestOptions = { headers: authHeader() };
+    return axios.put(`${config.apiUrl}/user/supprimerUser/${state.id}`,state,requestOptions).then(user=>{
           console.log("user recupere ",user);
           return user;
     }).catch(error=>{

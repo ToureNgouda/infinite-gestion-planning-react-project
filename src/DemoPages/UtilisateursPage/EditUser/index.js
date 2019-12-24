@@ -90,7 +90,7 @@ export default class EditUser extends Component {
     render() {
         return (
             <Fragment>
-                <Card className="main-card mb-3">
+                <Card className="main-card mb-3 editUser">
                     {this.state.userMount &&
                         <CardBody>
                             <CardTitle className="heading">Modifier User</CardTitle>

@@ -4,10 +4,13 @@ import AppSidebar from '../../Layout/AppSidebar';
 import AppFooter from '../../Layout/AppFooter';
 import { userService } from '../../services/userService';
 import { Link } from 'react-router-dom';
-import { Table, CardTitle, CardBody, Card, Button, Row, Col } from 'reactstrap';
+import { Table, CardTitle, CardBody, Card, Button, Row, Col ,Modal, ModalBody,ModalFooter, ModalHeader} from 'reactstrap';
 import { ShowUsers } from './ShowUsers';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Route } from 'react-router-dom';
+import './index.css';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import {
 
     faPlus,
@@ -15,7 +18,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 import './index.css';
 import CreerUser from './CreateUser';
-import EditUser from  './EditUser';
+import EditUser from './EditUser';
 
 export default class UtilisateursPage extends Component {
 
@@ -25,7 +28,9 @@ export default class UtilisateursPage extends Component {
             users: [],
             profil: '',
             match: this.props.match,
-            isEditUser:false
+            isEditUser: false,
+            modalIsOpen: false,
+            user: {}
         }
         this.getAllUsers();
     }
@@ -34,10 +39,10 @@ export default class UtilisateursPage extends Component {
         users.push(user);
         this.setState({ users });
     }
-    editUser = ( user )=>{
+    editUser = (user) => {
         console.log("fonction edit user appele", user)
         this.props.history.push(`/utilisateurs/${user.id}`);
-        this.setState({ isEditUser:true});
+        this.setState({ isEditUser: true });
     }
     getAllUsers() {
         userService.getAllUsers().then(resp => {
@@ -47,13 +52,51 @@ export default class UtilisateursPage extends Component {
             console.log("error cote serveur", error);
         })
     }
-    updateUser(users){
-       this.setState( { users });
+    updateUser(users) {
+        this.setState({ users });
+    }
+    desactiverUser = (user) => {
+        userService.desactiverUser(user).then(result => {
+            if (result && result.status === 200) {
+                this.getAllUsers();
+            }
+        });
+    }
+    activerUser = (user) => {
+        userService.activerUser(user).then(result => {
+            if (result && result.status === 200) {
+                this.getAllUsers();
+            }
+        });
+    }
+    openModal = (user) => {
+        this.setState({ user });
+        this.setState({ modalIsOpen: true })
+    }
+    closeModal=()=>{
+        this.setState({ modalIsOpen : false});
+    }
+    supprimerUser=()=>{
+       userService.supprimerUser(this.state.user).then(result=>{
+             if(result && result.status === 200){
+                   this.setState({ modalIsOpen:false});
+                   this.getAllUsers();
+                   toast.success(`l'utilisateur a été supprimé avec succés`, {
+                    ptoastosition: toast.POSITION.TOP_CENTER
+                });
+             }else{
+                this.setState({ modalIsOpen:false});
+                toast.success(`Une erreur est survenue coté serveur`, {
+                    ptoastosition: toast.POSITION.TOP_CENTER
+                });
+
+             }
+       })
     }
     render() {
         const users = this.state.users.map(user =>
-            <ShowUsers key={user.id}
-                user={user}  editUser={this.editUser}
+            <ShowUsers key={user.id} className="showUsers"
+                user={user} editUser={this.editUser} activerUser={this.activerUser} desactiverUser={this.desactiverUser} openModal={this.openModal}
             />
         )
         return (
@@ -63,9 +106,19 @@ export default class UtilisateursPage extends Component {
                     <AppSidebar />
                     <div className="app-main__outer">
                         <div className="app-main__inner">
+                                <Modal isOpen={this.state.modalIsOpen} toggle={this.closeModal}>
+                                    <ModalHeader toggle={this.closeModal}>Supprimer un employé</ModalHeader>
+                                    <ModalBody>
+                                        Etes vous  sûr de vouloir supprimer {this.state.user.prenom} { ' ' }  {this.state.user.nom} des utilisateurs
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="secondary" onClick={this.closeModal}>Annuler</Button>{' '}
+                                        <Button color="primary" onClick={this.supprimerUser}>Confirmer</Button>
+                                    </ModalFooter>
+                                </Modal>
                             <Route exact strict path={`${this.state.match.url}`} render={() =>
                                 (
-                                    <Card className="main-card mb-3">
+                                    <Card className="main-card mb-3 users">
                                         <CardBody>
                                             <CardTitle>
                                                 <Row>
@@ -96,7 +149,9 @@ export default class UtilisateursPage extends Component {
                                                 </tbody>
                                             </Table>
                                         </CardBody>
+                                        <ToastContainer/>
                                     </Card>
+                                    
                                 )} />
                             <Route exact path='/utilisateurs/creerUser' component={CreerUser} createUser={this.createUser}></Route>
                             {this.state.isEditUser &&
