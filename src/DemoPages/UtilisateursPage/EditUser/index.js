@@ -67,6 +67,9 @@ export default class EditUser extends Component {
             }
         })
     }
+    handleAnnule=()=>{
+        this.props.history.push("/utilisateurs");
+    }
     handleChange = e => {
         const { name, value } = e.target;
         const user = { ...this.state.user };
@@ -125,20 +128,8 @@ export default class EditUser extends Component {
 
                                     </Row>
                                 </FormGroup>
-                                {/* <FormGroup>
-                                            <Row>
-                                            <Col md={6}>
-                                                    <Input type="password" name="password" 
-                                                        placeholder="Mot de Passe"  value={this.state.password} onChange={this.handleChange}/>
-                                                </Col>
-                                                <Col md={6}>
-                                                    <Input type="password" name="confirmePassword" 
-                                                        placeholder="Confirmer mot de Passe"  value={this.state.confirmePassword} onChange={this.handleChange}/>
-                                                </Col>
-                                            </Row>
-                                        </FormGroup> */}
-
                                 <Button color="primary" className="mt-2 mr-2 pull-right" type="submit"> Modifier </Button>
+                                <Button color="secondary" className="mt-2 mr-2 pull-right" onClick={this.handleAnnule}> Annuler </Button>
                                 <ToastContainer />
                             </Form>
                         </CardBody>}

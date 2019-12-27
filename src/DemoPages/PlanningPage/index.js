@@ -30,7 +30,7 @@ export default class PlanningPage extends Component {
         console.log("fonction appele",state)
          this.setState({ isLoading:true });
         // this.timeOut(state);
-        const loc = `http://localhost:80/infinite-gestion-planning-back/public/exporterplanning/${state}`;
+        const loc = `https://gestionstaffing.herokuapp.com/exporterplanning/${state}`;
         window.location = loc;
         planningService.exportPlanning(state).then(result =>{
                if(result && result.status === 200){

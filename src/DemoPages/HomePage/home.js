@@ -27,7 +27,9 @@ export default class HomePage extends Component {
             "0" + this.state.date.getHours()
         ).slice(-2)}:${("0" + this.state.date.getMinutes()).slice(-2)}:${this.state.date.getSeconds()}`;
         console.log("date",date); 
-        var  expire_in = new Date(JSON.parse(localStorage.getItem('currentUser')).expires_in);
+        var  expire_in = new Date();
+        if(localStorage.getItem('currentUser'))
+            expire_in = new Date(JSON.parse(localStorage.getItem('currentUser')).expires_in);
         var date_expire_in = `${expire_in.getFullYear()}-${(
             "0" +
             (expire_in.getMonth() + 1)
