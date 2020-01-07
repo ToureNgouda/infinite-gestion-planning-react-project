@@ -294,8 +294,6 @@ export default class AnalyticsDashboard1 extends Component {
                                             <tbody>
                                                 {this.state.employesInVacationActuel.map(employe => (
                                                     this.getEmploye(employe)
-
-
                                                 ))}
                                             </tbody>
                                         </Table>
@@ -332,17 +330,17 @@ export default class AnalyticsDashboard1 extends Component {
                                                 <div className="icon-wrapper-bg bg-dark opacity-9" />
                                                 <i className="lnr-graduation-hat text-white" />
                                             </div>
-                                            <div className="widget-numbers hotessWidegets">
+                                            <div className="widget-numbers">
                                                 {this.state.nombreHotesse}
                                             </div>
-                                            <div className="widget-subheading hot">
+                                            <div className="widget-subheading ">
                                                 <b> Hotesses actives</b>
                                             </div>
                                             <div className="widget-chart-wrapper">
                                                 <ResponsiveContainer width='100%' aspect={3.0 / 1.0}>
                                                     <LineChart data={data}
                                                         margin={{ top: 0, right: 5, left: 5, bottom: 0 }}>
-                                                        <Line type='monotone' dataKey='pv' stroke='#808080' strokeWidth={3} />
+                                                        <Line type='monotone' dataKey='pv' stroke='#ffffff' strokeWidth={3} />
                                                     </LineChart>
                                                 </ResponsiveContainer>
                                             </div>

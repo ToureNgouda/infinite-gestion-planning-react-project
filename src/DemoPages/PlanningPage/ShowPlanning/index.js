@@ -717,10 +717,6 @@ export default class     extends Component {
         console.log("fonction appelé", this.state.dateDebut);
         // const loc = `http://localhost/infinite-gestion-planning-back/public/sendEmail/${this.state.dateDebut}`;
         // window.location = loc;
-        toast.info('L\'envoi du planning est en cours merci de patienter.....', {
-            position: toast.POSITION.TOP_CENTER
-        });
-
         planningService.sendEmail(this.state.dateDebut).then(result => {
             if (result && result.status === 200) {
                 toast.success('Le planning a bien été envoyé à tous les employés', {

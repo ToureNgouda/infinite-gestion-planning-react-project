@@ -32,18 +32,18 @@ export default class PlanningPage extends Component {
         // this.timeOut(state);
         const loc = `https://gestionstaffing.herokuapp.com/exporterplanning/${state}`;
         window.location = loc;
-        planningService.exportPlanning(state).then(result =>{
-               if(result && result.status === 200){
-                this.setState({ isLoading: false});
-                 console.log("result",result)
-               }else{
-                this.setState({ isLoading: false});
-                toast.error('Une erreur est survenue coté serveur lors de l\'export du planning.', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+        // planningService.exportPlanning(state).then(result =>{
+        //        if(result && result.status === 200){
+        //         this.setState({ isLoading: false});
+        //          console.log("result",result)
+        //        }else{
+        //         this.setState({ isLoading: false});
+        //         toast.error('Une erreur est survenue coté serveur lors de l\'export du planning.', {
+        //             position: toast.POSITION.TOP_CENTER
+        //         });
                  
-               }
-        })
+        //        }
+        // })
        
     }
     regenererPlanningMoisProchain=()=>{

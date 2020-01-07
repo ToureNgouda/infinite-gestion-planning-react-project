@@ -5,9 +5,9 @@
 }
 .hotesse{
     width:100%;
-    background-color:white;
+    background-color:#F08080;
     text-align: center;
-    color:black;
+    color:white;
     margin-top: 3px;
     border-radius: 3px;
 }
@@ -24,7 +24,7 @@
 }
 .barman{
     width:100%;
-    background-color:#0000ff;
+    background-color:#E9967A;
     text-align: center;
     color:white;
     margin-top: 3px;
@@ -37,7 +37,7 @@
 }
 .coordonnateur{
     width:100%;
-    background-color:green;
+    background-color:#FFA07A;
     text-align: center;
     color:white;
     margin-top: 3px;  
@@ -45,15 +45,15 @@
 }
 .superviseur{
     width:100%;
-    background-color:#ee82ee;
+    background-color:#CD5C5C;
     text-align: center;
-    color:black;
+    color:white;
     margin-top: 3px;
     border-radius: 3px;
     
 }
 .superviseurD{
-    background-color:violet;
+    background-color:#CD5C5C;
     widows:20px;
     height: 15px;
     width: 50px;
@@ -82,7 +82,7 @@
     margin-left: 72%;  */
 }
 .barmanD{
-    background-color:blue;
+    background-color:#E9967A;
     widows:20px;
     height: 15px;
     width: 50px;
@@ -90,7 +90,7 @@
     
 }
 .commisD{
-    background-color:burlywood;
+    background-color:#FA8072;
     widows:20px;
     height: 15px;
     width: 50px;
@@ -98,7 +98,7 @@
     
 }
 .hotesseD{
-    background-color:white;
+    background-color:#F08080;
     widows:20px;
     height: 15px;
     width: 50px;
@@ -106,7 +106,7 @@
     
 }
 .coordonnateurD{
-    background-color:green;
+    background-color:#FFA07A;
     widows:20px;
     height: 15px;
     width: 50px;
@@ -171,7 +171,7 @@
 }
 .commis{
     width:100%;
-    background-color:#deb887;
+    background-color:#FA8072;
     text-align: center;
     color:white;
     margin-top: 3px;
