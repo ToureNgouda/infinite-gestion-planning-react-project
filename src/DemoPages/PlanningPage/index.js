@@ -19,19 +19,23 @@ export default class PlanningPage extends Component {
             isLoading:false
         }
     }
-    timeOut(state){
+    timeOut(message){
        setTimeout(() => {
              this.setState({ isLoading:false });
-          }, 18000);
+             toast.info(message, {
+                position: toast.POSITION.TOP_CENTER
+            });
+          }, 60000);
 
     }
    
     exportPlanning = (state) => {
         console.log("fonction appele",state)
-         this.setState({ isLoading:true });
+        //  this.setState({ isLoading:true });
         // this.timeOut(state);
         const loc = `https://gestionstaffing.herokuapp.com/exporterplanning/${state}`;
         window.location = loc;
+        this.setState({ isLoading:false });
         // planningService.exportPlanning(state).then(result =>{
         //        if(result && result.status === 200){
         //         this.setState({ isLoading: false});
@@ -47,32 +51,33 @@ export default class PlanningPage extends Component {
        
     }
     regenererPlanningMoisProchain=()=>{
-        this.setState({ isLoading: true})
+        this.setState({ isLoading: true});
+        let message = 'Le planning du mois prochain a été regéneré avec succés.';
+        this.timeOut(message);
         planningService.regenererPlanningMoisProchain().then(result => {
             if (result && result.status === 200) {
-                this.setState({ isLoading: false });
-                toast.info('Le planning du mois prochain a été regéneré avec succés.', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+               console.log("status ok");
             }else {
                 this.setState({ isLoading: false });
-                toast.info('Le planning du mois prochain a été regéneré avec succés.', {
+                toast.info('une erreur est survenue coté serveur ', {
                     position: toast.POSITION.TOP_CENTER
                 });
             }
         })
     }
     genererPlanningMoisProchain = () => {
-        this.setState({ isLoading: true})
+        this.setState({ isLoading: true});
+        let message = 'Le planning du mois prochain a été géneré avec succés.';
+        this.timeOut(message);
         planningService.genererPlanningMoisProchain().then(result => {
             if (result && result.status === 200) {
-                this.setState({ isLoading: false });
-                toast.info('Le planning du mois prochain a été géneré avec succés.', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+                // this.setState({ isLoading: false });
+                // toast.info('Le planning du mois prochain a été géneré avec succés.', {
+                //     position: toast.POSITION.TOP_CENTER
+                // });
             }else {
                 this.setState({ isLoading: false });
-                toast.info('Le planning du mois prochain a été géneré avec succés.', {
+                toast.info('Une erreur est survenue coté serveur.', {
                     position: toast.POSITION.TOP_CENTER
                 });
             }
@@ -80,21 +85,22 @@ export default class PlanningPage extends Component {
     }
    
     regenererPlanningMoisEnCours = () => {
-        this.setState({ isLoading: true})
+        this.setState({ isLoading: true});
+        let message = 'Le planning du mois en cours a été regéneré avec succés.';
+        this.timeOut(message);
         planningService.regenererPlanningMoisEnCours().then(result => {
             if (result && result.status === 200) {
-                this.setState({ isLoading: false });
-                toast.info('Le planning du mois en cours a été regéneré avec succés.', {
-                    position: toast.POSITION.TOP_CENTER
-                });
+                // this.setState({ isLoading: false });
+                // toast.info('Le planning du mois en cours a été regéneré avec succés.', {
+                //     position: toast.POSITION.TOP_CENTER
+                // });
             }else {
                 this.setState({ isLoading: false });
-                toast.info('Le planning du mois en cours a été regéneré avec succés.', {
+                toast.info('une erreur est survenue coté serveur', {
                     position: toast.POSITION.TOP_CENTER
                 });
             }
         })
-        
     }
  
     render() {
