@@ -1687,10 +1687,11 @@ export default class     extends Component {
                                 </Col>
                                 <Col md="3">
                                     <div className="nomZone" > Superviseur</div>
-                                    <div className="nomZone">Barman</div>
+                                    <div className="nomZone">Hotesse</div>
                                     <div className="nomZone">Coordonnateur Cuisine</div>
                                     <div className="nomZone">Commis Cuisine</div>
-                                    <div className="nomZone">Hotesse</div>
+                                    <div className="nomZone">Barman</div>
+                                  
                                 </Col>
 
                                 <Col md="1">

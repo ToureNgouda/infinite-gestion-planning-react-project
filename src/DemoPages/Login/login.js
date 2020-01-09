@@ -48,8 +48,6 @@ export default class Login extends Component {
           console.log("erreur coté serveur", error);
         }
       );
-
-
   }
   handleChange = e => {
     const { name, value } = e.target;
@@ -59,7 +57,6 @@ export default class Login extends Component {
       this.setState({ disableButton: false });
     }
   }
-
 
   render() {
     if (this.state.redirect) {
