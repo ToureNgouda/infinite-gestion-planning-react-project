@@ -61,13 +61,14 @@ export default class EditEmploye extends Component {
     return employeService.updateEmploye(this.state).then(resp => {
       console.log("response ", resp);
       if (resp && resp.status === 200) {
-        toast.info(`${resp.data.prenom} ${resp.data.nom} a été modifié avec succés`, {
+        toast.success(`${resp.data.prenom} ${resp.data.nom} a été modifié avec succés`, {
           ptoastosition: toast.POSITION.TOP_CENTER
       });
         this.setState({ isRedirect: true });
         this.props.history.push('/employes');
+        window.location.reload(false);
       }else {
-        toast.success(`une erreur est survenue coté serveur`, {
+        toast.error(`une erreur est survenue coté serveur`, {
           ptoastosition: toast.POSITION.TOP_CENTER
       });
       }
@@ -126,6 +127,9 @@ export default class EditEmploye extends Component {
 
 
   }
+  handleAnnule=()=>{
+    this.props.history.push("/employes");
+}
   render() {
     return (
       <Fragment>
@@ -247,6 +251,7 @@ export default class EditEmploye extends Component {
                   </Row>
                 </FormGroup>
                 <Button color="primary" className="mt-2 mr-2 pull-right"> Modifier </Button>
+                <Button color="secondary" className="mt-2 mr-2 pull-right" onClick={this.handleAnnule}> Annuler </Button>
               </Form>
               <ToastContainer/>
             </CardBody>}

@@ -55,15 +55,8 @@ export default class EditUser extends Component {
         userService.updateUser(this.state).then(result => {
             if (result && result.status === 200) {
                 console.log(result.data);
-                // userService.getAllUsers().then(resp => {
-                //     if (resp && resp.status === 200) {
-                //         const users = resp.data;
-                        
-                //     }
-                // }).catch(error => {
-                //     console.log("error cote serveur", error);
-                // })
                 this.props.history.push("/utilisateurs");
+                window.location.reload(false);
             }
         })
     }

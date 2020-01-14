@@ -56,8 +56,9 @@ export default class EmployeCreate extends Component {
                 toast.success(`${resp.data.prenom} ${resp.data.nom} a été ajouté avec succés`, {
                     ptoastosition: toast.POSITION.TOP_CENTER
                 });
-                this.setState({ isRedirect:true })
-                this.props.history.push('/employes')
+                this.setState({ isRedirect:true });
+                this.props.history.push('/employes');
+                window.location.reload(false);
               }else {
                 toast.error(`une erreur est survenue coté serveur`, {
                     position: toast.POSITION.TOP_CENTER

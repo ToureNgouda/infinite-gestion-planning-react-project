@@ -4,7 +4,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import {
     Col, Row, Card, CardBody,
-    CardTitle, Button, Form, FormGroup, Input, CustomInput
+    CardTitle, Button, Form, FormGroup, Input, CustomInput, Label
 } from 'reactstrap';
 import { profilService } from '../../../services/profilService';
 import { userService } from '../../../services/userService';
@@ -36,7 +36,9 @@ export default class EmployeCreate extends Component {
             profils:[],
             isRedirect:false,
             confirmePassword:'',
-            password:''
+            password:'',
+            isConfirmePassword:true,
+            disableSubmitButton:true
         }
     }
    
@@ -45,12 +47,13 @@ export default class EmployeCreate extends Component {
        console.log("state",this.state);
        return userService.saveUser(this.state).then(resp=>{
               console.log("response ",resp);
-              if(resp){
+              if(resp && resp.status===200){
                 this.setState({isRedirect:true});
-                this.props.history.push('/utilisateurs');
-                toast.info(`user ajouté avec succés`, {
+                toast.success(`user ajouté avec succés`, {
                     ptoastosition: toast.POSITION.TOP_CENTER
                 });
+                this.props.history.push('/utilisateurs');
+                window.location.reload(false);
               }else {
                 toast.error(`une erreur est survenue coté serveur`, {
                     ptoastosition: toast.POSITION.TOP_CENTER
@@ -62,6 +65,15 @@ export default class EmployeCreate extends Component {
    handleChange = e=>{
     const { name, value } = e.target;
     this.setState({ [name]: value });
+    if (name === "confirmePassword") {
+        if(this.state.password !== value){
+            this.setState({ disableSubmitButton:true });
+            this.setState({ isConfirmePassword: false});
+        }else {
+            this.setState({ disableSubmitButton:false });
+            this.setState({ isConfirmePassword: true});  
+        }
+    }
    }
     render() {
         return (
@@ -98,7 +110,6 @@ export default class EmployeCreate extends Component {
                                                         )}
                                                 </CustomInput>
                                                 </Col>
-                                              
                                             </Row>
                                         </FormGroup>
                                         <FormGroup>
@@ -110,11 +121,13 @@ export default class EmployeCreate extends Component {
                                                 <Col md={6}>
                                                     <Input type="password" name="confirmePassword" 
                                                         placeholder="Confirmer mot de Passe"  value={this.state.confirmePassword} onChange={this.handleChange}/>
+                                                     {!this.state.isConfirmePassword && 
+                                                <Label className="errorPassword">Les mots de passe entrés ne correspondent pas </Label>
+                                               }
                                                 </Col>
                                             </Row>
                                         </FormGroup>
-                                        
-                                        <Button color="primary" className="mt-2 mr-2 pull-right">Créer </Button>
+                                        <Button color="primary" className="mt-2 mr-2 pull-right" disabled={this.state.disableSubmitButton}>Créer </Button>
                                         <ToastContainer />
                                     </Form>
                                 </CardBody>

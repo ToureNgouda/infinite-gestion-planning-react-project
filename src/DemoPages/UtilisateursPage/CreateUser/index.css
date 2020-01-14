@@ -7,3 +7,6 @@
 .createUser{
     /* margin-top: -80px; */
 }
+.errorPassword{
+    color: red;
+}
