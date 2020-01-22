@@ -25,7 +25,7 @@ export default class PlanningPage extends Component {
              toast.info(message, {
                 position: toast.POSITION.TOP_CENTER
             });
-          }, 60000);
+          }, 30000);
 
     }
    
@@ -33,7 +33,7 @@ export default class PlanningPage extends Component {
         console.log("fonction appele",state)
         //  this.setState({ isLoading:true });
         // this.timeOut(state);
-        const loc = `https://gestionstaffing.herokuapp.com/exporterplanning/${state}`;
+        const loc = `http://64.227.28.2/exporterplanning/${state}`;
         window.location = loc;
         this.setState({ isLoading:false });
         // planningService.exportPlanning(state).then(result =>{
