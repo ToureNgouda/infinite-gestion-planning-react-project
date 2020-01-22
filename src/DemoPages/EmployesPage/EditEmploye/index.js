@@ -61,7 +61,7 @@ export default class EditEmploye extends Component {
     return employeService.updateEmploye(this.state).then(resp => {
       console.log("response ", resp);
       if (resp && resp.status === 200) {
-        toast.success(`${resp.data.prenom} ${resp.data.nom} a été modifié avec succés`, {
+        toast.info(`${resp.data.prenom} ${resp.data.nom} a été modifié avec succés`, {
           ptoastosition: toast.POSITION.TOP_CENTER
       });
         this.setState({ isRedirect: true });
@@ -211,7 +211,6 @@ export default class EditEmploye extends Component {
                     </Col>
                   </Row>
                 </FormGroup>
-
                 <FormGroup>
                   <Row>
                     <Col md="3">

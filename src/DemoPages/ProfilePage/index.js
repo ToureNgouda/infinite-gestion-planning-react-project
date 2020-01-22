@@ -43,8 +43,14 @@ export default class ProfilePage extends Component {
                     if(result.data.isReconnect){
                         localStorage.setItem('currentUser', JSON.stringify(result.data));
                     }
+                    toast.info("Profile mise à jour avec succés", {
+                        position: toast.POSITION.TOP_CENTER
+                    });
               }else{
-                  console.log("error cote serveur",result)
+                  console.log("error coté serveur",result);
+                  toast.error("Une erreur s'est produite coté serveur", {
+                    position: toast.POSITION.TOP_CENTER
+                });
               } 
         })
     }

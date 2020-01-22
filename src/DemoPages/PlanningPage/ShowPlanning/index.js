@@ -694,7 +694,8 @@ export default class     extends Component {
             planningIsgenerate: false,
             day: 0,
             showPlanning: true,
-            sendingMail: false
+            sendingMail: false,
+            user :JSON.parse(localStorage.getItem('currentUser'))
         }
         this.getListEmployes();
     }
@@ -739,21 +740,21 @@ export default class     extends Component {
                     </ModalBody>
                     <ModalFooter>
                         <Button color="secondary" onClick={this.closeModal}>Annuler</Button>{' '}
-                        <Button color="primary" onClick={this.handleDeleteSubmit}>Confirmer</Button>
+                        <Button color="primary" onClick={this.handleDeleteSubmit} disabled={this.state.user.profil.typeProfil === "Superviseur"}>Confirmer</Button>
                     </ModalFooter>
                 </Modal>
                 <Row>
                     <Col md="3">
                         <div >
-                            {!this.state.planningIsgenerate && this.state.day >= 13 &&
+                            {!this.state.planningIsgenerate && this.state.day >= 13 && this.state.user.profil.typeProfil === "Administrateur" &&
                                 <Button color="info" onClick={this.props.genererPlanningMoisProchain}>Generer planning mois prochain</Button>
 
                             }
-                            {this.state.planningIsgenerate &&
+                            {this.state.planningIsgenerate && this.state.user.profil.typeProfil === "Administrateur" &&
                                 <Button color="info" onClick={this.props.regenererPlanningMoisProchain}>Regenerer planning mois prochain</Button>
 
                             }
-                            {!this.state.planningIsgenerate && this.state.day < 20 &&
+                            {!this.state.planningIsgenerate && this.state.day < 20 && this.state.user.profil.typeProfil === "Administrateur" &&
                                 <Button color="info" onClick={this.props.regenererPlanningMoisEnCours}>Regenerer planning mois en cours</Button>
 
                             }
@@ -2295,7 +2296,7 @@ export default class     extends Component {
                                 </CustomInput>
                             </Col>
                             <Col md="3">
-                                <Button onClick={this.handleSubmit} className="btn btn-default btn-lg btn-block"><b>Valider</b></Button>
+                                <Button onClick={this.handleSubmit} className="btn btn-default btn-lg btn-block" disabled={this.state.user.profil.typeProfil === "Superviseur"}><b>Valider</b></Button>
                                 <div className="toastCont">
                                     <ToastContainer />
                                 </div>

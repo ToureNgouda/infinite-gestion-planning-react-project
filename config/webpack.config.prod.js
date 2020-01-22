@@ -60,7 +60,7 @@ module.exports = {
   externals: {
     // global app config object
     config: JSON.stringify({
-        apiUrl: 'https://gestionstaffing.herokuapp.com/api'
+        apiUrl: 'http://64.227.28.2/api'
     })
 },
   output: {
