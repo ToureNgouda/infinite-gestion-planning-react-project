@@ -24,20 +24,12 @@ function genre(){
          {id:2,nom:"Femme"}
     ]
 }
-// function getHoraire(){
-//     return [
-//        {id:1,heure:"08h-16h"},
-//        {id:2,heure:"16h-00h"},
-//        {id:3,heure:"00h-08h"}
-//     ]
-// }
 function getHoraire(){
     const requestOptions = { headers: authHeader() };
     return axios.get(`${config.apiUrl}/tranchehoraire`, requestOptions).then(resp=>{
           return resp;
     }).catch(error=>{
         handleResponse(error);
-         console.log(error)
     });
 
 }

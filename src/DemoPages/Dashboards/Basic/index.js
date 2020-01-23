@@ -49,7 +49,6 @@ export default class AnalyticsDashboard1 extends Component {
     getVacationActuel() {
         employeService.getVacationActuel().then(resp => {
             if (resp && resp.status === 200) {
-                console.log("vacation actuel", resp);
                 const employesInVacationActuel = resp.data.employes;
                 this.setState({ employesInVacationActuel });
                 this.setState({ heureDebutVactuel: resp.data.heureDebut });
@@ -60,7 +59,6 @@ export default class AnalyticsDashboard1 extends Component {
     }
     getVacationPrecedante() {
         employeService.getVacationPrecedante().then(resp => {
-            console.log("vacation precedente", resp);
             if (resp && resp.status === 200) {
                 const employesInVacationPrecedante = resp.data.employes;
                 this.setState({ employesInVacationPrecedante });
@@ -73,7 +71,6 @@ export default class AnalyticsDashboard1 extends Component {
     getVacationSuivante() {
         employeService.getVacationSuivante().then(resp => {
             if (resp && resp.status === 200) {
-                console.log("vacation suivante", resp);
                 const employesInVacationSuivante = resp.data.employes;
                 this.setState({ employesInVacationSuivante });
                 this.setState({ heureDebutVsuiv: resp.data.heureDebut });
@@ -207,7 +204,6 @@ export default class AnalyticsDashboard1 extends Component {
         employeService.getNombreBarman().then(resp => {
             if (resp && resp.status === 200) {
                 const nombreBarman = resp.data;
-                console.log("nombre barman", resp)
                 this.setState({ nombreBarman });
             }
         })
@@ -216,14 +212,12 @@ export default class AnalyticsDashboard1 extends Component {
         employeService.getNombreCoordonnateur().then(resp => {
             if (resp && resp.status === 200) {
                 const nombreCoordonnateur = resp.data;
-                console.log("nombre coordonnateur", resp)
                 this.setState({ nombreCoordonnateur });
             }
         })
     }
     getNombreSuperviseur() {
         employeService.getNombreSuperviseur().then(resp => {
-            console.log("nombre commis", resp.data)
             if (resp && resp.status === 200) {
                 const nombreSuperviseur = resp.data;
                 this.setState({ nombreSuperviseur });

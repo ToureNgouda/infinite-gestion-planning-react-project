@@ -31,7 +31,6 @@ export default class     extends Component {
         employeService.getVacationSemaine().then(result => {
             let semaines = [];
             this.setState({ semaines });
-            console.log("gest vacatons semaines", result)
             if (result && result.status === 200) {
                 const key = 0;
                 this.setState({ key });
@@ -50,7 +49,6 @@ export default class     extends Component {
                         key: Number
                     }
                     jour.jour = result.data.jour1;
-                    console.log("result", result.data)
                     jour.key = this.state.key + 1;
                     this.setState({ key: jour.key })
                     semaines.push(jour);
@@ -196,13 +194,10 @@ export default class     extends Component {
     getVacationSemainePrecedente = (state) => {
         employeService.getVacationSemainePrecedente(this.state.dateDebut).then(result => {
             let semaines = [];
-            console.log("date debut", this.state.dateDebut);
             this.setState({ semaines });
             if (result && result.status === 200) {
-                console.log("result", result.data);
                 const key = 0;
                 this.setState({ key });
-                console.log("result", result.data)
                 const dateDebut = result.data.dateDebut;
                 const dateFin = result.data.dateFin;
                 const isFirstVacationOfMonth = result.data.isFirstVacationOfMonth;
@@ -248,7 +243,6 @@ export default class     extends Component {
                     this.setState({ jour2H2 });
                     this.setState({ jour2H3 });
                     this.setState({ jour2Date: result.data.jour2 });
-                    console.log("jour 2 H1", this.state.jour2H1)
                 }
                 if (result.data.jour3) {
                     const jour = {
@@ -364,12 +358,10 @@ export default class     extends Component {
     getVacationSemaineSuivante = (state) => {
         employeService.getVacationSemaineSuivante(this.state.dateFin).then(result => {
             let semaines = [];
-            console.log("date debut", this.state.dateDebut);
             this.setState({ semaines });
             if (result && result.status === 200) {
                 const key = 0;
                 this.setState({ key });
-                console.log("result", result.data)
                 const dateDebut = result.data.dateDebut;
                 const dateFin = result.data.dateFin;
                 const isFirstVacationOfMonth = result.data.isFirstVacationOfMonth;
@@ -553,7 +545,6 @@ export default class     extends Component {
     }
     handleSubmit = () => {
         employeService.ajouterEmployeToVacation(this.state).then(result => {
-            console.log("result", result);
             if (result && result.status === 200) {
                 const date = result.data.date;
                 let dateDebut = '';
@@ -582,7 +573,6 @@ export default class     extends Component {
     }
     getAllTranchsHoraires() {
         typeEmployeService.getHoraire().then(result => {
-            console.log("result", result)
             if (result && result.status === 200) {
                 const horaires = result.data;
                 this.setState({ horaires });
@@ -591,7 +581,6 @@ export default class     extends Component {
         });
     }
     handleDelete = (employe, tranche, date) => {
-        console.log("fonction appele", employe)
         this.setState({ modalIsOpen: true });
         this.setState({ idEmploye: employe.id });
         this.setState({ employe });
@@ -613,9 +602,6 @@ export default class     extends Component {
         this.setState({ modalIsOpen: false });
     }
     handleDeleteSubmit = () => {
-        console.log("state", this.state.dateVacation);
-        console.log("id employe", this.state.idEmploye);
-        console.log("tranche horaire", this.state.idTranche)
         employeService.supprimerEmployeToVacation(this.state).then(result => {
             this.setState({ modalIsOpen: false });
             if (result && result.status === 200) {
@@ -695,7 +681,11 @@ export default class     extends Component {
             day: 0,
             showPlanning: true,
             sendingMail: false,
-            user :JSON.parse(localStorage.getItem('currentUser'))
+            user :JSON.parse(localStorage.getItem('currentUser')),
+            messageForMoisProchain:         'Etes vous sur de vouloir generer le planning du mois prochain',
+            messageForRegenereMoisProchain: 'Etes vous sur de vouloir regenerer le planning du mois prochain',
+            messageForRegenereMoisEnCours:  'Etes vous sur de vouloir regenerer le planning du mois en cours',
+
         }
         this.getListEmployes();
     }
@@ -704,7 +694,6 @@ export default class     extends Component {
             if (result && result.status === 200) {
                 this.setState({ planningIsgenerate: result.data.planningIsgenerate });
                 this.setState({ day: result.data.day });
-                console.log("daye", result.data.day)
             }
         })
     }
@@ -715,9 +704,6 @@ export default class     extends Component {
            )
     }
     sendPlanning = () => {
-        console.log("fonction appelé", this.state.dateDebut);
-        // const loc = `http://localhost/infinite-gestion-planning-back/public/sendEmail/${this.state.dateDebut}`;
-        // window.location = loc;
         planningService.sendEmail(this.state.dateDebut).then(result => {
             if (result && result.status === 200) {
                 toast.success('Le planning a bien été envoyé à tous les employés', {
@@ -747,15 +733,15 @@ export default class     extends Component {
                     <Col md="3">
                         <div >
                             {!this.state.planningIsgenerate && this.state.day >= 13 && this.state.user.profil.typeProfil === "Administrateur" &&
-                                <Button color="info" onClick={this.props.genererPlanningMoisProchain}>Generer planning mois prochain</Button>
+                                <Button color="info" onClick={()=>this.props.openModal(this.state.messageForMoisProchain,'moisProchain')}>Generer planning mois prochain</Button>
 
                             }
                             {this.state.planningIsgenerate && this.state.user.profil.typeProfil === "Administrateur" &&
-                                <Button color="info" onClick={this.props.regenererPlanningMoisProchain}>Regenerer planning mois prochain</Button>
+                                <Button color="info" onClick={()=>this.props.openModal(this.state.messageForRegenereMoisProchain,'regenereMoisProchain')}>Regenerer planning mois prochain</Button>
 
                             }
-                            {!this.state.planningIsgenerate && this.state.day < 20 && this.state.user.profil.typeProfil === "Administrateur" &&
-                                <Button color="info" onClick={this.props.regenererPlanningMoisEnCours}>Regenerer planning mois en cours</Button>
+                            {!this.state.planningIsgenerate && this.state.day <= 29 && this.state.user.profil.typeProfil === "Administrateur" &&
+                                <Button color="info" onClick={()=>this.props.openModal(this.state.messageForRegenereMoisEnCours,'moisEnCours')}>Regenerer planning mois en cours</Button>
 
                             }
                         </div>

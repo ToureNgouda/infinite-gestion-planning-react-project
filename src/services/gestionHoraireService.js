@@ -14,11 +14,9 @@ function getAllGestionHoraire() {
     const requestOptions = { headers: authHeader() };
     return axios.get(`${config.apiUrl}/gestionhoraire`,requestOptions)
     .then(resp => {
-         console.log("response",resp)
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         return resp;
     }).catch(error=>{
-          console.log(error);
           handleResponse(error);
     });
 
@@ -28,11 +26,8 @@ function updateGestionHoraire(state) {
     const requestOptions = { headers: authHeader() };
     return axios.put(`${config.apiUrl}/gestionhoraire`,state,requestOptions)
     .then(resp => {
-         console.log("response",resp)
-        // store user details and jwt token in local storage to keep user logged in between page refreshes
         return resp;
     }).catch(error=>{
-          console.log(error);
           handleResponse(error);
     });
 }

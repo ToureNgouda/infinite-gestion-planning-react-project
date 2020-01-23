@@ -33,7 +33,6 @@ export default class EmployesPage extends Component {
             redirectCreateEmploye: false,
             getEmployes: false
         }
-        console.log("math", this.state.match)
         // this.getAllEmployes();
     }
     activerEmploye = (employe) => {
@@ -75,18 +74,14 @@ export default class EmployesPage extends Component {
                 const employes = resp.data;
                 this.setState({ employes });
                 this.setState({ getEmployes: true })
-                console.log("employes", this.state);
                 return employes;
             }
         }).catch(error => {
-            console.log("error cote serveur", error);
         })
     }
     editEmploye = employe => {
-        console.log(employe);
         this.props.history.push(`/employes/${employe.id}`);
         this.setState({ isRedirect: true })
-        //console.log(typeof(this.props.match.params.id))
     }
     closeModal=()=>{
         this.setState({ modalIsOpen:false});

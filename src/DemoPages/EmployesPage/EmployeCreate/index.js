@@ -17,7 +17,6 @@ export default class EmployeCreate extends Component {
     getAllZone=()=>{
         return zoneService.getAllZone().then(resp=>{
                 const zones = resp;
-                console.log("la liste des zones",zones)
                 this.setState({zones});
                 this.setState({zone:zones[0].nom})
         })
@@ -48,10 +47,7 @@ export default class EmployeCreate extends Component {
    
     handleSubmit=(event)=>{
         event.preventDefault();
-       console.log(event);
-       console.log("state",this.state);
        return employeService.saveEmploye(this.state).then(resp=>{
-              console.log("response ",resp);
               if(resp && resp.status === 200){
                 toast.success(`${resp.data.prenom} ${resp.data.nom} a été ajouté avec succés`, {
                     ptoastosition: toast.POSITION.TOP_CENTER

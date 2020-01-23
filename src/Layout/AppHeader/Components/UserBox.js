@@ -50,13 +50,10 @@ class UserBox extends React.Component {
     });
     
     handleLogout = ()=>{
-        console.log("fonction appele")
       authenticationService.logout(this.state).then(resp=>{
-           console.log("logout success",resp);
            if(resp && resp.status===200)
               this.setState({redirect:true})
       }).catch(error=>{
-            console.log("error",error)
       })
     }
     handleProfile = ()=>{

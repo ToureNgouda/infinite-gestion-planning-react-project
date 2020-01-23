@@ -10,7 +10,6 @@ import Profile from '../ProfilePage';
 
 export default class HomePage extends Component {
     constructor(props){
-        console.log("propos math",props.match.url)
           super(props);
           this.state={
             date: new Date(),
@@ -26,7 +25,6 @@ export default class HomePage extends Component {
         ).slice(-2)}-${("0" + this.state.date.getDate()).slice(-2)} ${(
             "0" + this.state.date.getHours()
         ).slice(-2)}:${("0" + this.state.date.getMinutes()).slice(-2)}:${this.state.date.getSeconds()}`;
-        console.log("date",date); 
         var  expire_in = new Date();
         if(localStorage.getItem('currentUser'))
             expire_in = new Date(JSON.parse(localStorage.getItem('currentUser')).expires_in);
@@ -36,7 +34,6 @@ export default class HomePage extends Component {
         ).slice(-2)}-${("0" + expire_in.getDate()).slice(-2)} ${(
             "0" + expire_in.getHours()
         ).slice(-2)}:${("0" + expire_in.getMinutes()).slice(-2)}:${expire_in.getSeconds()}`;
-        console.log("expire_in",date_expire_in); 
         if(!JSON.parse(localStorage.getItem('currentUser')) || date_expire_in < date){
            return (<Redirect to={'/login'}/>)
             }

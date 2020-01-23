@@ -24,7 +24,6 @@ export default class Login extends Component {
     }
   }
   handleSubmit = event => {
-    console.log("login ", this.state.email, "and mot de passe ", this.state.password);
     event.preventDefault();
     //appel au actions pour une connexion avec le backend et utiliser l'api,
 
@@ -45,14 +44,12 @@ export default class Login extends Component {
           }
         },
         error => {
-          console.log("erreur coté serveur", error);
         }
       );
   }
   handleChange = e => {
     const { name, value } = e.target;
     this.setState({ [name]: value });
-    console.log("state manage", this.state)
     if (this.state.email && this.state.password) {
       this.setState({ disableButton: false });
     }

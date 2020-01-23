@@ -11,7 +11,6 @@ const HandleResponse = () => {
     ).slice(-2)}-${("0" + d.getDate()).slice(-2)} ${(
         "0" + d.getHours()
     ).slice(-2)}:${("0" + d.getMinutes()).slice(-2)}:${d.getSeconds()}`;
-    console.log("date", date);
     var expire_in = new Date(JSON.parse(localStorage.getItem('currentUser')).expires_in);
     var date_expire_in = `${expire_in.getFullYear()}-${(
         "0" +
@@ -19,7 +18,6 @@ const HandleResponse = () => {
     ).slice(-2)}-${("0" + expire_in.getDate()).slice(-2)} ${(
         "0" + expire_in.getHours()
     ).slice(-2)}:${("0" + expire_in.getMinutes()).slice(-2)}:${expire_in.getSeconds()}`;
-    console.log("expire_in", date_expire_in);
     if (!JSON.parse(localStorage.getItem('currentUser')) || date_expire_in < date) {
         return (<Redirect to={'/login'} />)
     } else {

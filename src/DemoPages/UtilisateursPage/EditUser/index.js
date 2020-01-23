@@ -15,7 +15,6 @@ import 'react-toastify/dist/ReactToastify.css';
 export default class EditUser extends Component {
     getAllProfil = () => {
         return profilService.getAllProfil().then(resp => {
-            console.log("la liste des profils", resp)
             if (resp.status === 200) {
                 const profils = resp.data;
                 this.setState({ profils });
@@ -25,7 +24,6 @@ export default class EditUser extends Component {
     }
     constructor(props) {
         super(props);
-        console.log("props", this.props);
         this.getAllProfil();
         const id = this.props.match.params.id;
         this.getUser(id);
@@ -42,8 +40,6 @@ export default class EditUser extends Component {
                 const user = result.data
                 this.setState({ user });
                 this.setState({ userMount: true });
-                console.log("user recupere ", this.state.user);
-
             }
         })
 
@@ -51,10 +47,8 @@ export default class EditUser extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log("state", this.state);
         userService.updateUser(this.state).then(result => {
             if (result && result.status === 200) {
-                console.log(result.data);
                 this.props.history.push("/utilisateurs");
                 window.location.reload(false);
             }

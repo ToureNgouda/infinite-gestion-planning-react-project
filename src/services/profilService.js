@@ -15,7 +15,6 @@ function getProfilUser(user) {
           return resp;
     }).catch(error=>{
         handleResponse(error);
-         console.log(error)
     });
 }
 function getAllProfil(){
@@ -24,7 +23,6 @@ function getAllProfil(){
           return resp;
     }).catch(error=>{
         handleResponse(error);
-         console.log(error)
     });
 
 }

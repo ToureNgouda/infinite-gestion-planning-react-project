@@ -16,13 +16,11 @@ export const authenticationService = {
 function login(state) {
     return axios.post(`${config.apiUrl}/auth/login`,state)
         .then(resp => {
-            console.log("user",resp)
             // store user details and jwt token in local storage to keep user logged in between page refreshes
             localStorage.setItem('currentUser', JSON.stringify(resp.data));
             currentUserSubject.next(resp.data);
             return resp;
         }).catch(error=>{
-              console.log(error);
               return error;
         })
 }
@@ -31,13 +29,11 @@ function logout(state) {
     const requestOptions = { headers: authHeader() };
     return axios.post(`${config.apiUrl}/auth/logout`,state,requestOptions)
     .then(resp => {
-         console.log("response",resp)
         localStorage.removeItem('currentUser');
         currentUserSubject.next(null);
         // store user details and jwt token in local storage to keep user logged in between page refreshes
         return resp;
     }).catch(error=>{
-          console.log(error);
           handleResponse(error);
     })
 

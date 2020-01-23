@@ -3,7 +3,6 @@ import config from 'config';
 
 
  export function handleResponse(response) {
-     console.log("response hanlde response",response.message);
             if ( response.message === "Request failed with status code 401") {
                 let loc='http://planning.infiniteairport.com';
               if(config.apiUrl === 'http://localhost:80/infinite-gestion-planning-back/public/api'){

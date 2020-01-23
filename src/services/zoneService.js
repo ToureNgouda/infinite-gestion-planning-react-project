@@ -11,10 +11,8 @@ export const zoneService ={
 function getAllZone(){
     const requestOptions = { headers: authHeader() };
     return axios.get(`${config.apiUrl}/zone`, requestOptions).then(resp=>{
-          console.log("la liste des zone dans la base",resp.data);
           return resp.data;
     }).catch(error=>{
       handleResponse(error);
-          console.log("error coté serveur",error);
     })
 }

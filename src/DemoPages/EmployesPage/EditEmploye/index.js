@@ -14,7 +14,6 @@ export default class EditEmploye extends Component {
   getAllZone = () => {
     return zoneService.getAllZone().then(resp => {
       const zones = resp;
-      console.log("la liste des zones", zones)
       this.setState({ zones });
       this.setState({ zone: zones[0].nom })
     })
@@ -56,10 +55,7 @@ export default class EditEmploye extends Component {
   }
   handleSubmit = event => {
     event.preventDefault();
-    console.log(event);
-    console.log("state", this.state);
     return employeService.updateEmploye(this.state).then(resp => {
-      console.log("response ", resp);
       if (resp && resp.status === 200) {
         toast.info(`${resp.data.prenom} ${resp.data.nom} a été modifié avec succés`, {
           ptoastosition: toast.POSITION.TOP_CENTER
@@ -79,7 +75,6 @@ export default class EditEmploye extends Component {
     const employe = { ...this.state.employe };
     const adresse = { ...this.state.adresse };
     const zone = { ...this.state.zone }
-    console.log("name", name)
     if (name === "nom") {
       employe.nom = value;
       this.setState({ employe });

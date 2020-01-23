@@ -11,7 +11,6 @@ export default class ShowParametres extends Component {
     getAllGestionHoraire() {
         gestionHoraireService.getAllGestionHoraire().then(result => {
             if (result && result.status === 200) {
-                console.log("gestion horaire", result.data.jour1H1["\u0000*\u0000original"]);
                 if (result.data.jour1H1) {
                     const jour1H1 = result.data.jour1H1["\u0000*\u0000original"];
                     this.setState({ jour1H1 })
@@ -130,7 +129,6 @@ export default class ShowParametres extends Component {
         }
     }
     handleSubmit=()=>{
-        console.log("jour 5 h3", this.state);
         gestionHoraireService.updateGestionHoraire(this.state).then(result=>{
               if(result && result.status === 200){
                 //    this.getAllGestionHoraire();

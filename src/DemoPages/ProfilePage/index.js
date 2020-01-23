@@ -37,7 +37,6 @@ export default class ProfilePage extends Component {
 
     handleSubmit = (event) => {
         event.preventDefault();
-        console.log("state", this.state);
         userService.modifierProfileUser(this.state).then(result=>{
               if(result && result.status===200){
                     if(result.data.isReconnect){
@@ -47,7 +46,6 @@ export default class ProfilePage extends Component {
                         position: toast.POSITION.TOP_CENTER
                     });
               }else{
-                  console.log("error coté serveur",result);
                   toast.error("Une erreur s'est produite coté serveur", {
                     position: toast.POSITION.TOP_CENTER
                 });
@@ -55,7 +53,6 @@ export default class ProfilePage extends Component {
         })
     }
     handleChange = e => {
-        console.log("handle appele")
         const { name, value } = e.target;
         const user = { ...this.state.user };
         if (name === "nom") {

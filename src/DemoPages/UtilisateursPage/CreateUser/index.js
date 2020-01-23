@@ -16,7 +16,6 @@ export default class EmployeCreate extends Component {
     getAllProfil=()=>{
         return profilService.getAllProfil().then(resp=>{
           
-                console.log("la liste des profils",resp)
                  if(resp.status===200){
                     const profils = resp.data;
                     this.setState({profils});
@@ -26,7 +25,6 @@ export default class EmployeCreate extends Component {
     }
     constructor(props){
         super(props);
-        console.log("props",this.props);
         this.getAllProfil();
         this.state={
             nom:'',
@@ -44,10 +42,8 @@ export default class EmployeCreate extends Component {
    
     handleSubmit=(event)=>{
         event.preventDefault();
-       console.log("state",this.state);
        return userService.saveUser(this.state).then(resp=>{
-              console.log("response ",resp);
-              if(resp && resp.status===200){
+              if(resp){
                 this.setState({isRedirect:true});
                 toast.success(`user ajouté avec succés`, {
                     ptoastosition: toast.POSITION.TOP_CENTER

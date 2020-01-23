@@ -40,7 +40,6 @@ export default class UtilisateursPage extends Component {
         this.setState({ users });
     }
     editUser = (user) => {
-        console.log("fonction edit user appele", user)
         this.props.history.push(`/utilisateurs/${user.id}`);
         this.setState({ isEditUser: true });
     }
@@ -49,7 +48,6 @@ export default class UtilisateursPage extends Component {
             if (resp.status === 200)
                 this.setState({ users: resp.data });
         }).catch(error => {
-            console.log("error cote serveur", error);
         })
     }
     updateUser(users) {
