@@ -692,6 +692,7 @@ export default class     extends Component {
     verifierPlanningIsGenerate() {
         planningService.verifieGenerationPlanning().then(result => {
             if (result && result.status === 200) {
+                console.log("result",result)
                 this.setState({ planningIsgenerate: result.data.planningIsgenerate });
                 this.setState({ day: result.data.day });
             }
@@ -732,7 +733,7 @@ export default class     extends Component {
                 <Row>
                     <Col md="3">
                         <div >
-                            {!this.state.planningIsgenerate && this.state.day >= 13 && this.state.user.profil.typeProfil === "Administrateur" &&
+                            {!this.state.planningIsgenerate && this.state.day >= 24 && this.state.user.profil.typeProfil === "Administrateur" &&
                                 <Button color="info" onClick={()=>this.props.openModal(this.state.messageForMoisProchain,'moisProchain')}>Generer planning mois prochain</Button>
 
                             }
@@ -740,7 +741,7 @@ export default class     extends Component {
                                 <Button color="info" onClick={()=>this.props.openModal(this.state.messageForRegenereMoisProchain,'regenereMoisProchain')}>Regenerer planning mois prochain</Button>
 
                             }
-                            {!this.state.planningIsgenerate && this.state.day <= 29 && this.state.user.profil.typeProfil === "Administrateur" &&
+                            {!this.state.planningIsgenerate && this.state.day < 24 && this.state.user.profil.typeProfil === "Administrateur" &&
                                 <Button color="info" onClick={()=>this.props.openModal(this.state.messageForRegenereMoisEnCours,'moisEnCours')}>Regenerer planning mois en cours</Button>
 
                             }
@@ -758,14 +759,14 @@ export default class     extends Component {
                     </Col>
                     <Col md="2">
                         {/* <div className="chevron"> */}
-                            {!this.state.isFirstVacationOfMonth &&
+                            {/* {!this.state.isFirstVacationOfMonth && */}
                                 <button className="btn btn-info" onClick={() => this.getVacationSemainePrecedente(this.state.dateFin)}>
                                     <i ><FontAwesomeIcon icon={faChevronLeft} /></i>
-                                </button>}
-                            {!this.state.isLastVacationOfMonth &&
+                                </button>
+                         
                                 <button className="btn btn-info" onClick={() => this.getVacationSemaineSuivante(this.state.dateFin)}>
                                     <i ><FontAwesomeIcon icon={faChevronRight} /></i>
-                                </button>}
+                                </button>
                         {/* </div> */}
                     </Col>
                     <Col md="1">
